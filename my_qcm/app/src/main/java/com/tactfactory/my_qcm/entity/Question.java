@@ -8,17 +8,27 @@ import java.util.ArrayList;
  */
 public class Question {
 
+    private int id;
     private int id_server;
     private Media media;
     private ArrayList<Answer> answers;
     private Mcq mcq;
     private Date updated_at;
 
-    public Question(int id_server, Mcq mcq, Date updated_at, ArrayList<Answer> answers) {
+    public Question(int id, int id_server, Mcq mcq, Date updated_at, ArrayList<Answer> answers) {
+        this.id = id;
         this.id_server = id_server;
         this.mcq = mcq;
         this.updated_at = updated_at;
         this.answers = answers;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId_server() {

@@ -7,18 +7,28 @@ import java.sql.Date;
  */
 public class Media {
 
+    private int id;
     private int id_server;
     private String name;
     private String url;
     private Typ typ;
     private Date updated_at;
 
-    public Media(int id_server, String name, String url, Typ typ, Date updated_at) {
+    public Media(int id, int id_server, String name, String url, Typ typ, Date updated_at) {
+        this.id = id;
         this.id_server = id_server;
         this.name = name;
         this.url = url;
         this.typ = typ;
         this.updated_at = updated_at;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId_server() {

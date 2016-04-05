@@ -7,11 +7,13 @@ import java.sql.Date;
  */
 public class Typ {
 
+    private int id;
     private int id_server;
     private String name;
     private Date created_at;
 
-    public Typ(int id_server, String name, Date created_at) {
+    public Typ(int id,int id_server, String name, Date created_at) {
+        this.id = id;
         this.id_server = id_server;
         this.name = name;
         this.created_at = created_at;
@@ -19,6 +21,14 @@ public class Typ {
 
     public int getId_server() {
         return id_server;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setId_server(int id_server) {

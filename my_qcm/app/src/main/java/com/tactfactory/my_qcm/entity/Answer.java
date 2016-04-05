@@ -7,13 +7,15 @@ import java.sql.Date;
  */
 public class Answer {
 
+    private int id;
     private int id_server;
     private String ans;
     private Boolean isTrue;
     private Question question;
     private Date updated_at;
 
-    public Answer(int id_server, String ans, Boolean isTrue, Question question, Date updated_at) {
+    public Answer(int id, int id_server, String ans, Boolean isTrue, Question question, Date updated_at) {
+        this.id = id;
         this.id_server = id_server;
         this.ans = ans;
         this.isTrue = isTrue;
@@ -21,7 +23,15 @@ public class Answer {
         this.updated_at = updated_at;
     }
 
-    public long getId_server() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId_server() {
         return id_server;
     }
 
@@ -60,4 +70,6 @@ public class Answer {
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
+
+
 }

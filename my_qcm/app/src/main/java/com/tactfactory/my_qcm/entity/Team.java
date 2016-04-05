@@ -8,15 +8,25 @@ import java.util.ArrayList;
  */
 public class Team {
 
+    private int id;
     private int id_server;
     private String name;
     private ArrayList<Mcq> mcqs;
     private Date updated_at;
 
-    public Team(int id_server, String name, Date updated_at) {
+    public Team(int id,int id_server, String name, Date updated_at) {
+        this.id = id;
         this.id_server = id_server;
         this.name = name;
         this.updated_at = updated_at;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

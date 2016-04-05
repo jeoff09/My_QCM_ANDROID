@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Mcq {
 
+    private int id;
     private int id_server;
     private String name;
     private Date dateEnd;
@@ -17,12 +18,21 @@ public class Mcq {
     private ArrayList<Question> questions;
     private  Date updated_at;
 
-    public Mcq(int id_server, String name, int duration, Categ category, Date updated_at) {
+    public Mcq(int id, int id_server, String name, int duration, Categ category, Date updated_at) {
+        this.id = id;
         this.id_server = id_server;
         this.name = name;
         this.duration = duration;
         this.category = category;
         this.updated_at = updated_at;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId_server() {
