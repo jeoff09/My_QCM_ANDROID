@@ -1,7 +1,8 @@
 package com.tactfactory.my_qcm.entity;
 
-import java.sql.Date;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by jeoffrey on 02/04/2016.
@@ -17,13 +18,8 @@ public class User {
     private ArrayList<Mcq> mcqs;
     private ArrayList<Team> teams;
 
-    public User(int id, int id_server, String username, String email, Date last_login, Date updated_at) {
-        this.id = id;
-        this.id_server = id_server;
-        this.username = username;
-        this.email = email;
-        this.last_login = last_login;
-        this.updated_at = updated_at;
+    public User() {
+
     }
 
     public ArrayList<Mcq> getMcqs() {
