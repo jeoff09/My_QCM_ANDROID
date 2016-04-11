@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.tactfactory.my_qcm.entity.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -44,7 +46,7 @@ public class UserSQLiteAdapter {
                 + COL_ID_SERVER + " INTEGER NOT NULL, "
                 + COL_USERNAME + " TEXT NOT NULL, "
                 + COL_PWD + "TEXT NOT NULL,"
-                + COL_EMAIL+ " INTEGER NOT NULL, "
+                + COL_EMAIL+ " TEXT NOT NULL, "
                 + COL_LAST_LOGIN+ " TEXT NOT NULL, "
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
@@ -96,7 +98,7 @@ public class UserSQLiteAdapter {
      * @param id
      * @return User
      */
-    public User getUser(long id){
+    public User getUser(int id){
 
         String[] cols = {COL_ID, COL_ID_SERVER, COL_USERNAME,COL_PWD, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
         String whereClausesSelect = COL_ID + "= ?";
@@ -159,26 +161,45 @@ public class UserSQLiteAdapter {
         ContentValues values = new ContentValues();
         values.put(COL_ID_SERVER, user.getId_server());
         values.put(COL_USERNAME, user.getUsername());
+        values.put(COL_PWD, user.getPwd());
         values.put(COL_EMAIL, user.getEmail());
         values.put(COL_LAST_LOGIN, user.getLast_login().toString());
         values.put(COL_UPDATED_AT, user.getUpdated_at().toString());
-
         return values;
     }
 
     /**
      * Cursor convert to User
+     * get all element in temp items and add on constructor before return
      * @param cursor
      * @return User
      */
     public User cursorToItem(Cursor cursor){
-        User result = new User();
-        result.setId(cursor.getInt(cursor.getColumnIndex(COL_ID)));
-        result.setId_server(cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER)));
-        result.setUsername(cursor.getString(cursor.getColumnIndex(COL_USERNAME)));
-        result.setEmail(cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
-        //result.setLast_login((Date)cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
-        //result.setUpdated_at();
+
+        int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
+        int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
+        String username = cursor.getString(cursor.getColumnIndex(COL_USERNAME));
+        String email= cursor.getString(cursor.getColumnIndex(COL_EMAIL));
+        String pwd= cursor.getString(cursor.getColumnIndex(COL_PWD));
+        String last_login = cursor.getString(cursor.getColumnIndex(COL_LAST_LOGIN));
+        String updated_at = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
+
+        Date date_last_login = new Date();
+        Date date_updated_at = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try
+        {
+            date_last_login = simpleDateFormat.parse(last_login);
+            date_updated_at = simpleDateFormat.parse(updated_at);
+        }
+        catch (ParseException ex)
+        {
+            System.out.println("Exception "+ex);
+        }
+
+
+        User result = new User(id,id_server,username,email,pwd,date_last_login,date_updated_at);
+
 
         return result;
     }

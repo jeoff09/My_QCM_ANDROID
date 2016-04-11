@@ -15,12 +15,8 @@ public class Question {
     private Mcq mcq;
     private Date updated_at;
 
-    public Question(int id, int id_server, Mcq mcq, Date updated_at, ArrayList<Answer> answers) {
-        this.id = id;
-        this.id_server = id_server;
-        this.mcq = mcq;
-        this.updated_at = updated_at;
-        this.answers = answers;
+    public Question() {
+
     }
 
     public int getId() {

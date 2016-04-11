@@ -27,9 +27,9 @@ public class My_QCMSQLiteOpenHelper extends SQLiteOpenHelper {
         db.execSQL(McqSQLiteAdapter.getSchema());
         db.execSQL(MediaSQLiteAdapter.getSchema());
         db.execSQL(QuestionSQLiteAdapter.getSchema());
-        db.execSQL(ResultSQLiteAdapter.getSchema());
+        db.execSQL(ResultSQLiteAdapter.getSchema());*/
         db.execSQL(TeamSQLiteAdapter.getSchema());
-        db.execSQL(TypSQLiteAdapter.getSchema());*/
+        db.execSQL(TypSQLiteAdapter.getSchema());
         db.execSQL(UserSQLiteAdapter.getSchema());
     }
 

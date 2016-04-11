@@ -1,6 +1,6 @@
 package com.tactfactory.my_qcm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by jeoffrey on 02/04/2016.
@@ -43,11 +43,11 @@ public class Typ {
         this.name = name;
     }
 
-    public Date getCreated_at() {
+    public Date getUpdated_at() {
         return updated_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setUpdated_at(Date created_at) {
         this.updated_at = created_at;
     }
 }

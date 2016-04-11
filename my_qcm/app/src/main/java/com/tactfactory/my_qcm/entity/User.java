@@ -19,8 +19,14 @@ public class User {
     private ArrayList<Mcq> mcqs;
     private ArrayList<Team> teams;
 
-    public User() {
-
+    public User(int id, int id_server, String username, String email, String pwd, Date last_login, Date updated_at) {
+        this.id = id;
+        this.id_server = id_server;
+        this.username = username;
+        this.email = email;
+        this.pwd = pwd;
+        this.last_login = last_login;
+        this.updated_at = updated_at;
     }
 
     public String getPwd() {
