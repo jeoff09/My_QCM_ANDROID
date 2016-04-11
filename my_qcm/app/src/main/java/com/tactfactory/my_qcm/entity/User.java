@@ -12,6 +12,7 @@ public class User {
     private int id;
     private int id_server;
     private String username;
+    private  String pwd;
     private String email;
     private Date last_login;
     private Date updated_at;
@@ -20,6 +21,14 @@ public class User {
 
     public User() {
 
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
     public ArrayList<Mcq> getMcqs() {

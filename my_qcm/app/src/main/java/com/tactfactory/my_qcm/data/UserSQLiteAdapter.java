@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.tactfactory.my_qcm.entity.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by jeoffrey on 06/04/2016.
@@ -17,6 +18,7 @@ public class UserSQLiteAdapter {
     protected static final String COL_ID = "id";
     protected static final String COL_ID_SERVER = "id_server";
     protected static final String COL_USERNAME = "username";
+    protected static final String COL_PWD = "pwd";
     protected static final String COL_EMAIL = "email";
     protected static final String COL_LAST_LOGIN = "last_login";
     protected static final String COL_UPDATED_AT = "updated_at";
@@ -39,11 +41,12 @@ public class UserSQLiteAdapter {
     public static String getSchema(){
         return "CREATE TABLE " + TABLE_USER + " ("
                 + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COL_ID_SERVER + " TEXT NOT NULL, "
+                + COL_ID_SERVER + " INTEGER NOT NULL, "
                 + COL_USERNAME + " TEXT NOT NULL, "
+                + COL_PWD + "TEXT NOT NULL,"
                 + COL_EMAIL+ " INTEGER NOT NULL, "
-                + COL_LAST_LOGIN+ " INTEGER NOT NULL, "
-                + COL_UPDATED_AT + " INTEGER NOT NULL);";
+                + COL_LAST_LOGIN+ " TEXT NOT NULL, "
+                + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
 
     public void open(){
@@ -95,7 +98,7 @@ public class UserSQLiteAdapter {
      */
     public User getUser(long id){
 
-        String[] cols = {COL_ID, COL_ID_SERVER, COL_USERNAME, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_USERNAME,COL_PWD, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
 
@@ -113,9 +116,8 @@ public class UserSQLiteAdapter {
     }
 
     public User getUserWithLoginPassword(String login, String password){
-        String[] cols = {COL_ID, COL_ID_SERVER, COL_USERNAME, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
-        //String whereClausesSelect = COL_LOGIN + "=? AND " + COL_MDP + " =?";
-        String whereClausesSelect = null;
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_USERNAME,COL_PWD, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
+        String whereClausesSelect = COL_USERNAME + "=? AND " + COL_PWD + " =?";
         String[] whereArgsSelect = {String.valueOf(login), String.valueOf(password)};
 
         Cursor cursor = db.query(TABLE_USER, cols, whereClausesSelect, whereArgsSelect, null, null, null);
@@ -158,8 +160,8 @@ public class UserSQLiteAdapter {
         values.put(COL_ID_SERVER, user.getId_server());
         values.put(COL_USERNAME, user.getUsername());
         values.put(COL_EMAIL, user.getEmail());
-        //values.put(COL_LAST_LOGIN, user.getLast_login());
-        //values.put(COL_UPDATED_AT, user.getUpdated_at());
+        values.put(COL_LAST_LOGIN, user.getLast_login().toString());
+        values.put(COL_UPDATED_AT, user.getUpdated_at().toString());
 
         return values;
     }
@@ -175,7 +177,7 @@ public class UserSQLiteAdapter {
         result.setId_server(cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER)));
         result.setUsername(cursor.getString(cursor.getColumnIndex(COL_USERNAME)));
         result.setEmail(cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
-        //result.setLast_login();
+        //result.setLast_login((Date)cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
         //result.setUpdated_at();
 
         return result;
@@ -186,7 +188,7 @@ public class UserSQLiteAdapter {
      * @return Cursor
      */
     public Cursor getAllCursor(){
-        String[] cols = { COL_ID, COL_ID_SERVER, COL_USERNAME, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
+        String[] cols = { COL_ID, COL_ID_SERVER, COL_USERNAME,COL_PWD ,COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
         Cursor cursor = db.query(TABLE_USER, cols, null, null, null, null, null);
         return cursor;
     }
