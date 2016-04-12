@@ -93,9 +93,9 @@ public class TypSQLiteAdapter {
     /**
      * Select a Typ with his Id.
      * @param id
-     * @return User
+     * @return Typ
      */
-    public Typ getTyp(long id){
+    public Typ getTyp(int id){
 
         String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME, COL_UPDATED_AT};
         String whereClausesSelect = COL_ID + "= ?";

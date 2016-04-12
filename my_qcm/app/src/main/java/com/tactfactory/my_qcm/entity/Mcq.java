@@ -1,6 +1,6 @@
 package com.tactfactory.my_qcm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -18,12 +18,12 @@ public class Mcq {
     private ArrayList<Question> questions;
     private  Date updated_at;
 
-    public Mcq(int id, int id_server, String name, int duration, Categ category, Date updated_at) {
+    public Mcq(int id, int id_server, String name, int duration,Categ categ, Date updated_at) {
         this.id = id;
         this.id_server = id_server;
         this.name = name;
         this.duration = duration;
-        this.category = category;
+        this.category = categ;
         this.updated_at = updated_at;
     }
 

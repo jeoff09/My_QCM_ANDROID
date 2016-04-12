@@ -94,7 +94,7 @@ public class TeamSQLiteAdapter {
      * @param id
      * @return Team
      */
-    public Team getTeam(long id){
+    public Team getTeam(int id){
 
         String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME, COL_UPDATED_AT};
         String whereClausesSelect = COL_ID + "= ?";

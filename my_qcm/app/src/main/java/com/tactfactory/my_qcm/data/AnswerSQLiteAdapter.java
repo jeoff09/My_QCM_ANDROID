@@ -18,7 +18,9 @@ import java.util.Date;
  */
 public class AnswerSQLiteAdapter {
 
-    protected static final String TABLE_ANSWER = "team";
+    private Context context;
+
+    protected static final String TABLE_ANSWER = "answer";
     protected static final String COL_ID = "id";
     protected static final String COL_ID_SERVER = "id_server";
     protected static final String COL_ANS = "ans";
@@ -35,6 +37,7 @@ public class AnswerSQLiteAdapter {
      */
     public AnswerSQLiteAdapter(Context context){
         helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**
@@ -98,7 +101,7 @@ public class AnswerSQLiteAdapter {
      * @param id
      * @return Answer
      */
-    public Answer getAnswer(long id){
+    public Answer getAnswer(int id){
 
         String[] cols = {COL_ID, COL_ID_SERVER, COL_ANS, COL_IS_TRUE, COL_QUESTION, COL_UPDATED_AT};
         String whereClausesSelect = COL_ID + "= ?";
@@ -160,12 +163,12 @@ public class AnswerSQLiteAdapter {
      * @return Answer
      */
     public Answer cursorToItem(Cursor cursor){
-
+        QuestionSQLiteAdapter questionAdapter = new QuestionSQLiteAdapter(context);
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String ans = cursor.getString(cursor.getColumnIndex(COL_ANS));
         Boolean is_true = getBoolean(cursor.getInt(cursor.getColumnIndex(COL_IS_TRUE)));
-        Question question = new Question();
+        int question = cursor.getInt(cursor.getColumnIndex(COL_QUESTION));
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -180,7 +183,7 @@ public class AnswerSQLiteAdapter {
         }
 
 
-        Answer result = new Answer(id,id_server,ans,is_true,question,date);
+        Answer result = new Answer(id,id_server,ans,is_true,questionAdapter.getQuestion(question),date);
 
         return result;
     }
