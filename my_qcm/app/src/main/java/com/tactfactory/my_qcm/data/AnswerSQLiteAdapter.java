@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.tactfactory.my_qcm.entity.Answer;
-import com.tactfactory.my_qcm.entity.Question;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,7 +46,7 @@ public class AnswerSQLiteAdapter {
     public static String getSchema(){
         return "CREATE TABLE " + TABLE_ANSWER + " ("
                 + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COL_ID_SERVER + " TEXT NOT NULL, "
+                + COL_ID_SERVER + " INTEGER NOT NULL, "
                 + COL_ANS + " TEXT NOT NULL, "
                 + COL_IS_TRUE + " INTEGER NOT NULL, "
                 + COL_QUESTION + " INTEGER NOT NULL, "

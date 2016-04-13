@@ -165,7 +165,7 @@ public class QuestionSQLiteAdapter {
      */
     public Question cursorToItem(Cursor cursor){
         McqSQLiteAdapter mcqAdapter = new McqSQLiteAdapter(context);
-       // MediaSQLiteAdapter mediaAdapter = new MediaSQLiteAdapter(context);
+        MediaSQLiteAdapter mediaAdapter = new MediaSQLiteAdapter(context);
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String ques = cursor.getString(cursor.getColumnIndex(COL_QUES));
@@ -189,17 +189,17 @@ public class QuestionSQLiteAdapter {
 
         if(media != 0)
         {
-            //result.setMedia(mediaAdapter.getMedia(media));
+            result.setMedia(mediaAdapter.getMedia(media));
         }
         return result;
     }
 
     /**
-     * Get all Cursor in User Table
+     * Get all Cursor in Question Table
      * @return Cursor
      */
     public Cursor getAllCursor(){
-        String[] cols = {COL_ID, COL_ID_SERVER,COL_QUES, COL_MCQ, COL_UPDATED_AT};
+        String[] cols = {COL_ID, COL_ID_SERVER,COL_QUES, COL_MCQ,COL_MEDIA, COL_UPDATED_AT};
         Cursor cursor = db.query(TABLE_QUESTION, cols, null, null, null, null, null);
         return cursor;
     }

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.tactfactory.my_qcm.entity.Categ;
-import com.tactfactory.my_qcm.entity.Typ;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -179,7 +178,7 @@ public class CategSQLiteAdapter {
     }
 
     /**
-     * Get all Cursor in User Table
+     * Get all Cursor in Categ Table
      * @return Cursor
      */
     public Cursor getAllCursor(){

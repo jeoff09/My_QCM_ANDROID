@@ -11,13 +11,12 @@ public class Result {
     private int id;
     private int id_server_user;
     private  int id_server_mcq;
-    private Array list_id_server_answer;
+    private ArrayList<Integer> list_id_server_answer;
 
-    public Result(int id, int id_server_user, int id_server_mcq, Array list_id_server_answer) {
+    public Result(int id, int id_server_user, int id_server_mcq) {
         this.id = id;
         this.id_server_user = id_server_user;
         this.id_server_mcq = id_server_mcq;
-        this.list_id_server_answer = list_id_server_answer;
     }
 
     public int getId() {
@@ -44,11 +43,11 @@ public class Result {
         this.id_server_mcq = id_server_mcq;
     }
 
-    public Array getList_id_server_answer() {
+    public ArrayList<Integer> getList_id_server_answer() {
         return list_id_server_answer;
     }
 
-    public void setList_id_server_answer(Array list_id_server_answer) {
+    public void setList_id_server_answer(ArrayList<Integer> list_id_server_answer) {
         this.list_id_server_answer = list_id_server_answer;
     }
 }

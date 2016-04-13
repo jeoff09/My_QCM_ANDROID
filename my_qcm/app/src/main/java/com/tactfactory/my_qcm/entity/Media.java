@@ -1,6 +1,6 @@
 package com.tactfactory.my_qcm.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by jeoffrey on 02/04/2016.

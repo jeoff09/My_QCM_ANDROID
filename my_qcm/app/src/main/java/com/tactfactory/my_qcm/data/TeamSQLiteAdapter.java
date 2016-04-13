@@ -178,7 +178,7 @@ public class TeamSQLiteAdapter {
     }
 
     /**
-     * Get all Cursor in User Table
+     * Get all Cursor in Team Table
      * @return Cursor
      */
     public Cursor getAllCursor(){

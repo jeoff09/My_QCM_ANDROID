@@ -170,10 +170,10 @@ public class McqSQLiteAdapter {
     }
 
     /**
-     * Cursor convert to Categ
+     * Cursor convert to Mcq
      * get all element in temp items and add on constructor before return
      * @param cursor
-     * @return Typ
+     * @return Mcq
      */
     public Mcq cursorToItem(Cursor cursor){
         CategSQLiteAdapter cateSQLite = new CategSQLiteAdapter(context);

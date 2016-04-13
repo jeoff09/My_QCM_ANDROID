@@ -179,7 +179,7 @@ public class TypSQLiteAdapter {
     }
 
     /**
-     * Get all Cursor in User Table
+     * Get all Cursor in Typ Table
      * @return Cursor
      */
     public Cursor getAllCursor(){
