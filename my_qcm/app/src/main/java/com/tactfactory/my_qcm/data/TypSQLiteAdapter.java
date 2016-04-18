@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For Typ
  */
 public class TypSQLiteAdapter {
 
@@ -36,7 +37,7 @@ public class TypSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table Typ for database
      * @return String
      */
     public static String getSchema(){

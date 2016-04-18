@@ -15,6 +15,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For Media
  */
 public class MediaSQLiteAdapter {
 
@@ -41,7 +42,7 @@ public class MediaSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table Media for database
      * @return String
      */
     public static String getSchema(){
@@ -159,6 +160,7 @@ public class MediaSQLiteAdapter {
     /**
      * Cursor convert to Media
      * get all element in temp items and add on constructor before return
+     * Call adapter to get the Typ of this media
      * @param cursor
      * @return Media
      */

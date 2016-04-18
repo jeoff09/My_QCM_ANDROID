@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/My_QCM">
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

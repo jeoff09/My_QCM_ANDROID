@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Created by jeoffrey on 02/04/2016.
+ * Entity for MCQ
  */
 public class Mcq {
 
@@ -18,6 +19,15 @@ public class Mcq {
     private ArrayList<Question> questions;
     private  Date updated_at;
 
+    /**
+     * Constructor don't make have to mandatory the List of Question
+     * @param id
+     * @param id_server
+     * @param name
+     * @param duration
+     * @param categ
+     * @param updated_at
+     */
     public Mcq(int id, int id_server, String name, int duration,Categ categ, Date updated_at) {
         this.id = id;
         this.id_server = id_server;

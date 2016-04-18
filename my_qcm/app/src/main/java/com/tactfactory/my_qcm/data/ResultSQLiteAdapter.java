@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For Result
  */
 public class ResultSQLiteAdapter {
 
@@ -32,7 +33,7 @@ public class ResultSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table Result for the database ( not the same in phpMyadmin)
      * @return String
      */
     public static String getSchema(){

@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 02/04/2016.
+ * Entity for class user
  */
 public class User {
 
@@ -19,6 +20,16 @@ public class User {
     private ArrayList<Mcq> mcqs;
     private ArrayList<Team> teams;
 
+    /**
+     * Constructor don't make have to mandatory the List of Mcqs and teams
+     * @param id
+     * @param id_server
+     * @param username
+     * @param email
+     * @param pwd
+     * @param last_login
+     * @param updated_at
+     */
     public User(int id, int id_server, String username, String email, String pwd, Date last_login, Date updated_at) {
         this.id = id;
         this.id_server = id_server;

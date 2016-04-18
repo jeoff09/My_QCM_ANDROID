@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For the database MY_QCM
  */
 public class My_QCMSQLiteOpenHelper extends SQLiteOpenHelper {
 
@@ -20,14 +21,18 @@ public class My_QCMSQLiteOpenHelper extends SQLiteOpenHelper {
         super(context, name, factory, version, errorHandler);
     }
 
+    /**
+     * when DB create call function to get all tables
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
-      /*db.execSQL(AnswerSQLiteAdapter.getSchema());
+        db.execSQL(AnswerSQLiteAdapter.getSchema());
         db.execSQL(CategSQLiteAdapter.getSchema());
         db.execSQL(McqSQLiteAdapter.getSchema());
         db.execSQL(MediaSQLiteAdapter.getSchema());
         db.execSQL(QuestionSQLiteAdapter.getSchema());
-        db.execSQL(ResultSQLiteAdapter.getSchema());*/
+        db.execSQL(ResultSQLiteAdapter.getSchema());
         db.execSQL(TeamSQLiteAdapter.getSchema());
         db.execSQL(TypSQLiteAdapter.getSchema());
         db.execSQL(UserSQLiteAdapter.getSchema());

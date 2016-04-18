@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Created by jeoffrey on 02/04/2016.
+ * Entity class for Result
  */
 public class Result {
 
@@ -13,6 +14,12 @@ public class Result {
     private  int id_server_mcq;
     private ArrayList<Integer> list_id_server_answer;
 
+    /**
+     * Constructor
+     * @param id
+     * @param id_server_user
+     * @param id_server_mcq
+     */
     public Result(int id, int id_server_user, int id_server_mcq) {
         this.id = id;
         this.id_server_user = id_server_user;

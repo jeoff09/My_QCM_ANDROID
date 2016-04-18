@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 02/04/2016.
+ * Entity for MEDIA
  */
 public class Media {
 
@@ -14,6 +15,15 @@ public class Media {
     private Typ typ;
     private Date updated_at;
 
+    /**
+     * Constructor
+     * @param id
+     * @param id_server
+     * @param name
+     * @param url
+     * @param typ
+     * @param updated_at
+     */
     public Media(int id, int id_server, String name, String url, Typ typ, Date updated_at) {
         this.id = id;
         this.id_server = id_server;

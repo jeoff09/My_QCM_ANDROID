@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 02/04/2016.
+ * Entity for Answer
  */
 public class Answer {
 
@@ -14,6 +15,15 @@ public class Answer {
     private Question question;
     private Date updated_at;
 
+    /**
+     * Constructor
+     * @param id
+     * @param id_server
+     * @param ans
+     * @param isTrue
+     * @param question
+     * @param updated_at
+     */
     public Answer(int id, int id_server, String ans, Boolean isTrue, Question question, Date updated_at) {
         this.id = id;
         this.id_server = id_server;
@@ -22,6 +32,7 @@ public class Answer {
         this.question = question;
         this.updated_at = updated_at;
     }
+
 
     public int getId() {
         return id;

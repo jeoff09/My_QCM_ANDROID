@@ -16,6 +16,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For Question
  */
 public class QuestionSQLiteAdapter {
 
@@ -41,7 +42,7 @@ public class QuestionSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table Question for database
      * @return String
      */
     public static String getSchema(){
@@ -160,6 +161,7 @@ public class QuestionSQLiteAdapter {
     /**
      * Cursor convert to Question
      * get all element in temp items and add on constructor before return
+     * Call adapter for get the mcq and if he exist the media of this question
      * @param cursor
      * @return Question
      */

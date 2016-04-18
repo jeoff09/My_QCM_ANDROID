@@ -20,6 +20,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For Mcq
  */
 public class McqSQLiteAdapter {
 
@@ -49,7 +50,7 @@ public class McqSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table MCQ for the database
      * @return String
      */
     public static String getSchema(){
@@ -172,6 +173,7 @@ public class McqSQLiteAdapter {
     /**
      * Cursor convert to Mcq
      * get all element in temp items and add on constructor before return
+     * Call adapter for get the Categ of this Mcq
      * @param cursor
      * @return Mcq
      */

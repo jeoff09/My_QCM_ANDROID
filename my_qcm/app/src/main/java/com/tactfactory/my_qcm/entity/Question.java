@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Created by jeoffrey on 02/04/2016.
+ * Entity for Class Question
  */
 public class Question {
 
@@ -16,6 +17,14 @@ public class Question {
     private Mcq mcq;
     private Date updated_at;
 
+    /**
+     * Constructor don't make have to mandatory the List of Answer
+     * @param id
+     * @param id_server
+     * @param ques
+     * @param updated_at
+     * @param mcq
+     */
     public Question(int id, int id_server, String ques, Date updated_at, Mcq mcq) {
         this.id = id;
         this.id_server = id_server;

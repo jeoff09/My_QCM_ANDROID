@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Created by jeoffrey on 02/04/2016.
+ * Entity class for Team
  */
 public class Team {
 
@@ -14,6 +15,13 @@ public class Team {
     private ArrayList<Mcq> mcqs;
     private Date updated_at;
 
+    /**
+     * Constructor don't make have to mandatory the List of Mcqs
+     * @param id
+     * @param id_server
+     * @param name
+     * @param updated_at
+     */
     public Team(int id,int id_server, String name, Date updated_at) {
         this.id = id;
         this.id_server = id_server;

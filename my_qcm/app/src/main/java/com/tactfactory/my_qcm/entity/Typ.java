@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 02/04/2016.
+ * Entity for class Typ
  */
 public class Typ {
 
@@ -12,6 +13,13 @@ public class Typ {
     private String name;
     private Date updated_at;
 
+    /**
+     * Contructor
+     * @param id
+     * @param id_server
+     * @param name
+     * @param updated_at
+     */
     public Typ(int id,int id_server, String name, Date updated_at) {
         this.id = id;
         this.id_server = id_server;

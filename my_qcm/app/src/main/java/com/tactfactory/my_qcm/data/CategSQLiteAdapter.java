@@ -14,6 +14,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For Categ
  */
 public class CategSQLiteAdapter {
 
@@ -35,7 +36,7 @@ public class CategSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table Categ for Database
      * @return String
      */
     public static String getSchema(){
@@ -90,7 +91,7 @@ public class CategSQLiteAdapter {
     }
 
     /**
-     * Select a Categ with his Id.
+     * Select a Categ with his id.
      * @param id
      * @return Categ
      */

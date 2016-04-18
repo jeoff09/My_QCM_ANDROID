@@ -15,6 +15,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For Team
  */
 public class TeamSQLiteAdapter {
 
@@ -36,7 +37,7 @@ public class TeamSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table Team
      * @return String
      */
     public static String getSchema(){

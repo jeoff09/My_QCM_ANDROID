@@ -13,6 +13,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For User
  */
 public class UserSQLiteAdapter {
 
@@ -37,7 +38,7 @@ public class UserSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table User for the database
      * @return String
      */
     public static String getSchema(){

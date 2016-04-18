@@ -14,6 +14,7 @@ import java.util.Date;
 
 /**
  * Created by jeoffrey on 06/04/2016.
+ * Helping Class For Answer
  */
 public class AnswerSQLiteAdapter {
 
@@ -32,6 +33,7 @@ public class AnswerSQLiteAdapter {
 
     /**
      * Helper object to create access db
+     * Attribute context
      * @param context
      */
     public AnswerSQLiteAdapter(Context context){
@@ -40,7 +42,7 @@ public class AnswerSQLiteAdapter {
     }
 
     /**
-     * Create database
+     * Create table Answer for Database
      * @return String
      */
     public static String getSchema(){
@@ -96,7 +98,7 @@ public class AnswerSQLiteAdapter {
     }
 
     /**
-     * Select a Answer with his Id.
+     * Select a Answer with his id.
      * @param id
      * @return Answer
      */
@@ -158,6 +160,7 @@ public class AnswerSQLiteAdapter {
     /**
      * Cursor convert to Answer
      * get all element in temp items and add on constructor before return
+     * Call the adapter for get the question of this Answer
      * @param cursor
      * @return Answer
      */
@@ -197,6 +200,11 @@ public class AnswerSQLiteAdapter {
         return cursor;
     }
 
+    /**
+     * Function to transform int to boolean
+     * @param columnIndex
+     * @return boolean
+     */
     public boolean getBoolean(int columnIndex) {
         if (  columnIndex == 0) {
             return false;
