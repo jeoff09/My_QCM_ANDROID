@@ -28,10 +28,9 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         // set the fragment initially
-        HomeFragment fragment = new HomeFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container,fragment);
+        HomeFragment fragment =  (HomeFragment)getSupportFragmentManager().findFragmentByTag("HomeFragment");
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -103,10 +102,9 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.home_menu) {
-            HomeFragment fragment = new HomeFragment();
-            FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,fragment);
+            HomeFragment fragment =  (HomeFragment)getSupportFragmentManager().findFragmentByTag("HomeFragment");
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.rules_menu) {
