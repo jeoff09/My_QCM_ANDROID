@@ -122,14 +122,7 @@ public class HomeActivity extends AppCompatActivity
             HelpFragment fragment = new HelpFragment();
             FragmentTransaction fragmentTransaction =
                     getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,fragment);
-            fragmentTransaction.commit();
-
-        } else if (id == R.id.logout_menu) {
-            LegalNoticesFragment fragment = new LegalNoticesFragment();
-            FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,fragment);
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }
         else if(id == R.id.logout_menu)

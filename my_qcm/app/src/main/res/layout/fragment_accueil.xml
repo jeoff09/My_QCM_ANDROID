@@ -4,14 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".view.HomeFragment">
 
-    <Button
+
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Accueil"
-        android:padding="8dp"
-        android:id="@+id/textView"
+        android:id="@+id/listViewCategMCQ"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        />
-
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
