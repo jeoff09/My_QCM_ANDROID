@@ -37,13 +37,17 @@ public class HomeFragment extends ListFragment {
         List<String> list = new ArrayList<String>();
         list.add("add");
         list.add("add");
+        list.add("pop");
 
          ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                  getActivity(),
                 R.layout.row_fragment_home,
+                 R.id.item_list_home,
                 list);
         setListAdapter(arrayAdapter);
+
         setRetainInstance(true);
+
         return rootView;
     }
 

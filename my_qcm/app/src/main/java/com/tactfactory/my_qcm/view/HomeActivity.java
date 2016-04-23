@@ -28,10 +28,12 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         // set the fragment initially
-        HomeFragment fragment =  (HomeFragment)getSupportFragmentManager().findFragmentByTag("HomeFragment");
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        HomeFragment fragment = new HomeFragment();
+        FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,8 +104,10 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.home_menu) {
-            HomeFragment fragment =  (HomeFragment)getSupportFragmentManager().findFragmentByTag("HomeFragment");
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+            HomeFragment fragment = new HomeFragment();
+            FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
@@ -115,6 +119,11 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.legal_mentions_menu) {
+            LegalNoticesFragment fragment = new LegalNoticesFragment();
+            FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.help_menu) {
             HelpFragment fragment = new HelpFragment();
