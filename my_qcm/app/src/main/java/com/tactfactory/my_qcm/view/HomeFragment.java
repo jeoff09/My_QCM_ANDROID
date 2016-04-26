@@ -14,10 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tactfactory.my_qcm.R;
+import com.tactfactory.my_qcm.entity.Categ;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -34,12 +35,17 @@ public class HomeFragment extends ListFragment {
 
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_accueil,container,false);
-        List<String> list = new ArrayList<String>();
-        list.add("add");
-        list.add("add");
-        list.add("pop");
+        List<Categ> list = new ArrayList<Categ>();
+        Date currentDate = new Date();
+        Categ categ  = new Categ(1,2,"chant",currentDate);
+        Categ categ1 = new Categ(2,3,"danse",currentDate);
+        Categ categ2 = new Categ(3,4,"music",currentDate);
 
-         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        list.add(categ);
+        list.add(categ1);
+        list.add(categ2);
+
+         ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
                  getActivity(),
                 R.layout.row_fragment_home,
                  R.id.item_list_home,
