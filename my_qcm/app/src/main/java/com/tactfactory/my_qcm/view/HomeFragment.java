@@ -59,6 +59,9 @@ public class HomeFragment extends ListFragment {
 
         // set the fragment initially
         ListMcqFragment fragment = new ListMcqFragment();
+        Bundle categBundle = new Bundle();
+        categBundle.putString("message","bonjour");
+        fragment.setArguments(categBundle);
         FragmentTransaction fragmentTransaction =  getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();

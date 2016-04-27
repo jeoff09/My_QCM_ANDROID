@@ -32,18 +32,14 @@ public class ListMcqFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the fragment
-       ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_list_mcq,container);
-        List<Categ> list = new ArrayList<Categ>();
-        Date currentDate = new Date();
-        Categ categ  = new Categ(1,2,"chant",currentDate);
-        Categ categ1 = new Categ(2,3,"danse",currentDate);
-        Categ categ2 = new Categ(3,4,"music",currentDate);
+       ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_list_mcq,container,false);
 
-        list.add(categ);
-        list.add(categ1);
-        list.add(categ2);
+        String message = getArguments().getString("message");
+        List<String> list = new ArrayList<String>();
 
-        ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
+        list.add(message);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.row_fragment_list_mcq,
                 R.id.item_list_mcq,
