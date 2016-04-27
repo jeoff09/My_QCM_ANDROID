@@ -1,12 +1,7 @@
 package com.tactfactory.my_qcm.view;
 
-
-
-import android.app.FragmentManager;
+import android.app.ListFragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,22 +16,16 @@ import com.tactfactory.my_qcm.entity.Categ;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 /**
- * A simple {@link Fragment} subclass.
+ * Created by ProtoConcept GJ on 27/04/2016.
  */
-public class HomeFragment extends ListFragment {
+public class ListMcqFragment extends ListFragment {
 
-
-    public HomeFragment() {
-
-    }
-    
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_home,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Inflate the fragment
+       ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_list_mcq,container);
         List<Categ> list = new ArrayList<Categ>();
         Date currentDate = new Date();
         Categ categ  = new Categ(1,2,"chant",currentDate);
@@ -47,10 +36,10 @@ public class HomeFragment extends ListFragment {
         list.add(categ1);
         list.add(categ2);
 
-         ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
-                 getActivity(),
+        ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
+                getActivity(),
                 R.layout.row_fragment_home,
-                 R.id.item_list_home,
+                R.id.item_list_home,
                 list);
         setListAdapter(arrayAdapter);
 
@@ -61,11 +50,9 @@ public class HomeFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        // set the fragment initially
-        HomeFragment fragment = new HomeFragment();
-        FragmentTransaction fragmentTransaction =  getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
+        ViewGroup viewGroup = (ViewGroup)v;
+        TextView txt = (TextView)viewGroup.findViewById(R.id.item_list_home);
+        Toast.makeText(getActivity(), txt.getText(), Toast.LENGTH_LONG).show();
 
     }
 }
