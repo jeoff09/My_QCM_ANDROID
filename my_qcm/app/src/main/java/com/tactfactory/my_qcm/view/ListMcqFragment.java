@@ -1,7 +1,8 @@
 package com.tactfactory.my_qcm.view;
 
-import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,13 @@ import java.util.List;
 /**
  * Created by ProtoConcept GJ on 27/04/2016.
  */
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class ListMcqFragment extends ListFragment {
+
+    public ListMcqFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,8 +45,8 @@ public class ListMcqFragment extends ListFragment {
 
         ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
                 getActivity(),
-                R.layout.row_fragment_home,
-                R.id.item_list_home,
+                R.layout.row_fragment_list_mcq,
+                R.id.item_list_mcq,
                 list);
         setListAdapter(arrayAdapter);
 
@@ -51,7 +58,7 @@ public class ListMcqFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         ViewGroup viewGroup = (ViewGroup)v;
-        TextView txt = (TextView)viewGroup.findViewById(R.id.item_list_home);
+        TextView txt = (TextView)viewGroup.findViewById(R.id.item_list_mcq);
         Toast.makeText(getActivity(), txt.getText(), Toast.LENGTH_LONG).show();
 
     }

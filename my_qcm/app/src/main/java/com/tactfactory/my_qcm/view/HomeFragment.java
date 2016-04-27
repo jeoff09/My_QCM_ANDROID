@@ -1,8 +1,5 @@
 package com.tactfactory.my_qcm.view;
 
-
-
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tactfactory.my_qcm.R;
 import com.tactfactory.my_qcm.entity.Categ;
@@ -61,8 +56,9 @@ public class HomeFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+
         // set the fragment initially
-        HomeFragment fragment = new HomeFragment();
+        ListMcqFragment fragment = new ListMcqFragment();
         FragmentTransaction fragmentTransaction =  getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
