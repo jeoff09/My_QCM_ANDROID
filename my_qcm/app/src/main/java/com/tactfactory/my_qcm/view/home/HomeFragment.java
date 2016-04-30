@@ -1,4 +1,4 @@
-package com.tactfactory.my_qcm.view;
+package com.tactfactory.my_qcm.view.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

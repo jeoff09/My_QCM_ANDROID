@@ -1,4 +1,4 @@
-package com.tactfactory.my_qcm.view;
+package com.tactfactory.my_qcm.view.menu;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import com.tactfactory.my_qcm.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RulesFragment extends Fragment {
+public class LegalNoticesFragment extends Fragment {
 
 
-    public RulesFragment() {
+    public LegalNoticesFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class RulesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rules, container, false);
+        return inflater.inflate(R.layout.fragment_legal_notices, container, false);
     }
 
 }

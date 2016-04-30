@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ListMcqFragment">
+    tools:context=".view.home.ListMcqFragment">
 
     <ListView
         android:layout_width="wrap_content"

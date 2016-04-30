@@ -108,4 +108,9 @@ public class Mcq {
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -1,4 +1,4 @@
-package com.tactfactory.my_qcm.view;
+package com.tactfactory.my_qcm.view.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tactfactory.my_qcm.R;
+import com.tactfactory.my_qcm.view.menu.LegalNoticesFragment;
+import com.tactfactory.my_qcm.view.login.LoginActivity;
+import com.tactfactory.my_qcm.view.menu.ProfileFragment;
+import com.tactfactory.my_qcm.view.menu.RulesFragment;
+import com.tactfactory.my_qcm.view.menu.HelpFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
