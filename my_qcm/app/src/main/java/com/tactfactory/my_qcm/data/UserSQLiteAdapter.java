@@ -17,13 +17,58 @@ import java.util.Date;
  */
 public class UserSQLiteAdapter {
 
+    /**
+     * Name of the Table inside Mobile DB
+     */
     protected static final String TABLE_USER = "user";
+
+    /**
+     *   @see  UserSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  UserSQLiteAdapter#getSchema()
+     *   Name of the col id_server inside Mobile Database
+     *   id_server = identifier on the WebService DB
+     */
     protected static final String COL_ID_SERVER = "id_server";
+
+    /**
+     *   @see  UserSQLiteAdapter#getSchema()
+     *   Name of the col username inside Mobile Database
+     *   username of the user
+     */
     protected static final String COL_USERNAME = "username";
+
+    /**
+     *   @see  UserSQLiteAdapter#getSchema()
+     *   Name of the col pwd inside Mobile Database
+     *   pwd of the user
+     */
     protected static final String COL_PWD = "pwd";
+
+    /**
+     *   @see  UserSQLiteAdapter#getSchema()
+     *   Name of the col email inside Mobile Database
+     *   email = email of the user
+     */
     protected static final String COL_EMAIL = "email";
+
+    /**
+     *   @see  UserSQLiteAdapter#getSchema()
+     *   Name of the col last_login inside Mobile Database
+     *   last_login = Date of the last_login on the APP
+     */
     protected static final String COL_LAST_LOGIN = "last_login";
+
+    /**
+     *   @see  UserSQLiteAdapter#getSchema()
+     *   Name of the col updated_at inside Mobile Database
+     *   updated_at = Date of the last Update of this User
+     */
     protected static final String COL_UPDATED_AT = "updated_at";
 
     private SQLiteDatabase db;
@@ -172,6 +217,7 @@ public class UserSQLiteAdapter {
     /**
      * Cursor convert to User
      * get all element in temp items and add on constructor before return
+     * Creation of SimpleDateFormat to parse string to date
      * @param cursor
      * @return User
      */

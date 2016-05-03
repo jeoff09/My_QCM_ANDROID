@@ -18,10 +18,37 @@ import java.util.Date;
  */
 public class CategSQLiteAdapter {
 
+    /**
+     *   Name of the Table Categ inside Mobile Database
+     */
     protected static final String TABLE_CATEG = "categ";
+
+    /**
+     *   @see  CategSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  CategSQLiteAdapter#getSchema()
+     *   Name of the col id_server inside Mobile Database
+     *   id_server = identifier ont the WebService Database
+     */
     protected static final String COL_ID_SERVER = "id_server";
+
+    /**
+     *   @see  CategSQLiteAdapter#getSchema()
+     *   Name of the col name inside Mobile Database
+     *   name = Categ value
+     */
     protected static final String COL_NAME = "name";
+
+    /**
+     *   @see  CategSQLiteAdapter#getSchema()
+     *   Name of the col update_at inside Mobile Database
+     *   update_at = Date of the last update of this Categ
+     */
     protected static final String COL_UPDATED_AT = "updated_at";
 
     private SQLiteDatabase db;
@@ -151,6 +178,7 @@ public class CategSQLiteAdapter {
     /**
      * Cursor convert to Categ
      * get all element in temp items and add on constructor before return
+     * Create a DateFormat to parse string to DateValue
      * @param cursor
      * @return Typ
      */

@@ -18,17 +18,66 @@ import java.util.Date;
  */
 public class AnswerSQLiteAdapter {
 
+    /**
+     *  Class context
+     */
     private Context context;
 
+    /**
+     *   @see  AnswerSQLiteAdapter#getSchema()
+     *   Define the name of the table inside the DB
+     */
     protected static final String TABLE_ANSWER = "answer";
+
+    /**
+     *   @see  AnswerSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  AnswerSQLiteAdapter#getSchema()
+     *   Name of the col id_server inside Mobile Database
+     *   id_server = Id inside the webservice DB
+     */
     protected static final String COL_ID_SERVER = "id_server";
+
+    /**
+     *   @see  AnswerSQLiteAdapter#getSchema()
+     *   Name of the col ans inside Mobile Database
+     *   ans = response value
+     */
     protected static final String COL_ANS = "ans";
+
+    /**
+     *   @see  AnswerSQLiteAdapter#getSchema()
+     *   Name of the col Is_true inside Mobile Database
+     *   istrue = If this answer is right or not
+     */
     protected static final String COL_IS_TRUE = "istrue";
+
+    /**
+     *   @see  AnswerSQLiteAdapter#getSchema()
+     *   Name of the col question inside Mobile Database
+     *   question = Question linked with this answer
+     */
     protected static final String COL_QUESTION = "question";
+
+    /**
+     *   @see  AnswerSQLiteAdapter#getSchema()
+     *   Name of the col updated_at inside Mobile Database
+     *   updated_at = Last updated date of the Answer
+     */
     protected static final String COL_UPDATED_AT = "updated_at";
 
+    /**
+     * Application Database
+     **/
     private SQLiteDatabase db;
+    /**
+     * SQL open Helper for the DB
+     */
     private My_QCMSQLiteOpenHelper helper;
 
     /**
@@ -160,7 +209,8 @@ public class AnswerSQLiteAdapter {
     /**
      * Cursor convert to Answer
      * get all element in temp items and add on constructor before return
-     * Call the adapter for get the question of this Answer
+     * Create a DateFormat for transform the StringValue to a valid Date
+     * Call the adapter too get the question of this Answer
      * @param cursor
      * @return Answer
      */

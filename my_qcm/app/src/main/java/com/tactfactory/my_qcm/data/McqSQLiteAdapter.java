@@ -24,20 +24,79 @@ import java.util.Date;
  */
 public class McqSQLiteAdapter {
 
+    /**
+     * Value of the Class Context
+     */
     private Context context;
 
-
+    /**
+     * name of the Table inside Mobile Database
+     */
     protected static final String TABLE_MCQ = "mcq";
+
+    /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   Name of the col id_server inside Mobile Database
+     *   id_server = identifier on the webService DB
+     */
     protected static final String COL_ID_SERVER = "id_server";
+
+    /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   Name of the col name inside Mobile Database
+     *   name = value of the MCQ name
+     */
     protected static final String COL_NAME = "name";
+
+    /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   dateEnd of the col datEnd inside Mobile Database
+     *   DateEnd = when the MCQ become unavailable
+     */
     protected static final String COL_DATE_END = "dateEnd";
+
+    /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   Name of the col dateStart inside Mobile Database
+     *   dateStart = When the MCQ become available
+     */
     protected static final String COL_DATE_START = "dateStart";
+
+    /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   Name of the col duration inside Mobile Database
+     *   duration = How many time the user have to complete the MCQ
+     */
     protected static final String COL_DURATION = "duration";
+
+    /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   Value of the col Categ inside Mobile Database
+     *   id_categ = Value of the Categ associate of this MCQ
+     */
     protected static final String COL_CATEG = "id_categ";
+
+    /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   Name of the col updated_at inside Mobile Database
+     *   updated_at = Date of the last update of this MCQ
+     */
     protected static final String COL_UPDATED_AT = "updated_at";
 
+    /**
+     * Database of the Application
+     */
     private SQLiteDatabase db;
+    /**
+     * SQL Open helper
+     */
     private My_QCMSQLiteOpenHelper helper;
 
     /**
@@ -174,6 +233,7 @@ public class McqSQLiteAdapter {
      * Cursor convert to Mcq
      * get all element in temp items and add on constructor before return
      * Call adapter for get the Categ of this Mcq
+     * Create date Format for parse Strings Date to Dates
      * @param cursor
      * @return Mcq
      */

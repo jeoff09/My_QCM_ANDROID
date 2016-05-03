@@ -19,17 +19,65 @@ import java.util.Date;
  */
 public class MediaSQLiteAdapter {
 
+    /**
+     * Context of this Class
+     */
     private Context context;
 
+    /**
+     * Name of this table inside Database of the mobile
+     */
     protected static final String TABLE_MEDIA = "media";
+
+    /**
+     *   @see  MediaSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  MediaSQLiteAdapter#getSchema()
+     *   Name of the col id_server inside Mobile Database
+     *   id_server = identifier on the WebService DB
+     */
     protected static final String COL_ID_SERVER = "id_server";
+
+    /**
+     *   @see  MediaSQLiteAdapter#getSchema()
+     *   Name of the col name inside Mobile Database
+     *   name = Title of this Media
+     */
     protected static final String COL_NAME = "name";
+
+    /**
+     *   @see  MediaSQLiteAdapter#getSchema()
+     *   Name of the col url inside Mobile Database
+     *   url = link to the media
+     */
     protected static final String COL_URL = "url";
+
+    /**
+     *   @see  MediaSQLiteAdapter#getSchema()
+     *   Name of the col typ inside Mobile Database
+     *   typ = Type of this media (Video, Song ...)
+     */
     protected static final String COL_TYP = "typ";
+
+    /**
+     *   @see  MediaSQLiteAdapter#getSchema()
+     *   Name of the col updated_at inside Mobile Database
+     *   updated_at = Date of the last update of this media
+     */
     protected static final String COL_UPDATED_AT = "updated_at";
 
+    /**
+     * Database of my application
+     */
     private SQLiteDatabase db;
+    /**
+     * Open Helper for the Database
+     */
     private My_QCMSQLiteOpenHelper helper;
 
     /**
@@ -161,6 +209,7 @@ public class MediaSQLiteAdapter {
      * Cursor convert to Media
      * get all element in temp items and add on constructor before return
      * Call adapter to get the Typ of this media
+     * Create DateFormat to transform String to Date
      * @param cursor
      * @return Media
      */

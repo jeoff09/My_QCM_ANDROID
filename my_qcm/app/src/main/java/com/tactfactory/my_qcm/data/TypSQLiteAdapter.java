@@ -19,10 +19,37 @@ import java.util.ArrayList;
  */
 public class TypSQLiteAdapter {
 
+    /**
+     * Name of the Table Inside Mobile Database
+     */
     protected static final String TABLE_TYP = "typ";
+
+    /**
+     *   @see  TypSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  TypSQLiteAdapter#getSchema()
+     *   Name of the col id_server inside Mobile Database
+     *   id_server = identifier on the WebService DB
+     */
     protected static final String COL_ID_SERVER = "id_server";
+
+    /**
+     *   @see  TypSQLiteAdapter#getSchema()
+     *   Name of the col name inside Mobile Database
+     *   name = Value of Typ
+     */
     protected static final String COL_NAME = "name";
+
+    /**
+     *   @see  TypSQLiteAdapter#getSchema()
+     *   Name of the col updated_at inside Mobile Database
+     *   updated_at = Date of the last update
+     */
     protected static final String COL_UPDATED_AT = "updated_at";
 
     private SQLiteDatabase db;
@@ -152,6 +179,7 @@ public class TypSQLiteAdapter {
     /**
      * Cursor convert to Typ
      * get all element in temp items and add on constructor before return
+     * Creation of DateFormat to parse String to Date
      * @param cursor
      * @return Typ
      */

@@ -20,13 +20,55 @@ import java.util.Date;
  */
 public class QuestionSQLiteAdapter {
 
+    /**
+     * Context of the class
+     */
     private Context context;
+    /**
+     * name of the class inside the Mobile Database
+     */
     protected static final String TABLE_QUESTION = "question";
+
+    /**
+     *   @see  QuestionSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  QuestionSQLiteAdapter#getSchema()
+     *   Name of the col id_server inside Mobile Database
+     *   id_server = identifier on the WebService DB
+     */
     protected static final String COL_ID_SERVER = "id_server";
+
+    /**
+     *   @see  QuestionSQLiteAdapter#getSchema()
+     *   Name of the col ques inside Mobile Database
+     *   ques = entitlted of the question
+     */
     protected static final String COL_QUES = "ques";
+
+    /**
+     *   @see  QuestionSQLiteAdapter#getSchema()
+     *   Name of the col mcq inside Mobile Database
+     *   mcq = MCQ linked to this Question
+     */
     protected static final String COL_MCQ = "mcq";
+
+    /**
+     *   @see  QuestionSQLiteAdapter#getSchema()
+     *   Name of the col media inside Mobile Database
+     *   media = Media linked to this Question
+     */
     protected static final String COL_MEDIA = "media";
+
+    /**
+     *   @see  QuestionSQLiteAdapter#getSchema()
+     *   Name of the col updated_at inside Mobile Database
+     *   updated_at = Date of the last update of this Question
+     */
     protected static final String COL_UPDATED_AT = "updated_at";
 
     private SQLiteDatabase db;

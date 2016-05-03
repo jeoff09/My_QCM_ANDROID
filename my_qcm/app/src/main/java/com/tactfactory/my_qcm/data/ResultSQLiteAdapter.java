@@ -13,11 +13,30 @@ import java.util.ArrayList;
  */
 public class ResultSQLiteAdapter {
 
-    private Context context;
-
+    /**
+     * name of table inside the DB
+     */
     protected static final String TABLE_RESULT = "result";
+
+    /**
+     *   @see  ResultSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  ResultSQLiteAdapter#getSchema()
+     *   Name of the col id_server_user inside Mobile Database
+     *   id_server_user = identifier the user
+     */
     protected static final String COL_ID_SERVER_USER = "id_server_user";
+
+    /**
+     *   @see  ResultSQLiteAdapter#getSchema()
+     *   Name of the col id_server_mcq inside Mobile Database
+     *   id_server_mcq = identifier the user
+     */
     protected static final String COL_ID_SERVER_MCQ = "id_server_mcq";
 
     private SQLiteDatabase db;
@@ -29,7 +48,6 @@ public class ResultSQLiteAdapter {
      */
     public ResultSQLiteAdapter(Context context){
         helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
-        this.context = context;
     }
 
     /**
@@ -149,7 +167,6 @@ public class ResultSQLiteAdapter {
      * @return Result
      */
     public Result cursorToItem(Cursor cursor){
-        TypSQLiteAdapter typAdapter = new TypSQLiteAdapter(context);
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server_user = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER_USER));
         int id_server_mcq = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER_MCQ));

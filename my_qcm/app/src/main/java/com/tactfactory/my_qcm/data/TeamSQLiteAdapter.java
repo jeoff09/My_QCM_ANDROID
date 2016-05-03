@@ -19,10 +19,37 @@ import java.util.Date;
  */
 public class TeamSQLiteAdapter {
 
+    /**
+     * Name of the Table inside DB
+     */
     protected static final String TABLE_TEAM = "team";
+
+    /**
+     *   @see  TeamSQLiteAdapter#getSchema()
+     *   Name of the col id inside Mobile Database
+     *   id = identifier on the mobile DB
+     */
     protected static final String COL_ID = "id";
+
+    /**
+     *   @see  TeamSQLiteAdapter#getSchema()
+     *   Name of the col id_server inside Mobile Database
+     *   id_server = identifier on the WebService DB
+     */
     protected static final String COL_ID_SERVER = "id_server";
+
+    /**
+     *   @see  TeamSQLiteAdapter#getSchema()
+     *   Name of the col name inside Mobile Database
+     *   name = Name of this team
+     */
     protected static final String COL_NAME = "name";
+
+    /**
+     *   @see  TeamSQLiteAdapter#getSchema()
+     *   Name of the col updated_at inside Mobile Database
+     *   updated_at = Date of the last updated of this team
+     */
     protected static final String COL_UPDATED_AT = "updated_at";
 
     private SQLiteDatabase db;
@@ -151,6 +178,7 @@ public class TeamSQLiteAdapter {
     /**
      * Cursor convert to Team
      * get all element in temp items and add on constructor before return
+     * Creation of DateFormat to Transform String to Date
      * @param cursor
      * @return Team
      */
