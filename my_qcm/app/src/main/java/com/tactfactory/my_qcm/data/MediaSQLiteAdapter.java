@@ -85,7 +85,7 @@ public class MediaSQLiteAdapter {
      * @param context
      */
     public MediaSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
     }
 

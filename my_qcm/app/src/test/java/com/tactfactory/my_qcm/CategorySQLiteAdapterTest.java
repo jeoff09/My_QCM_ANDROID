@@ -1,78 +1,60 @@
-package com.tactfactory.my_qcm.data;
+package com.tactfactory.my_qcm;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.tactfactory.my_qcm.data.My_QCMSQLiteOpenHelper;
 import com.tactfactory.my_qcm.entity.Categ;
+
+import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by jeoffrey on 06/04/2016.
- * Helping Class For Categ
- */
-public class CategSQLiteAdapter {
+import static org.junit.Assert.assertEquals;
 
-    /**
-     *  Class context
-     */
-    private Context context;
+/**
+ * Created by jeoffrey on 11/05/2016.
+ */
+public class CategorySQLiteAdapterTest {
+
     /**
      *   Name of the Table Categ inside Mobile Database
      */
     protected static final String TABLE_CATEG = "categ";
 
     /**
-     *   @see  CategSQLiteAdapter#getSchema()
      *   Name of the col id inside Mobile Database
      *   id = identifier on the mobile DB
      */
     protected static final String COL_ID = "id";
 
     /**
-     *   @see  CategSQLiteAdapter#getSchema()
      *   Name of the col id_server inside Mobile Database
      *   id_server = identifier ont the WebService Database
      */
     protected static final String COL_ID_SERVER = "id_server";
 
     /**
-     *   @see  CategSQLiteAdapter#getSchema()
      *   Name of the col name inside Mobile Database
      *   name = Categ value
      */
     protected static final String COL_NAME = "name";
 
     /**
-     *   @see  CategSQLiteAdapter#getSchema()
      *   Name of the col update_at inside Mobile Database
      *   update_at = Date of the last update of this Categ
      */
     protected static final String COL_UPDATED_AT = "updated_at";
 
-    /**
-     * Database of the Application
-     */
-    private SQLiteDatabase db;
-
-    /**
-     *  SQLiteOpenHelper to help manage DB
-     */
+    private SQLiteDatabase db ;
     private My_QCMSQLiteOpenHelper helper;
+    private Context context;
 
-    /**
-     * Helper object to create access db
-     * @param context
-     */
-    public CategSQLiteAdapter(Context context){
-        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
-        this.context = context;
-    }
 
     /**
      * Create table Categ for Database
@@ -86,33 +68,34 @@ public class CategSQLiteAdapter {
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
 
-
-    /**
-     * Open The Database
-     */
     public void open(){
         this.db = this.helper.getWritableDatabase();
     }
-
     public void close(){
         this.db.close();
     }
 
     /**
      * Insert Categ into DB
-     * @param categ
+     * @param
      * @return line result
      */
-    public long insert(Categ categ){
-        return db.insert(TABLE_CATEG, null, this.categToContentValues(categ));
+    @Test
+    public void insert(){
+        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        Date date = new Date();
+        Categ categ = new Categ(1,1,"Test",date);
+        long REflong = db.insert(TABLE_CATEG, null, this.categToContentValues(categ));
+        assertEquals(REflong,categ.getId());
     }
 
     /**
-     * Delete Categ with Categ object
-     * @param categ
+     * Delete Categ with typ object
      * @return line result
      */
-    public long delete(Categ categ){
+    public long delete(){
+        Date date = new Date();
+        Categ categ = new Categ(1,1,"Test",date);
         String whereClausesDelete = COL_ID + "= ?";
         String[] whereArgsDelete = {String.valueOf(categ.getId())};
 
@@ -121,10 +104,11 @@ public class CategSQLiteAdapter {
 
     /**
      * Update Categ in DB
-     * @param categ
      * @return line result
      */
-    public long update(Categ categ){
+    public long update(){
+        Date date = new Date();
+        Categ categ = new Categ(1,1,"Test",date);
         ContentValues valuesUpdate = this.categToContentValues(categ);
         String whereClausesUpdate = COL_ID + "= ?";
         String[] whereArgsUpdate =  {String.valueOf(categ.getId())};
@@ -202,7 +186,6 @@ public class CategSQLiteAdapter {
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String name = cursor.getString(cursor.getColumnIndex(COL_NAME));
-        // String to Date try if working
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

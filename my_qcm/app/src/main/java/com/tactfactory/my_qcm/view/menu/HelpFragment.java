@@ -11,6 +11,7 @@ import com.tactfactory.my_qcm.R;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Simple Fragment to Show a list of Explain
  */
 public class HelpFragment extends Fragment {
 

@@ -92,8 +92,8 @@ public class QuestionSQLiteAdapter {
                 + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_ID_SERVER + " INTEGER NOT NULL, "
                 + COL_QUES + " TEXT NOT NULL, "
-                + COL_MCQ + "INTEGER NOT NULL,"
-                + COL_MEDIA+ "INTEGER,"
+                + COL_MCQ + " INTEGER NOT NULL,"
+                + COL_MEDIA+ " INTEGER,"
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
 
@@ -208,13 +208,15 @@ public class QuestionSQLiteAdapter {
      * @return Question
      */
     public Question cursorToItem(Cursor cursor){
-        McqSQLiteAdapter mcqAdapter = new McqSQLiteAdapter(context);
+        McqSQLiteAdapter mcqAdapter     = new McqSQLiteAdapter(context);
         MediaSQLiteAdapter mediaAdapter = new MediaSQLiteAdapter(context);
+
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String ques = cursor.getString(cursor.getColumnIndex(COL_QUES));
         int mcq = cursor.getInt(cursor.getColumnIndex(COL_MCQ));
         int media = cursor.getInt(cursor.getColumnIndex(COL_MEDIA));
+
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

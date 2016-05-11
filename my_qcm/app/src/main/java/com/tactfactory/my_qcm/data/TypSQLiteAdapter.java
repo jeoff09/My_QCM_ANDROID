@@ -20,6 +20,11 @@ import java.util.ArrayList;
 public class TypSQLiteAdapter {
 
     /**
+     *  Class context
+     */
+    private Context context;
+
+    /**
      * Name of the Table Inside Mobile Database
      */
     protected static final String TABLE_TYP = "typ";
@@ -60,7 +65,8 @@ public class TypSQLiteAdapter {
      * @param context
      */
     public TypSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**

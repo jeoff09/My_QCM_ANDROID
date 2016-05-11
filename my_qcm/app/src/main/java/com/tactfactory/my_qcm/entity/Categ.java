@@ -29,22 +29,42 @@ public class Categ {
         this.updated_at = updated_at;
     }
 
+    /**
+     * Return id of Categ
+     * @return id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Set the id of Categ
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Return id_server of the Categ
+     * @return id_server
+     */
     public long getId_server() {
         return id_server;
     }
 
+    /**
+     * Set the id_server of the Categ
+     * @param id_server
+     */
     public void setId_server(int id_server) {
         this.id_server = id_server;
     }
 
+    /**
+     *
+     * @return name
+     */
     public String getName() {
         return name;
     }

@@ -27,6 +27,7 @@ public class HomeActivity extends AppCompatActivity
 
     NavigationView navigationView = null;
     Toolbar toolbar = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +35,9 @@ public class HomeActivity extends AppCompatActivity
 
         // set the fragment initially
         HomeFragment fragment = new HomeFragment();
-        FragmentTransaction fragmentTransaction =
-                getSupportFragmentManager().beginTransaction();
+
+        //frameLayout in app_bar_home.xml
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
@@ -96,6 +98,10 @@ public class HomeActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+    /**
+     * ON item Select in the NaviguationDrower
+     *  Create Fragment call on the selected menu and make a transaction to replace the actual
+     */
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -103,37 +109,32 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.profil_menu) {
 
             ProfileFragment fragment = new ProfileFragment();
-            FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container,fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.home_menu) {
 
             HomeFragment fragment = new HomeFragment();
-            FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.rules_menu) {
             RulesFragment fragment = new RulesFragment();
-            FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container,fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.legal_mentions_menu) {
             LegalNoticesFragment fragment = new LegalNoticesFragment();
-            FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
 
         } else if (id == R.id.help_menu) {
             HelpFragment fragment = new HelpFragment();
-            FragmentTransaction fragmentTransaction =
-                    getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         }

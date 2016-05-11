@@ -104,7 +104,7 @@ public class McqSQLiteAdapter {
      * @param context
      */
     public McqSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
     }
 
@@ -116,11 +116,11 @@ public class McqSQLiteAdapter {
         return "CREATE TABLE " + TABLE_MCQ + " ("
                 + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_ID_SERVER + " INTEGER NOT NULL, "
-                + COL_NAME + "TEXT NOT NULL,"
-                + COL_DATE_END  + "TEXT ,"
-                + COL_DATE_START + "TEXT NOT NULL,"
-                + COL_CATEG + "INTEGER NOT NULL"
-                + COL_DURATION + "INTEGER NOT NULL, "
+                + COL_NAME + " TEXT NOT NULL,"
+                + COL_DATE_END  + " TEXT ,"
+                + COL_DATE_START + " TEXT NOT NULL,"
+                + COL_CATEG + " INTEGER NOT NULL,"
+                + COL_DURATION + " INTEGER NOT NULL, "
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
 
