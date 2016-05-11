@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import com.tactfactory.my_qcm.R;
+import com.tactfactory.my_qcm.data.AnswerSQLiteAdapter;
+import com.tactfactory.my_qcm.data.UserSQLiteAdapter;
 import com.tactfactory.my_qcm.view.home.HomeActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -20,10 +22,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        UserSQLiteAdapter user = new UserSQLiteAdapter(this);
+        user.open();
+        user.close();
         Button buttonConnexion = (Button) findViewById(R.id.buttonConnection);
         buttonConnexion.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
                 startActivity(intent);
             }

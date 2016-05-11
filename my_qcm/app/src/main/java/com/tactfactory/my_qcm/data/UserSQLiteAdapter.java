@@ -91,7 +91,7 @@ public class UserSQLiteAdapter {
                 + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_ID_SERVER + " INTEGER NOT NULL, "
                 + COL_USERNAME + " TEXT NOT NULL, "
-                + COL_PWD + "TEXT NOT NULL,"
+                + COL_PWD + " TEXT NOT NULL,"
                 + COL_EMAIL+ " TEXT NOT NULL, "
                 + COL_LAST_LOGIN+ " TEXT NOT NULL, "
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
