@@ -34,9 +34,15 @@ public class ListMcqFragment extends ListFragment {
         //Inflate the fragment
        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_list_mcq,container,false);
 
-        String message = getArguments().getString("message");
+        //Get the Value pass on the Bundle
+        String message = getArguments().getString("name");
+
         List<String> list = new ArrayList<String>();
 
+        /**
+         * Todo : GetCategByName(message) in CategAdapter-> getMcqByIdCateg(cat.id) in McqAdapter
+         * and add the List of Mcq in the Array Adapter of Mcq
+         */
         list.add(message);
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
@@ -52,6 +58,10 @@ public class ListMcqFragment extends ListFragment {
     }
 
     @Override
+    /**
+     * Todo : Get the value of Selected Item and send him by the Bundle and call Questionnaire
+     * When The User select e item on list Call and pass to param the name of the Mcq
+     */
     public void onListItemClick(ListView l, View v, int position, long id) {
         ViewGroup viewGroup = (ViewGroup)v;
         TextView txt = (TextView)viewGroup.findViewById(R.id.item_list_mcq);
