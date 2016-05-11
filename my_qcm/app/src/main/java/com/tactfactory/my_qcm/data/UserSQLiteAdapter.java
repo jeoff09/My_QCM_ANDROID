@@ -18,6 +18,11 @@ import java.util.Date;
 public class UserSQLiteAdapter {
 
     /**
+     *  Class context
+     */
+    private Context context;
+
+    /**
      * Name of the Table inside Mobile DB
      */
     protected static final String TABLE_USER = "user";
@@ -71,7 +76,13 @@ public class UserSQLiteAdapter {
      */
     protected static final String COL_UPDATED_AT = "updated_at";
 
+    /**
+     * DataBase of the Application
+     */
     private SQLiteDatabase db;
+    /**
+     * SQLiteOpenHelper help to manage the Database
+     */
     private My_QCMSQLiteOpenHelper helper;
 
     /**
@@ -79,7 +90,8 @@ public class UserSQLiteAdapter {
      * @param context
      */
     public UserSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**

@@ -14,6 +14,10 @@ import java.util.ArrayList;
 public class ResultSQLiteAdapter {
 
     /**
+     *  Class context
+     */
+    private Context context;
+    /**
      * name of table inside the DB
      */
     protected static final String TABLE_RESULT = "result";
@@ -47,7 +51,8 @@ public class ResultSQLiteAdapter {
      * @param context
      */
     public ResultSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**

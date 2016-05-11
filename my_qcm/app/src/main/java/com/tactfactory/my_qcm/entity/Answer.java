@@ -33,51 +33,98 @@ public class Answer {
         this.updated_at = updated_at;
     }
 
-
+    /**
+     *  Return the Answer id
+     * @return id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Set the Id of Answer
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Return the Answer id_server
+     * @return id_server
+     */
     public int getId_server() {
         return id_server;
     }
 
+    /**
+     * Set the id_server Of the AnswerS
+     * @param id_server
+     */
     public void setId_server(int id_server) {
         this.id_server = id_server;
     }
 
+    /**
+     * Return the value of the Answer
+     * @return ans
+     */
     public String getAns() {
         return ans;
     }
 
+    /**
+     * Set the value of the Answer
+     * @param ans
+     */
     public void setAns(String ans) {
         this.ans = ans;
     }
 
+    /**
+     * Return id this Answer is true
+     * @return isTrue
+     */
     public Boolean getIsTrue() {
         return isTrue;
     }
 
+    /**
+     * Set the value isTrue or not
+     * @param isTrue
+     */
     public void setIsTrue(Boolean isTrue) {
         this.isTrue = isTrue;
     }
 
+    /**
+     * Question associate with The Answer
+     * @return question
+     */
     public Question getQuestion() {
         return question;
     }
 
+    /**
+     * Set the question associate With Answer
+     * @param question
+     */
     public void setQuestion(Question question) {
         this.question = question;
     }
 
+    /**
+     * Return the Date of Last Update
+     * @return updated_at
+     */
     public Date getUpdated_at() {
         return updated_at;
     }
 
+    /**
+     * Set date of Last_update
+     * @param updated_at
+     */
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }

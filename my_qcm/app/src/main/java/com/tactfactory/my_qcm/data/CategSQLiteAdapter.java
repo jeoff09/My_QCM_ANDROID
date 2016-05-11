@@ -19,6 +19,10 @@ import java.util.Date;
 public class CategSQLiteAdapter {
 
     /**
+     *  Class context
+     */
+    private Context context;
+    /**
      *   Name of the Table Categ inside Mobile Database
      */
     protected static final String TABLE_CATEG = "categ";
@@ -51,7 +55,14 @@ public class CategSQLiteAdapter {
      */
     protected static final String COL_UPDATED_AT = "updated_at";
 
+    /**
+     * Database of the Application
+     */
     private SQLiteDatabase db;
+
+    /**
+     *  SQLiteOpenHelper to help manage DB
+     */
     private My_QCMSQLiteOpenHelper helper;
 
     /**
@@ -59,7 +70,8 @@ public class CategSQLiteAdapter {
      * @param context
      */
     public CategSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**
@@ -75,6 +87,9 @@ public class CategSQLiteAdapter {
     }
 
 
+    /**
+     * Open The Database
+     */
     public void open(){
         this.db = this.helper.getWritableDatabase();
     }
@@ -93,7 +108,7 @@ public class CategSQLiteAdapter {
     }
 
     /**
-     * Delete Categ with typ object
+     * Delete Categ with Categ object
      * @param categ
      * @return line result
      */
@@ -187,6 +202,7 @@ public class CategSQLiteAdapter {
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String name = cursor.getString(cursor.getColumnIndex(COL_NAME));
+        // String to Date try if working
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
