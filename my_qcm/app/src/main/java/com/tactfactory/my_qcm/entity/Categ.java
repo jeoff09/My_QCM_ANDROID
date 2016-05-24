@@ -17,13 +17,11 @@ public class Categ {
 
     /**
      * Constructor , don't make have to mandatory the List of Mcqs
-     * @param id
      * @param id_server
      * @param name
      * @param updated_at
      */
-    public Categ(int id, int id_server, String name, Date updated_at) {
-        this.id = id;
+    public Categ( int id_server, String name, Date updated_at) {
         this.id_server = id_server;
         this.name = name;
         this.updated_at = updated_at;

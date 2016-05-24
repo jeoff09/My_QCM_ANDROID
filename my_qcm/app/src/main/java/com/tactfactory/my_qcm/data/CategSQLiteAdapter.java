@@ -217,8 +217,8 @@ public class CategSQLiteAdapter {
         }
 
 
-        Categ result = new Categ(id,id_server,name,date);
-
+        Categ result = new Categ(id_server,name,date);
+        result.setId(id);
         return result;
     }
 

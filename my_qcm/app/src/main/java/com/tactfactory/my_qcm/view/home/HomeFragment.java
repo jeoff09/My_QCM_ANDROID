@@ -1,5 +1,6 @@
 package com.tactfactory.my_qcm.view.home;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -38,9 +39,9 @@ public class HomeFragment extends ListFragment {
          */
         List<Categ> list = new ArrayList<Categ>();
         Date currentDate = new Date();
-        Categ categ  = new Categ(1,2,"chant",currentDate);
-        Categ categ1 = new Categ(2,3,"danse",currentDate);
-        Categ categ2 = new Categ(3,4,"music",currentDate);
+        Categ categ  = new Categ(2,"chant",currentDate);
+        Categ categ1 = new Categ(3,"danse",currentDate);
+        Categ categ2 = new Categ(4,"music",currentDate);
 
         list.add(categ);
         list.add(categ1);
@@ -83,4 +84,5 @@ public class HomeFragment extends ListFragment {
         fragmentTransaction.commit();
 
     }
+
 }
