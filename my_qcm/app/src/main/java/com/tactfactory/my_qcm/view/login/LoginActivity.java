@@ -13,14 +13,13 @@ import android.widget.EditText;
 
 import com.tactfactory.my_qcm.R;
 import com.tactfactory.my_qcm.configuration.MyQCMConstants;
-import com.tactfactory.my_qcm.data.AnswerSQLiteAdapter;
 import com.tactfactory.my_qcm.data.UserSQLiteAdapter;
-import com.tactfactory.my_qcm.entity.webservice.ConnectionWS;
+import com.tactfactory.my_qcm.data.webservice.ConnectionWSAdapter;
 import com.tactfactory.my_qcm.view.home.HomeActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-        ConnectionWS connectionWS;
+        ConnectionWSAdapter connectionWSAdapter;
         MyQCMConstants myQCMConstants;
         ProgressDialog dialog;
     @Override
@@ -59,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                     final String login = etLogin.getText().toString();
                     final String password = etPassword.getText().toString();
                     System.out.println("login = " + login + " password = " + password);
-                    connectionWS = new ConnectionWS();
-                    connectionWS.ConnectionRequest(myQCMConstants.CONST_URL_LOGIN, login, password, new ConnectionWS.CallBack() {
+                    connectionWSAdapter = new ConnectionWSAdapter();
+                    connectionWSAdapter.ConnectionRequest(myQCMConstants.CONST_URL_LOGIN, login, password, new ConnectionWSAdapter.CallBack() {
                         @Override
                         public void methods(String reponse) {
                             System.out.println("Response login Activity = " + reponse);
@@ -71,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             else {
                                     dialog.hide();
-                                    connectionWS.connectionErrorMessage(LoginActivity.this);
+                                    connectionWSAdapter.connectionErrorMessage(LoginActivity.this);
                             }
                         }
                     });

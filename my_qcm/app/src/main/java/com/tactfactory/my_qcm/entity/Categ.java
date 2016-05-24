@@ -1,5 +1,7 @@
 package com.tactfactory.my_qcm.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -9,10 +11,18 @@ import java.util.ArrayList;
  */
 public class Categ {
 
+
     private int id;
+
+    @SerializedName("id")
     private int id_server;
+
+    @SerializedName("name")
     private String name;
+
     private ArrayList<Mcq> mcqs;
+
+    @SerializedName("updated_at")
     private Date updated_at;
 
     /**

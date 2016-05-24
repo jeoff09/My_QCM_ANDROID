@@ -1,23 +1,18 @@
-package com.tactfactory.my_qcm.entity.webservice;
+package com.tactfactory.my_qcm.data.webservice;
 
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Base64;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import cz.msebera.android.httpclient.Header;
-import com.loopj.android.http.JsonHttpResponseHandler;
+
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.tactfactory.my_qcm.configuration.MyQCMConstants;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,12 +20,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import cz.msebera.android.httpclient.Header;
-
 /**
  * Created by jeoffrey on 19/05/2016.
  */
-public class ConnectionWS {
+public class ConnectionWSAdapter {
 
     String response;
     MyQCMConstants myQCMConstants;
