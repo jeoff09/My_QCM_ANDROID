@@ -1,6 +1,11 @@
 package com.tactfactory.my_qcm.data.webservice;
 
 
+import android.support.annotation.NonNull;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -14,9 +19,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -24,8 +35,6 @@ import cz.msebera.android.httpclient.Header;
 public class CategoryWSAdapter {
 
     String response;
-    CategoriesListResponse categoriesListResponse;
-    CategoriesListResponse categoriesList;
     MyQCMConstants myQCMConstants;
     /*Old Request
    private static final String BASE_URL ="http://192.168.1.14/qcm/web/app_dev.php/api/categoriesusers";
@@ -114,9 +123,14 @@ public class CategoryWSAdapter {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
+
                 response = responseString;
-                categoriesList = categoriesListResponse.parseJSON(response);
-                System.out.println("On success = " + categoriesList);
+
+                ArrayList<Categ> categories = responseToList(response);
+                for(Categ categ:categories) {
+                    System.out.println("On success = " + categ.getName());
+                }
+
                 callback.methods(response);
             }
 
@@ -146,6 +160,24 @@ public class CategoryWSAdapter {
         void methods(String reponse);
     }
 
+    public  ArrayList<Categ> responseToList(String response)
+    {
+        //Format of the recup Date
+        String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(DATE_FORMAT);
+        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+        Gson gson =  gsonBuilder.create();
+        Type collectionType = new TypeToken<List<Categ>>(){}.getType();
+
+        ArrayList<Categ> categories = new ArrayList<Categ>();
+        categories = (ArrayList<Categ>) gson.fromJson(response, collectionType);
+
+        return categories;
+
+
+    }
 
 
     }

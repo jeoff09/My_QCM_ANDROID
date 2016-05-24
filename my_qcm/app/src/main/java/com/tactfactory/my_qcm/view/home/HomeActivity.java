@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tactfactory.my_qcm.R;
+import com.tactfactory.my_qcm.configuration.MyQCMConstants;
+import com.tactfactory.my_qcm.data.webservice.CategoryWSAdapter;
 import com.tactfactory.my_qcm.view.menu.LegalNoticesFragment;
 import com.tactfactory.my_qcm.view.login.LoginActivity;
 import com.tactfactory.my_qcm.view.menu.ProfileFragment;
@@ -41,11 +43,19 @@ public class HomeActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
+        CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter();
+        categoryWSAdapter.getCategoryRequest(1, MyQCMConstants.CONST_URL_GET_CATEGORIES, new CategoryWSAdapter.CallBack() {
+            @Override
+            public void methods(String reponse) {
+                System.out.println("Reponse = " + reponse);
+            }
+        });
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
