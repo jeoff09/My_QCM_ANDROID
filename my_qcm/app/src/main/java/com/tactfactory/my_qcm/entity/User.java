@@ -1,6 +1,9 @@
 package com.tactfactory.my_qcm.entity;
 
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,11 +14,27 @@ import java.util.Date;
 public class User {
 
     private int id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int id_server;
+
+    @SerializedName("username")
+    @Expose(serialize = true, deserialize = true)
     private String username;
+
     private  String pwd;
+
+    @SerializedName("email")
+    @Expose(serialize = true, deserialize = true)
     private String email;
+
+    @SerializedName("last_login")
+    @Expose(serialize = true, deserialize = true)
     private Date last_login;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date updated_at;
     private ArrayList<Mcq> mcqs;
     private ArrayList<Team> teams;

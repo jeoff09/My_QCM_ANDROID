@@ -1,68 +1,56 @@
 package com.tactfactory.my_qcm.data.webservice;
 
-
-import android.support.annotation.NonNull;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.tactfactory.my_qcm.configuration.MyQCMConstants;
 import com.tactfactory.my_qcm.entity.Categ;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.tactfactory.my_qcm.entity.Mcq;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import cz.msebera.android.httpclient.Header;
 
-
-public class CategoryWSAdapter {
+/**
+ * Created by ProtoConcept GJ on 26/05/2016.
+ */
+public class McqWSAdapter {
 
     String response;
     MyQCMConstants myQCMConstants;
 
-    public void getCategoryRequest (Integer user_id, String url, final CallBack callback) {
+    public void getMcqRequest (Integer user_id_server,Integer categ_id_server ,String url, final CallBack callback)
+    {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setConnectTimeout(60000);
         asyncHttpClient.setTimeout(600000);
         RequestParams params = new RequestParams();
-        params.put(myQCMConstants.CONST_VALUE_ID_USER, user_id);
+        params.put(myQCMConstants.CONST_VALUE_ID_USER, user_id_server);
+        params.put(myQCMConstants.CONST_VALUE_ID_CATEG,categ_id_server);
 
         asyncHttpClient.post(url + ".json", params, new TextHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
-                response = responseString;
-
-                ArrayList<Categ> categories = responseToList(response);
-                for(Categ categ:categories) {
-                    System.out.println("On success = " + categ.getName());
-                }
-
-                callback.methods(response);
-            }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 response = responseString;
                 System.out.println("On failure");
+                callback.methods(response);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                response = responseString;
+
+                ArrayList<Mcq> mcqs = responseToList(response);
+                for(Mcq mcq:mcqs) {
+                    System.out.println("On success = " + mcq.getName());
+                }
+
                 callback.methods(response);
             }
 
@@ -85,7 +73,7 @@ public class CategoryWSAdapter {
         void methods(String reponse);
     }
 
-    public  ArrayList<Categ> responseToList(String response)
+    public ArrayList<Mcq> responseToList(String response)
     {
         //Format of the recup Date
         String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
@@ -94,15 +82,11 @@ public class CategoryWSAdapter {
         gsonBuilder.setDateFormat(DATE_FORMAT);
         gsonBuilder.excludeFieldsWithoutExposeAnnotation();
         Gson gson =  gsonBuilder.create();
-        Type collectionType = new TypeToken<List<Categ>>(){}.getType();
+        Type collectionType = new TypeToken<List<Mcq>>(){}.getType();
 
-        ArrayList<Categ> categories = new ArrayList<Categ>();
-        categories = (ArrayList<Categ>) gson.fromJson(response, collectionType);
+        ArrayList<Mcq> mcqs = new ArrayList<Mcq>();
+        mcqs = (ArrayList<Mcq>) gson.fromJson(response, collectionType);
 
-        return categories;
-
-
+        return mcqs;
     }
-
-
-    }
+}

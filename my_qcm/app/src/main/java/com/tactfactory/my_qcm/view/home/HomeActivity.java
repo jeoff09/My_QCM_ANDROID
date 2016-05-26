@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import com.tactfactory.my_qcm.R;
 import com.tactfactory.my_qcm.configuration.MyQCMConstants;
 import com.tactfactory.my_qcm.data.webservice.CategoryWSAdapter;
+import com.tactfactory.my_qcm.data.webservice.McqWSAdapter;
+import com.tactfactory.my_qcm.entity.Mcq;
 import com.tactfactory.my_qcm.view.menu.LegalNoticesFragment;
 import com.tactfactory.my_qcm.view.login.LoginActivity;
 import com.tactfactory.my_qcm.view.menu.ProfileFragment;
@@ -47,6 +49,14 @@ public class HomeActivity extends AppCompatActivity
         categoryWSAdapter.getCategoryRequest(1, MyQCMConstants.CONST_URL_GET_CATEGORIES, new CategoryWSAdapter.CallBack() {
             @Override
             public void methods(String reponse) {
+                System.out.println("Reponse = " + reponse);
+            }
+        });
+
+        McqWSAdapter mcqWSAdapter = new McqWSAdapter();
+        mcqWSAdapter.getMcqRequest(1,1 ,MyQCMConstants.CONST_URL_GET_MCQs, new McqWSAdapter.CallBack(){
+            @Override
+            public void methods(String reponse){
                 System.out.println("Reponse = " + reponse);
             }
         });
