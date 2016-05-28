@@ -53,31 +53,25 @@ public class HomeFragment extends ListFragment {
         ArrayList<Categ> categories = categSQLiteAdapter.getAllCateg();
         categSQLiteAdapter.close();
 
-        // Create Array Adapter to set the CategoriesDB on the fragment list and in TextView
-        ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
-                getActivity(),
-                R.layout.row_fragment_home,
-                R.id.item_list_home,
-                categories);
-        setListAdapter(arrayAdapter);
-
-        categoryWSAdapter.getCategoryRequest(1, MyQCMConstants.CONST_URL_GET_CATEGORIES, new CategoryWSAdapter.CallBack() {
+        if(categories != null) {
+            // Create Array Adapter to set the CategoriesDB on the fragment list and in TextView
+            ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
+                    getActivity(),
+                    R.layout.row_fragment_home,
+                    R.id.item_list_home,
+                    categories);
+            setListAdapter(arrayAdapter);
+        }
+        categoryWSAdapter.getCategoryRequest(2, MyQCMConstants.CONST_URL_GET_CATEGORIES, new CategoryWSAdapter.CallBack() {
             @Override
             public void methods(ArrayList<Categ> response) {
 
                 if (response.isEmpty() == false) {
                     // get the list of categ in Flux and add on listView
                     ArrayList<Categ> list = response;
-                    ArrayList<String>listResult = null;
-                    // Create Array Adapter to set the Categories Flux on the fragment list and in TextView
-                    ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
-                            getActivity(),
-                            R.layout.row_fragment_home,
-                            R.id.item_list_home,
-                            list);
-                    setListAdapter(arrayAdapter);
+                    ArrayList<String> listResult = null;
 
-                  // Call the AsyncTask to add Categ on the DB and returns the list of result
+                    // Call the AsyncTask to add Categ on the DB and returns the list of result
                     try {
                         listResult = new ManageCategDBTask().execute(list).get();
                     } catch (InterruptedException e) {
@@ -87,6 +81,19 @@ public class HomeFragment extends ListFragment {
                     }
                     System.out.println(listResult);
 
+                    //When the Manage DB is over reload the list
+                    categSQLiteAdapter.open();
+                    ArrayList<Categ> categories = categSQLiteAdapter.getAllCateg();
+                    categSQLiteAdapter.close();
+
+                    if(categories != null) {
+                        ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
+                                getActivity(),
+                                R.layout.row_fragment_home,
+                                R.id.item_list_home,
+                                categories);
+                        setListAdapter(arrayAdapter);
+                    }
                 }
             }
         });
@@ -132,12 +139,13 @@ public class HomeFragment extends ListFragment {
 
         @Override
         protected ArrayList<String> doInBackground(ArrayList<Categ>... params) {
-            ArrayList<Categ> categories = new ArrayList<Categ>();
+            ArrayList<Categ> categories =  new ArrayList<Categ>();
             ArrayList<String> results = new ArrayList<String>();
             categories = params[0];
+
             CategSQLiteAdapter categSQLiteAdapter = new CategSQLiteAdapter(getActivity().getApplicationContext());
             categSQLiteAdapter.open();
-
+            ArrayList<Categ> categoriesDB = categSQLiteAdapter.getAllCateg();
             for(Categ categ : categories)
             {
                 Categ tempCateg ;
@@ -150,6 +158,7 @@ public class HomeFragment extends ListFragment {
                     //Add categ on the DB
                     long result = categSQLiteAdapter.insert(categ);
                     System.out.print("Add a new Categ sucess = " + result);
+                    System.out.print("Add a new Categ sucess = " + categ.getId_server());
                     results.add(String.valueOf(result));
                 }
                 else
@@ -158,10 +167,26 @@ public class HomeFragment extends ListFragment {
                     System.out.print("Update a  Categ Number of row changed = " + result);
                     results.add(String.valueOf(result));
                 }
+
             }
-         
-            
-            
+            //delete check is existe on the DB but not 
+            for(Categ categorie : categoriesDB) {
+                Boolean isExist = false;
+                for (Categ categ : categories) {
+
+                    System.out.println("Id de ma categorie sur le serveur =  " + categ.getId_server());
+                    if (categ.getId_server() == categorie.getId_server())
+                    {
+                        isExist = true;
+                    }
+
+                }
+
+                if(isExist == false)
+                {
+                    long result = categSQLiteAdapter.delete(categorie);
+                }
+            }
             categSQLiteAdapter.close();
 
 
