@@ -46,6 +46,21 @@ public class HomeFragment extends ListFragment {
 
         // get the list of Categ in the Web server
         final CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter();
+        final CategSQLiteAdapter categSQLiteAdapter = new CategSQLiteAdapter(getActivity().getApplicationContext());
+
+        // open DB to get the list Categ on DB
+        categSQLiteAdapter.open();
+        ArrayList<Categ> categories = categSQLiteAdapter.getAllCateg();
+        categSQLiteAdapter.close();
+
+        // Create Array Adapter to set the CategoriesDB on the fragment list and in TextView
+        ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
+                getActivity(),
+                R.layout.row_fragment_home,
+                R.id.item_list_home,
+                categories);
+        setListAdapter(arrayAdapter);
+
         categoryWSAdapter.getCategoryRequest(1, MyQCMConstants.CONST_URL_GET_CATEGORIES, new CategoryWSAdapter.CallBack() {
             @Override
             public void methods(ArrayList<Categ> response) {
@@ -54,7 +69,7 @@ public class HomeFragment extends ListFragment {
                     // get the list of categ in Flux and add on listView
                     ArrayList<Categ> list = response;
                     ArrayList<String>listResult = null;
-                    // Create Array Adapter to set the Categories on the fragment list and in TextView
+                    // Create Array Adapter to set the Categories Flux on the fragment list and in TextView
                     ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
                             getActivity(),
                             R.layout.row_fragment_home,
@@ -71,19 +86,6 @@ public class HomeFragment extends ListFragment {
                         e.printStackTrace();
                     }
                     System.out.println(listResult);
-
-                } else {
-                    CategSQLiteAdapter categSQLiteAdapter = new CategSQLiteAdapter(getActivity().getApplicationContext());
-                    categSQLiteAdapter.open();
-                    ArrayList<Categ> categories = categSQLiteAdapter.getAllCateg();
-                    categSQLiteAdapter.close();
-                    // Create Array Adapter to set the Categories on the fragment list and in TextView
-                    ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
-                            getActivity(),
-                            R.layout.row_fragment_home,
-                            R.id.item_list_home,
-                            categories);
-                    setListAdapter(arrayAdapter);
 
                 }
             }
@@ -123,11 +125,9 @@ public class HomeFragment extends ListFragment {
 
     }
 
-
     /**
-     * Todo : AsynchTaskTo add categories on the DB
+     * Asyntask To Manage Categories get on the Flow in the DB
      */
-
     public class ManageCategDBTask extends AsyncTask <ArrayList<Categ>,Void,ArrayList<String>>{
 
         @Override
