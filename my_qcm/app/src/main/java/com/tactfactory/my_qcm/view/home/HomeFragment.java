@@ -45,7 +45,7 @@ public class HomeFragment extends ListFragment {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_home,container,false);
 
         // get the list of Categ in the Web server
-        final CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter();
+        final CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter(getActivity().getBaseContext());
         final CategSQLiteAdapter categSQLiteAdapter = new CategSQLiteAdapter(getActivity().getApplicationContext());
 
         // open DB to get the list Categ on DB
@@ -62,44 +62,7 @@ public class HomeFragment extends ListFragment {
                     categories);
             setListAdapter(arrayAdapter);
         }
-        categoryWSAdapter.getCategoryRequest(2, MyQCMConstants.CONST_URL_GET_CATEGORIES, new CategoryWSAdapter.CallBack() {
-            @Override
-            public void methods(ArrayList<Categ> response) {
-
-                if (response.isEmpty() == false) {
-                    // get the list of categ in Flux and add on listView
-                    ArrayList<Categ> list = response;
-                    ArrayList<String> listResult = null;
-
-                    // Call the AsyncTask to add Categ on the DB and returns the list of result
-                    try {
-                        listResult = new ManageCategDBTask().execute(list).get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println(listResult);
-
-                    //When the Manage DB is over reload the list
-                    categSQLiteAdapter.open();
-                    ArrayList<Categ> categories = categSQLiteAdapter.getAllCateg();
-                    categSQLiteAdapter.close();
-
-                    if(categories != null) {
-                        ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
-                                getActivity(),
-                                R.layout.row_fragment_home,
-                                R.id.item_list_home,
-                                categories);
-                        setListAdapter(arrayAdapter);
-                    }
-                }
-            }
-        });
-
-
-        Date currentDate = new Date();
+        categoryWSAdapter.getCategoryRequest(2, MyQCMConstants.CONST_URL_GET_CATEGORIES);
 
 
         setRetainInstance(true);
@@ -130,72 +93,5 @@ public class HomeFragment extends ListFragment {
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
-    }
-
-    /**
-     * Asyntask To Manage Categories get on the Flow in the DB
-     */
-    public class ManageCategDBTask extends AsyncTask <ArrayList<Categ>,Void,ArrayList<String>>{
-
-        @Override
-        protected ArrayList<String> doInBackground(ArrayList<Categ>... params) {
-            ArrayList<Categ> categories =  new ArrayList<Categ>();
-            ArrayList<String> results = new ArrayList<String>();
-            categories = params[0];
-
-            CategSQLiteAdapter categSQLiteAdapter = new CategSQLiteAdapter(getActivity().getApplicationContext());
-            categSQLiteAdapter.open();
-            ArrayList<Categ> categoriesDB = categSQLiteAdapter.getAllCateg();
-            for(Categ categ : categories)
-            {
-                Categ tempCateg ;
-                //Try to find a Categ with this id_server
-                tempCateg = categSQLiteAdapter.getCategById_server(categ.getId_server());
-
-                //If Categ not exist on Mobile DB
-                if(tempCateg == null)
-                {
-                    //Add categ on the DB
-                    long result = categSQLiteAdapter.insert(categ);
-                    System.out.print("Add a new Categ sucess = " + result);
-                    System.out.print("Add a new Categ sucess = " + categ.getId_server());
-                    results.add(String.valueOf(result));
-                }
-                else
-                {
-                    long result = categSQLiteAdapter.update(categ);
-                    System.out.print("Update a  Categ Number of row changed = " + result);
-                    results.add(String.valueOf(result));
-                }
-
-            }
-            //delete check is existe on the DB but not 
-            for(Categ categorie : categoriesDB) {
-                Boolean isExist = false;
-                for (Categ categ : categories) {
-
-                    System.out.println("Id de ma categorie sur le serveur =  " + categ.getId_server());
-                    if (categ.getId_server() == categorie.getId_server())
-                    {
-                        isExist = true;
-                    }
-
-                }
-
-                if(isExist == false)
-                {
-                    long result = categSQLiteAdapter.delete(categorie);
-                }
-            }
-            categSQLiteAdapter.close();
-
-
-            return results;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String> result) {
-            super.onPostExecute(result);
-        }
     }
 }
