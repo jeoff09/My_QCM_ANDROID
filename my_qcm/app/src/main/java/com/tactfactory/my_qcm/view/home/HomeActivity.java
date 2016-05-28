@@ -45,14 +45,6 @@ public class HomeActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
-        CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter();
-        categoryWSAdapter.getCategoryRequest(1, MyQCMConstants.CONST_URL_GET_CATEGORIES, new CategoryWSAdapter.CallBack() {
-            @Override
-            public void methods(String reponse) {
-                System.out.println("Reponse = " + reponse);
-            }
-        });
-
         McqWSAdapter mcqWSAdapter = new McqWSAdapter();
         mcqWSAdapter.getMcqRequest(1,1 ,MyQCMConstants.CONST_URL_GET_MCQs, new McqWSAdapter.CallBack(){
             @Override

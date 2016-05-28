@@ -126,8 +126,8 @@ public class CategSQLiteAdapter {
      */
     public long update(Categ categ){
         ContentValues valuesUpdate = this.categToContentValues(categ);
-        String whereClausesUpdate = COL_ID + "= ?";
-        String[] whereArgsUpdate =  {String.valueOf(categ.getId())};
+        String whereClausesUpdate = COL_ID_SERVER + "= ?";
+        String[] whereArgsUpdate =  {String.valueOf(categ.getId_server())};
 
         return db.update(TABLE_CATEG, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
@@ -142,6 +142,30 @@ public class CategSQLiteAdapter {
         String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME, COL_UPDATED_AT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
+
+        // create SQL request
+        Cursor cursor = db.query(TABLE_CATEG, cols, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        Categ result = null;
+
+        // if SQL request return a result
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
+     * Select a Categ with his id_server.
+     * @param id_server
+     * @return Categ
+     */
+    public Categ getCategById_server(int id_server){
+
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME, COL_UPDATED_AT};
+        String whereClausesSelect = COL_ID_SERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(id_server)};
 
         // create SQL request
         Cursor cursor = db.query(TABLE_CATEG, cols, whereClausesSelect, whereArgsSelect, null, null, null);

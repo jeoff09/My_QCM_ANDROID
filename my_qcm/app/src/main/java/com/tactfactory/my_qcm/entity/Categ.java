@@ -60,7 +60,7 @@ public class Categ {
      * Return id_server of the Categ
      * @return id_server
      */
-    public long getId_server() {
+    public int getId_server() {
         return id_server;
     }
 

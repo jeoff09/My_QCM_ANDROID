@@ -13,11 +13,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tactfactory.my_qcm.R;
+import com.tactfactory.my_qcm.configuration.MyQCMConstants;
+import com.tactfactory.my_qcm.data.CategSQLiteAdapter;
+import com.tactfactory.my_qcm.data.webservice.CategoryWSAdapter;
 import com.tactfactory.my_qcm.entity.Categ;
+import com.tactfactory.my_qcm.entity.Result;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -29,31 +35,63 @@ public class HomeFragment extends ListFragment {
     }
     
     @Override
+    /**
+     * When the home fragment is create
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_home,container,false);
-        /**
-         * Todo : Get list Of Category in Database and create an array Adapter and set inside
-         */
-        List<Categ> list = new ArrayList<Categ>();
+
+        // get the list of Categ in the Web server
+        final CategoryWSAdapter categoryWSAdapter = new CategoryWSAdapter();
+        categoryWSAdapter.getCategoryRequest(1, MyQCMConstants.CONST_URL_GET_CATEGORIES, new CategoryWSAdapter.CallBack() {
+            @Override
+            public void methods(ArrayList<Categ> response) {
+
+                if (response.isEmpty() == false) {
+                    // get the list of categ in Flux and add on listView
+                    ArrayList<Categ> list = response;
+                    ArrayList<String>listResult = null;
+                    // Create Array Adapter to set the Categories on the fragment list and in TextView
+                    ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
+                            getActivity(),
+                            R.layout.row_fragment_home,
+                            R.id.item_list_home,
+                            list);
+                    setListAdapter(arrayAdapter);
+
+                  // Call the AsyncTask to add Categ on the DB and returns the list of result
+                    try {
+                        listResult = new ManageCategDBTask().execute(list).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(listResult);
+
+                } else {
+                    CategSQLiteAdapter categSQLiteAdapter = new CategSQLiteAdapter(getActivity().getApplicationContext());
+                    categSQLiteAdapter.open();
+                    ArrayList<Categ> categories = categSQLiteAdapter.getAllCateg();
+                    categSQLiteAdapter.close();
+                    // Create Array Adapter to set the Categories on the fragment list and in TextView
+                    ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
+                            getActivity(),
+                            R.layout.row_fragment_home,
+                            R.id.item_list_home,
+                            categories);
+                    setListAdapter(arrayAdapter);
+
+                }
+            }
+        });
+
+
         Date currentDate = new Date();
-        Categ categ  = new Categ(2,"chant",currentDate);
-        Categ categ1 = new Categ(3,"danse",currentDate);
-        Categ categ2 = new Categ(4,"music",currentDate);
 
-        list.add(categ);
-        list.add(categ1);
-        list.add(categ2);
-
-        // Create Array Adapter to set the Categories on the fragment list and in TextView
-         ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
-                 getActivity(),
-                R.layout.row_fragment_home,
-                 R.id.item_list_home,
-                list);
-        setListAdapter(arrayAdapter);
 
         setRetainInstance(true);
 
@@ -85,4 +123,54 @@ public class HomeFragment extends ListFragment {
 
     }
 
+
+    /**
+     * Todo : AsynchTaskTo add categories on the DB
+     */
+
+    public class ManageCategDBTask extends AsyncTask <ArrayList<Categ>,Void,ArrayList<String>>{
+
+        @Override
+        protected ArrayList<String> doInBackground(ArrayList<Categ>... params) {
+            ArrayList<Categ> categories = new ArrayList<Categ>();
+            ArrayList<String> results = new ArrayList<String>();
+            categories = params[0];
+            CategSQLiteAdapter categSQLiteAdapter = new CategSQLiteAdapter(getActivity().getApplicationContext());
+            categSQLiteAdapter.open();
+
+            for(Categ categ : categories)
+            {
+                Categ tempCateg ;
+                //Try to find a Categ with this id_server
+                tempCateg = categSQLiteAdapter.getCategById_server(categ.getId_server());
+
+                //If Categ not exist on Mobile DB
+                if(tempCateg == null)
+                {
+                    //Add categ on the DB
+                    long result = categSQLiteAdapter.insert(categ);
+                    System.out.print("Add a new Categ sucess = " + result);
+                    results.add(String.valueOf(result));
+                }
+                else
+                {
+                    long result = categSQLiteAdapter.update(categ);
+                    System.out.print("Update a  Categ Number of row changed = " + result);
+                    results.add(String.valueOf(result));
+                }
+            }
+         
+            
+            
+            categSQLiteAdapter.close();
+
+
+            return results;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> result) {
+            super.onPostExecute(result);
+        }
+    }
 }

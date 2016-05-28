@@ -56,19 +56,21 @@ public class CategoryWSAdapter {
                     System.out.println("On success = " + categ.getName());
                 }
 
-                callback.methods(response);
+                callback.methods(categories);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 response = responseString;
+                ArrayList<Categ> categories = new ArrayList<Categ>();
                 System.out.println("On failure");
-                callback.methods(response);
+                callback.methods(categories);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
                 String str = null;
+                ArrayList<Categ> categories = new ArrayList<Categ>();
                 try {
                     str = new String(responseBytes, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
@@ -76,13 +78,13 @@ public class CategoryWSAdapter {
                 }
                 System.out.println("On failure = " + str);
                 response = "false";
-                callback.methods(response);
+                callback.methods(categories);
             }
         });
     }
 
     public interface CallBack{
-        void methods(String reponse);
+        void methods(ArrayList<Categ> categories);
     }
 
     public  ArrayList<Categ> responseToList(String response)
