@@ -72,14 +72,12 @@ public class CategoryWSAdapter {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 response = responseString;
-                ArrayList<Categ> categories = new ArrayList<Categ>();
                 System.out.println("On failure");
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
                 String str = null;
-                ArrayList<Categ> categories = new ArrayList<Categ>();
                 try {
                     str = new String(responseBytes, "UTF-8");
                 } catch (UnsupportedEncodingException e) {

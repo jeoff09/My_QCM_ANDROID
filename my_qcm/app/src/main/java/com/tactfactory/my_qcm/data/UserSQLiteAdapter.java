@@ -257,8 +257,8 @@ public class UserSQLiteAdapter {
         }
 
 
-        User result = new User(id,id_server,username,email,pwd,date_last_login,date_updated_at);
-
+        User result = new User(id_server,username,email,pwd,date_last_login,date_updated_at);
+        result.setId(id);
 
         return result;
     }

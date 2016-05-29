@@ -57,7 +57,9 @@ public class LoginActivity extends AppCompatActivity {
                     dialog.show();
                     final String login = etLogin.getText().toString();
                     final String password = etPassword.getText().toString();
-                    System.out.println("login = " + login + " password = " + password);
+
+                    //Hash password and convert hash code to string
+                    //password = Password.toHexString(Password.sha512(password));
                     connectionWSAdapter = new ConnectionWSAdapter();
                     connectionWSAdapter.ConnectionRequest(myQCMConstants.CONST_URL_LOGIN, login, password, new ConnectionWSAdapter.CallBack() {
                         @Override
