@@ -163,6 +163,30 @@ public class QuestionSQLiteAdapter {
         }
         return result;
     }
+    /**
+     * Select a Question with his Id_server.
+     * @param id_server
+     * @return Question
+     */
+    public Question getQuestionById_server(int id_server){
+
+        String[] cols = {COL_ID, COL_ID_SERVER,COL_QUES ,COL_MCQ, COL_MEDIA,COL_UPDATED_AT};
+        String whereClausesSelect = COL_ID_SERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(id_server)};
+
+        // create SQL request
+        Cursor cursor = db.query(TABLE_QUESTION, cols, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        Question result = null;
+
+        // if SQL request return a result
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
 
     /**
      * Get all Question

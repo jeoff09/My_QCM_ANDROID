@@ -12,7 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tactfactory.my_qcm.R;
+import com.tactfactory.my_qcm.configuration.MyQCMConstants;
+import com.tactfactory.my_qcm.data.McqSQLiteAdapter;
+import com.tactfactory.my_qcm.data.webservice.McqWSAdapter;
 import com.tactfactory.my_qcm.entity.Categ;
+import com.tactfactory.my_qcm.entity.Mcq;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,24 +37,24 @@ public class ListMcqFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the fragment
        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_list_mcq,container,false);
+        McqWSAdapter mcqWSAdapter = new McqWSAdapter(getActivity().getBaseContext());
+        McqSQLiteAdapter mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getBaseContext());
 
-        //Get the Value pass on the Bundle
-        String message = getArguments().getString("name");
 
-        List<String> list = new ArrayList<String>();
+        // open DB to get the list Categ on DB
+        mcqSQLiteAdapter.open();
+        ArrayList<Mcq> mcqs = mcqSQLiteAdapter.getAllMcq();
+        mcqSQLiteAdapter.close();
 
-        /**
-         * Todo : GetCategByName(message) in CategAdapter-> getMcqByIdCateg(cat.id) in McqAdapter
-         * and add the List of Mcq in the Array Adapter of Mcq
-         */
-        list.add(message);
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.row_fragment_list_mcq,
-                R.id.item_list_mcq,
-                list);
-        setListAdapter(arrayAdapter);
+        if(mcqs != null) {
+            ArrayAdapter<Mcq> arrayAdapter = new ArrayAdapter<Mcq>(
+                    getActivity(),
+                    R.layout.row_fragment_list_mcq,
+                    R.id.item_list_mcq,
+                    mcqs);
+            setListAdapter(arrayAdapter);
+        }
+        mcqWSAdapter.getMcqRequest(2, 1, MyQCMConstants.CONST_URL_GET_MCQs);
 
         setRetainInstance(true);
 

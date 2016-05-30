@@ -171,6 +171,30 @@ public class AnswerSQLiteAdapter {
     }
 
     /**
+     * Select a Answer with his id_server.
+     * @param id_server
+     * @return Answer
+     */
+    public Answer getAnswerById_server(int id_server){
+
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_ANS, COL_IS_TRUE, COL_QUESTION, COL_UPDATED_AT};
+        String whereClausesSelect = COL_ID_SERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(id_server)};
+
+        // create SQL request
+        Cursor cursor = db.query(TABLE_ANSWER, cols, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        Answer result = null;
+
+        // if SQL request return a result
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
      * Get all Answer
      * @return ArrayList<>
      */

@@ -192,6 +192,30 @@ public class McqSQLiteAdapter {
     }
 
     /**
+     * Select a Mcq with his Id_server.
+     * @param id_server
+     * @return Mcq
+     */
+    public Mcq getMcqById_server(int id_server){
+
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME,COL_DATE_END,COL_DATE_START,COL_DURATION, COL_CATEG,COL_UPDATED_AT};
+        String whereClausesSelect = COL_ID_SERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(id_server)};
+
+        // create SQL request
+        Cursor cursor = db.query(TABLE_MCQ, cols, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        Mcq result = null;
+
+        // if SQL request return a result
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
      * Get all Mcq
      * @return ArrayList<>
      */

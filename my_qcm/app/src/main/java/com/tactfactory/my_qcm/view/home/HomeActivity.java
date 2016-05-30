@@ -45,14 +45,6 @@ public class HomeActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
-        McqWSAdapter mcqWSAdapter = new McqWSAdapter();
-        mcqWSAdapter.getMcqRequest(1,1 ,MyQCMConstants.CONST_URL_GET_MCQs, new McqWSAdapter.CallBack(){
-            @Override
-            public void methods(String reponse){
-                System.out.println("Reponse = " + reponse);
-            }
-        });
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
