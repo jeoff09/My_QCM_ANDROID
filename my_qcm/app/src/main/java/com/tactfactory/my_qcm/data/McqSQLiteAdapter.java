@@ -244,7 +244,9 @@ public class McqSQLiteAdapter {
         ContentValues values = new ContentValues();
         values.put(COL_ID_SERVER, mcq.getId_server());
         values.put(COL_NAME, mcq.getName());
-        values.put(COL_DATE_END, mcq.getDateEnd().toString());
+        if(mcq.getDateEnd() != null) {
+            values.put(COL_DATE_END, mcq.getDateEnd().toString());
+        }
         values.put(COL_DATE_START, mcq.getDateStart().toString());
         values.put(COL_CATEG,mcq.getCategory().getId());
         values.put(COL_DURATION, mcq.getDuration());

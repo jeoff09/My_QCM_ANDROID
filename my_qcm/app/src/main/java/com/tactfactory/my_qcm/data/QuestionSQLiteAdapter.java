@@ -218,7 +218,9 @@ public class QuestionSQLiteAdapter {
         values.put(COL_ID_SERVER, question.getId_server());
         values.put(COL_QUES, question.getQues());
         values.put(COL_MCQ, question.getMcq().getId());
-        values.put(COL_MEDIA, question.getMedia().getId());
+        if(question.getMedia() != null) {
+            values.put(COL_MEDIA, question.getMedia().getId());
+        }
         values.put(COL_UPDATED_AT, question.getUpdated_at().toString());
 
         return values;
@@ -255,7 +257,8 @@ public class QuestionSQLiteAdapter {
         }
 
 
-        Question result = new Question(id,id_server,ques,date,mcqAdapter.getMcq(mcq));
+        Question result = new Question(id,id_server,ques,date);
+        result.setMcq(mcqAdapter.getMcq(mcq));
 
         if(media != 0)
         {

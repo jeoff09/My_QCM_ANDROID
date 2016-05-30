@@ -1,5 +1,8 @@
 package com.tactfactory.my_qcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -9,8 +12,16 @@ import java.util.Date;
 public class Typ {
 
     private int id;
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int id_server;
+
+    @SerializedName("name")
+    @Expose(serialize = true, deserialize = true)
     private String name;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date updated_at;
 
     /**

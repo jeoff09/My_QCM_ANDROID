@@ -61,7 +61,7 @@ public class McqWSAdapter {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 response = responseString;
-
+                System.out.println("responseString = " + responseString);
                 ArrayList<Mcq> mcqs = responseToList(response);
                 for(Mcq mcq:mcqs) {
                     System.out.println("On success = " + mcq.getName());
@@ -187,6 +187,7 @@ public class McqWSAdapter {
 
             for(Question question : questions)
             {
+                question.setMcq(mcq);
                 Question tempQuestion;
 
                 tempQuestion = questionSQLiteAdapter.getQuestionById_server(question.getId_server());
@@ -237,6 +238,7 @@ public class McqWSAdapter {
 
             for(Answer answer : answers)
             {
+                answer.setQuestion(question);
                 Answer tempAnswer;
 
                 tempAnswer = answerSQLiteAdapter.getAnswerById_server(answer.getId_server());

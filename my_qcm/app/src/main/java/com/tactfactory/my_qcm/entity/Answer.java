@@ -1,5 +1,8 @@
 package com.tactfactory.my_qcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -9,10 +12,23 @@ import java.util.Date;
 public class Answer {
 
     private int id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int id_server;
+
+    @SerializedName("ans")
+    @Expose(serialize = true, deserialize = true)
     private String ans;
+
+    @SerializedName("is_true")
+    @Expose(serialize = true, deserialize = true)
     private Boolean isTrue;
+
     private Question question;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date updated_at;
 
     /**
@@ -21,15 +37,13 @@ public class Answer {
      * @param id_server
      * @param ans
      * @param isTrue
-     * @param question
      * @param updated_at
      */
-    public Answer(int id, int id_server, String ans, Boolean isTrue, Question question, Date updated_at) {
+    public Answer(int id, int id_server, String ans, Boolean isTrue, Date updated_at) {
         this.id = id;
         this.id_server = id_server;
         this.ans = ans;
         this.isTrue = isTrue;
-        this.question = question;
         this.updated_at = updated_at;
     }
 

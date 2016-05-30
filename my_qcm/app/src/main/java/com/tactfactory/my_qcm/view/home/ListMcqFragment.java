@@ -54,7 +54,7 @@ public class ListMcqFragment extends ListFragment {
                     mcqs);
             setListAdapter(arrayAdapter);
         }
-        mcqWSAdapter.getMcqRequest(2, 1, MyQCMConstants.CONST_URL_GET_MCQs);
+        mcqWSAdapter.getMcqRequest(1, 1, MyQCMConstants.CONST_URL_GET_MCQs);
 
         setRetainInstance(true);
 

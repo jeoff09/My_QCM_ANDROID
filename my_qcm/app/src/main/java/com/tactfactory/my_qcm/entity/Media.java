@@ -1,5 +1,8 @@
 package com.tactfactory.my_qcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -8,11 +11,27 @@ import java.util.Date;
  */
 public class Media {
 
+
     private int id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int id_server;
+
+    @SerializedName("name")
+    @Expose(serialize = true, deserialize = true)
     private String name;
+
+    @SerializedName("url")
+    @Expose(serialize = true, deserialize = true)
     private String url;
+
+    @SerializedName("typ")
+    @Expose(serialize = true, deserialize = true)
     private Typ typ;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date updated_at;
 
     /**

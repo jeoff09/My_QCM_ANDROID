@@ -1,5 +1,8 @@
 package com.tactfactory.my_qcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -10,13 +13,37 @@ import java.util.ArrayList;
 public class Mcq {
 
     private int id;
+
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int id_server;
+
+    @SerializedName("name")
+    @Expose(serialize = true, deserialize = true)
     private String name;
+
+    @SerializedName("date_end")
+    @Expose(serialize = true, deserialize = true)
     private Date dateEnd;
+
+    @SerializedName("date_start")
+    @Expose(serialize = true, deserialize = true)
     private Date dateStart;
+
+    @SerializedName("duration")
+    @Expose(serialize = true, deserialize = true)
     private int duration;
+
+    @SerializedName("category")
+    @Expose(serialize = true, deserialize = true)
     private Categ category;
+
+    @SerializedName("questions")
+    @Expose(serialize = true, deserialize = true)
     private ArrayList<Question> questions;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private  Date updated_at;
 
     /**

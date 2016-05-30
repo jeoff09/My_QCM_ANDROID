@@ -224,7 +224,7 @@ public class AnswerSQLiteAdapter {
         values.put(COL_ID_SERVER, answer.getId_server());
         values.put(COL_ANS, answer.getAns());
         values.put(COL_IS_TRUE, answer.getIsTrue());
-        values.put(COL_QUESTION, answer.getQuestion().toString());
+        values.put(COL_QUESTION, answer.getQuestion().getId());
         values.put(COL_UPDATED_AT, answer.getUpdated_at().toString());
 
         return values;
@@ -259,8 +259,8 @@ public class AnswerSQLiteAdapter {
         }
 
 
-        Answer result = new Answer(id,id_server,ans,is_true,questionAdapter.getQuestion(question),date);
-
+        Answer result = new Answer(id,id_server,ans,is_true,date);
+        result.setQuestion(questionAdapter.getQuestion(question));
         return result;
     }
 
