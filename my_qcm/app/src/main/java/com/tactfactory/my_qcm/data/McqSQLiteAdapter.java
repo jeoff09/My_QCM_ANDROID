@@ -161,8 +161,8 @@ public class McqSQLiteAdapter {
      */
     public long update(Mcq mcq){
         ContentValues valuesUpdate = this.mcqToContentValues(mcq);
-        String whereClausesUpdate = COL_ID + "= ?";
-        String[] whereArgsUpdate =  {String.valueOf(mcq.getId())};
+        String whereClausesUpdate = COL_ID_SERVER + "= ?";
+        String[] whereArgsUpdate =  {String.valueOf(mcq.getId_server())};
 
         return db.update(TABLE_MCQ, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }

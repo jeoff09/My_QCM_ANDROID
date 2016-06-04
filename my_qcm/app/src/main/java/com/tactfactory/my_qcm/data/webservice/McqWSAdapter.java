@@ -143,6 +143,7 @@ public class McqWSAdapter {
             answerSQLiteAdapter.open();
             questionSQLiteAdapter.open();
             mcqSQLiteAdapter.open();
+
             Categ categ = categSQLiteAdapter.getCategById_server(category);
             categSQLiteAdapter.close();
             ArrayList<String> results = new ArrayList<>();
@@ -233,24 +234,20 @@ public class McqWSAdapter {
         }
         protected ArrayList<String> ManaqeQuestionsMcq(Mcq mcq)
         {
-            System.out.println("Mcq = " + mcq.getId_server());
             ArrayList<Question> questions ;
             questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
             questionSQLiteAdapter.open();
-            ArrayList<Question> questionsDB = questionSQLiteAdapter.getAllQuestion();
             ArrayList<String> results = null ;
-            ArrayList<String> resultsAnswers = null ;
+            ArrayList<String> resultsAnswers ;
 
-            questions = mcq.getQuestions();
-
-                for (Question question : questions) {
+                for (Question question : mcq.getQuestions()) {
                         question.setMcq(mcq);
-                        Question tempQuestion;
+                        Question tempQuestion ;
 
                     tempQuestion = questionSQLiteAdapter.getQuestionById_server(question.getId_server());
 
                     if (tempQuestion == null) {
-                        //Add categ on the DB
+                        //Add question on the DB
                         long result = questionSQLiteAdapter.insert(question);
                         System.out.println("result = " + result);
                         if (results != null) {

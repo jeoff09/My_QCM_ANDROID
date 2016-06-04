@@ -140,8 +140,8 @@ public class AnswerSQLiteAdapter {
      */
     public long update(Answer answer){
         ContentValues valuesUpdate = this.answerToContentValues(answer);
-        String whereClausesUpdate = COL_ID + "= ?";
-        String[] whereArgsUpdate =  {String.valueOf(answer.getId())};
+        String whereClausesUpdate = COL_ID_SERVER + "= ?";
+        String[] whereArgsUpdate =  {String.valueOf(answer.getId_server())};
 
         return db.update(TABLE_ANSWER, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }

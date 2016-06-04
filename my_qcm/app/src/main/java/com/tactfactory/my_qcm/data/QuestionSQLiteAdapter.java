@@ -134,8 +134,8 @@ public class QuestionSQLiteAdapter {
      */
     public long update(Question question){
         ContentValues valuesUpdate = this.questionToContentValues(question);
-        String whereClausesUpdate = COL_ID + "= ?";
-        String[] whereArgsUpdate =  {String.valueOf(question.getId())};
+        String whereClausesUpdate = COL_ID_SERVER + "= ?";
+        String[] whereArgsUpdate =  {String.valueOf(question.getId_server())};
 
         return db.update(TABLE_QUESTION, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
@@ -224,8 +224,6 @@ public class QuestionSQLiteAdapter {
         values.put(COL_MCQ, question.getMcq().getId_server());
         if(question.getMedia() != null) {
             values.put(COL_MEDIA, question.getMedia().getId_server());
-        } else{
-            values.put(COL_MEDIA,0);
         }
         values.put(COL_UPDATED_AT, question.getUpdated_at().toString());
 
@@ -242,8 +240,7 @@ public class QuestionSQLiteAdapter {
     public Question cursorToItem(Cursor cursor){
         McqSQLiteAdapter mcqAdapter     = new McqSQLiteAdapter(context);
         MediaSQLiteAdapter mediaAdapter = new MediaSQLiteAdapter(context);
-        mcqAdapter.open();
-        mediaAdapter.open();
+        mcqAdapter.open();mediaAdapter.open();
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String ques = cursor.getString(cursor.getColumnIndex(COL_QUES));
