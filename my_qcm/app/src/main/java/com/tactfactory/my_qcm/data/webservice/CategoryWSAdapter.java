@@ -61,11 +61,8 @@ public class CategoryWSAdapter {
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
 
                 response = responseString;
-
                 ArrayList<Categ> categories = responseToList(response);
-                for(Categ categ:categories) {
-                    System.out.println("On success = " + categ.getName());
-                }
+
                 ManageCategDB(categories);
             }
 
@@ -94,7 +91,7 @@ public class CategoryWSAdapter {
     public  ArrayList<Categ> responseToList(String response)
     {
         //Format of the recup Date
-        String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat(DATE_FORMAT);

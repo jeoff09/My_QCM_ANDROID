@@ -265,6 +265,7 @@ public class McqSQLiteAdapter {
      */
     public Mcq cursorToItem(Cursor cursor){
         CategSQLiteAdapter cateSQLite = new CategSQLiteAdapter(context);
+        cateSQLite.open();
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String name = cursor.getString(cursor.getColumnIndex(COL_NAME));
@@ -273,16 +274,18 @@ public class McqSQLiteAdapter {
         int duration = cursor.getInt(cursor.getColumnIndex(COL_DURATION));
         int categ = cursor.getInt(cursor.getColumnIndex(COL_CATEG));
         String update = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
-
+        System.out.println("categ  =  " + categ + " dateEnd = "+ end);
         Date date_end = new Date();
         Date date_start = new Date();
         Date date_updated = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 
         try
         {
             date_updated = simpleDateFormat.parse(update);
-            date_end = simpleDateFormat.parse(end);
+            if("null".equalsIgnoreCase(end)) {
+                date_end = simpleDateFormat.parse(end);
+            }
             date_start = simpleDateFormat.parse(start);
         }
         catch (ParseException ex)
@@ -291,7 +294,7 @@ public class McqSQLiteAdapter {
         }
 
 
-        Mcq result = new Mcq(id,id_server,name,duration,cateSQLite.getCateg(categ),date_updated);
+        Mcq result = new Mcq(id,id_server,name,duration,cateSQLite.getCategById_server(categ),date_updated);
 
         if (date_end != null)
         {
@@ -301,6 +304,7 @@ public class McqSQLiteAdapter {
         {
             result.setDateStart(date_start);
         }
+        cateSQLite.close();
         return result;
     }
 

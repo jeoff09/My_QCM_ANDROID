@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.tactfactory.my_qcm.configuration.MyQCMConstants;
 import com.tactfactory.my_qcm.data.AnswerSQLiteAdapter;
+import com.tactfactory.my_qcm.data.CategSQLiteAdapter;
 import com.tactfactory.my_qcm.data.McqSQLiteAdapter;
 import com.tactfactory.my_qcm.data.QuestionSQLiteAdapter;
 import com.tactfactory.my_qcm.entity.Answer;
@@ -33,16 +34,19 @@ public class McqWSAdapter {
 
     String response;
     MyQCMConstants myQCMConstants;
+    ArrayList<Answer> answersFlux;
+    ArrayList<Question> questionsFlux;
     Context context;
-    McqSQLiteAdapter mcqSQLiteAdapter ;
+    McqSQLiteAdapter mcqSQLiteAdapter;
     QuestionSQLiteAdapter questionSQLiteAdapter;
     AnswerSQLiteAdapter answerSQLiteAdapter;
+    CategSQLiteAdapter categSQLiteAdapter;
 
     public McqWSAdapter(Context context) {
         this.context = context;
     }
 
-    public void getMcqRequest (Integer user_id_server,Integer categ_id_server ,String url)
+    public void getMcqRequest (Integer user_id_server, final int categ_id_server ,String url)
     {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setConnectTimeout(60000);
@@ -63,11 +67,7 @@ public class McqWSAdapter {
                 response = responseString;
                 System.out.println("responseString = " + responseString);
                 ArrayList<Mcq> mcqs = responseToList(response);
-                for(Mcq mcq:mcqs) {
-                    System.out.println("On success = " + mcq.getName());
-                }
-
-                ManageMcqDB(mcqs);
+               ManageMcqDB(mcqs,categ_id_server);
             }
 
             @Override
@@ -88,7 +88,7 @@ public class McqWSAdapter {
     public ArrayList<Mcq> responseToList(String response)
     {
         //Format of the recup Date
-        String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat(DATE_FORMAT);
@@ -102,7 +102,7 @@ public class McqWSAdapter {
         return mcqs;
     }
 
-    public void ManageMcqDB (ArrayList<Mcq> response)
+    public void ManageMcqDB (ArrayList<Mcq> response,int categ_id_server)
     {
         if (response.isEmpty() == false) {
             // get the list of categ in Flux and add on listView
@@ -111,7 +111,7 @@ public class McqWSAdapter {
 
             // Call the AsyncTask to add Categ on the DB and returns the list of result
             try {
-                listResult = new ManageMCQDBTask().execute(list).get();
+                listResult = new ManageMCQDBTask(categ_id_server,list).execute().get();
                 System.out.println(" list result "+ listResult);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -122,20 +122,39 @@ public class McqWSAdapter {
         }
     }
 
-    public class ManageMCQDBTask extends AsyncTask<ArrayList<Mcq>,Void,ArrayList<String>> {
+    public class ManageMCQDBTask extends AsyncTask<Void,Void,ArrayList<String>> {
+        int category;
+        ArrayList<Mcq> mcqs;
+
+        public ManageMCQDBTask(int category, ArrayList<Mcq> mcqs) {
+
+            this.category = category;
+            this.mcqs = mcqs;
+        }
 
         @Override
-        protected ArrayList<String> doInBackground(ArrayList<Mcq>... params) {
-            ArrayList<Mcq> mcqs = params[0];
+        protected ArrayList<String> doInBackground(Void... params) {
+            categSQLiteAdapter = new CategSQLiteAdapter(context);
+            answerSQLiteAdapter = new AnswerSQLiteAdapter(context);
+            questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
+            mcqSQLiteAdapter = new McqSQLiteAdapter(context);
+
+            categSQLiteAdapter.open();
+            answerSQLiteAdapter.open();
+            questionSQLiteAdapter.open();
+            mcqSQLiteAdapter.open();
+            Categ categ = categSQLiteAdapter.getCategById_server(category);
+            categSQLiteAdapter.close();
             ArrayList<String> results = new ArrayList<>();
             ArrayList<String> resultsQuestion ;
 
-            mcqSQLiteAdapter = new McqSQLiteAdapter(context);
-            mcqSQLiteAdapter.open();
             ArrayList<Mcq> mcqsDB = mcqSQLiteAdapter.getAllMcq();
+            ArrayList<Question> questionsDB = questionSQLiteAdapter.getAllQuestion();
+            ArrayList<Answer> answersDB = answerSQLiteAdapter.getAllAnswer();
 
             for(Mcq mcq : mcqs)
             {
+                mcq.setCategory(categ);
                 Mcq tempMcq ;
                 //Try to find a Mcq with this id_server
                 tempMcq = mcqSQLiteAdapter.getMcqById_server(mcq.getId_server());
@@ -152,6 +171,8 @@ public class McqWSAdapter {
                     long result = mcqSQLiteAdapter.update(mcq);
                     results.add(String.valueOf(result));
                 }
+
+
 
                 resultsQuestion = ManaqeQuestionsMcq(mcq);
                 System.out.println("result question = " + resultsQuestion);
@@ -173,46 +194,12 @@ public class McqWSAdapter {
             }
 
             mcqSQLiteAdapter.close();
-            return null;
-        }
-        protected ArrayList<String> ManaqeQuestionsMcq(Mcq mcq)
-        {
-            ArrayList<Question> questions ;
-            questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
-            ArrayList<Question> questionsDB = questionSQLiteAdapter.getAllQuestion();
-            ArrayList<String> results = null ;
-            ArrayList<String> resultsAnswers = null ;
 
-            questions = mcq.getQuestions();
-
-            for(Question question : questions)
-            {
-                question.setMcq(mcq);
-                Question tempQuestion;
-
-                tempQuestion = questionSQLiteAdapter.getQuestionById_server(question.getId_server());
-
-                if(tempQuestion == null)
-                {
-                    //Add categ on the DB
-                    long result = questionSQLiteAdapter.insert(question);
-                    results.add(String.valueOf(result));
-                }
-                else
-                {
-                    long result = questionSQLiteAdapter.update(question);
-                    results.add(String.valueOf(result));
-                }
-
-                resultsAnswers = ManaqeAnswersQuestion(question);
-                System.out.println("result answer = " + resultsAnswers);
-            }
-            //delete check is existe on the DB but not
             if(questionsDB != null) {
                 for (Question questionDB : questionsDB) {
                     Boolean isExist = false;
-                    for (Question question : questions) {
-                        if (question.getId_server() == questionDB.getId_server()) {
+                    for (Question question : questionsFlux) {
+                        if (questionDB.getId_server() == questionDB.getId_server()) {
                             isExist = true;
                         }
                     }
@@ -223,13 +210,75 @@ public class McqWSAdapter {
                 }
             }
 
+            questionSQLiteAdapter.close();
+
+            if(answersDB != null) {
+                for (Answer answerDB : answersDB) {
+                    Boolean isExist = false;
+                    for (Answer answer : answersFlux) {
+                        if (answer.getId_server() == answerDB.getId_server()) {
+                            isExist = true;
+                        }
+                    }
+
+                    if (isExist == false) {
+                        long result = answerSQLiteAdapter.delete(answerDB);
+                    }
+                }
+            }
+
+            answerSQLiteAdapter.close();
+
+            return null;
+        }
+        protected ArrayList<String> ManaqeQuestionsMcq(Mcq mcq)
+        {
+            System.out.println("Mcq = " + mcq.getId_server());
+            ArrayList<Question> questions ;
+            questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
+            questionSQLiteAdapter.open();
+            ArrayList<Question> questionsDB = questionSQLiteAdapter.getAllQuestion();
+            ArrayList<String> results = null ;
+            ArrayList<String> resultsAnswers = null ;
+
+            questions = mcq.getQuestions();
+
+                for (Question question : questions) {
+                        question.setMcq(mcq);
+                        Question tempQuestion;
+
+                    tempQuestion = questionSQLiteAdapter.getQuestionById_server(question.getId_server());
+
+                    if (tempQuestion == null) {
+                        //Add categ on the DB
+                        long result = questionSQLiteAdapter.insert(question);
+                        System.out.println("result = " + result);
+                        if (results != null) {
+                            results.add(String.valueOf(result));
+                        } else {
+                            System.out.println("Add question is null");
+                        }
+                    } else {
+                        long result = questionSQLiteAdapter.update(question);
+                        System.out.println("Update question = " + result);
+                        //results.add(String.valueOf(result));
+                    }
+                    if(question != null) {
+                        questionsFlux.add(question);
+                    }
+                    resultsAnswers = ManageAnswersQuestion(question);
+                    System.out.println("Result Answers = " + resultsAnswers);
+                }
+
+            questionSQLiteAdapter.close();
             return results;
 
         }
 
-        protected ArrayList<String> ManaqeAnswersQuestion(Question question)
+        protected ArrayList<String> ManageAnswersQuestion(Question question)
         {
             answerSQLiteAdapter = new AnswerSQLiteAdapter(context);
+            answerSQLiteAdapter.open();
             ArrayList<Answer> answersDB = answerSQLiteAdapter.getAllAnswer();
             ArrayList<Answer> answers ;
             ArrayList<String> results = null ;
@@ -247,30 +296,20 @@ public class McqWSAdapter {
                 {
                     //Add categ on the DB
                     long result = answerSQLiteAdapter.insert(answer);
-                    results.add(String.valueOf(result));
+                    System.out.println("Add answer to DB  = " + result);
+                   //results.add(String.valueOf(result));
                 }
                 else
                 {
                     long result = answerSQLiteAdapter.update(answer);
-                    results.add(String.valueOf(result));
+                    System.out.println("Update answer to DB  = " + result);
+                    //results.add(String.valueOf(result));
                 }
-
+                answersFlux.add(answer);
             }
-            //delete check is existe on the DB but not
-            if(answersDB != null) {
-                for (Answer answerDB : answersDB) {
-                    Boolean isExist = false;
-                    for (Answer answer : answers) {
-                        if (answer.getId_server() == answerDB.getId_server()) {
-                            isExist = true;
-                        }
-                    }
 
-                    if (isExist == false) {
-                        long result = answerSQLiteAdapter.delete(answerDB);
-                    }
-                }
-            }
+
+            answerSQLiteAdapter.close();
             return results;
 
         }

@@ -196,7 +196,7 @@ public class TypSQLiteAdapter {
         String name = cursor.getString(cursor.getColumnIndex(COL_NAME));
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         try
         {

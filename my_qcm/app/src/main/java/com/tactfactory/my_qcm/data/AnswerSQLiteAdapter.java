@@ -224,7 +224,7 @@ public class AnswerSQLiteAdapter {
         values.put(COL_ID_SERVER, answer.getId_server());
         values.put(COL_ANS, answer.getAns());
         values.put(COL_IS_TRUE, answer.getIsTrue());
-        values.put(COL_QUESTION, answer.getQuestion().getId());
+        values.put(COL_QUESTION, answer.getQuestion().getId_server());
         values.put(COL_UPDATED_AT, answer.getUpdated_at().toString());
 
         return values;
@@ -240,6 +240,7 @@ public class AnswerSQLiteAdapter {
      */
     public Answer cursorToItem(Cursor cursor){
         QuestionSQLiteAdapter questionAdapter = new QuestionSQLiteAdapter(context);
+        questionAdapter.open();
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String ans = cursor.getString(cursor.getColumnIndex(COL_ANS));
@@ -247,7 +248,7 @@ public class AnswerSQLiteAdapter {
         int question = cursor.getInt(cursor.getColumnIndex(COL_QUESTION));
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 
         try
         {
@@ -260,7 +261,9 @@ public class AnswerSQLiteAdapter {
 
 
         Answer result = new Answer(id,id_server,ans,is_true,date);
-        result.setQuestion(questionAdapter.getQuestion(question));
+        result.setQuestion(questionAdapter.getQuestionById_server(question));
+
+        questionAdapter.close();
         return result;
     }
 

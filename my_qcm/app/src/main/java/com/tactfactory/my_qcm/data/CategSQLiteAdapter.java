@@ -162,7 +162,6 @@ public class CategSQLiteAdapter {
      * @return Categ
      */
     public Categ getCategById_server(int id_server){
-
         String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME, COL_UPDATED_AT};
         String whereClausesSelect = COL_ID_SERVER + "= ?";
         String[] whereArgsSelect = {String.valueOf(id_server)};
@@ -228,8 +227,9 @@ public class CategSQLiteAdapter {
         String name = cursor.getString(cursor.getColumnIndex(COL_NAME));
         // String to Date try if working
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
+
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 
         try
         {

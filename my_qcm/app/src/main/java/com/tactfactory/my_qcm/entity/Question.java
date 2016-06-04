@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Question {
 
     private int id;
+
     @SerializedName("id")
     @Expose(serialize = true, deserialize = true)
     private int id_server;
@@ -30,6 +31,9 @@ public class Question {
     private ArrayList<Answer> answers;
 
     private Mcq mcq;
+
+    @SerializedName("updated_at")
+    @Expose(serialize = true, deserialize = true)
     private Date updated_at;
 
     /**
@@ -163,6 +167,6 @@ public class Question {
          * Pass the ques and mcq when call to show in the list
          */
     public String toString() {
-        return ques +" "+ mcq.toString();
+        return ques;
     }
 }

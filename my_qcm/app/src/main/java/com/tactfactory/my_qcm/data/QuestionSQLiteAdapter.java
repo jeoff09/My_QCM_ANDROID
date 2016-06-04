@@ -79,7 +79,7 @@ public class QuestionSQLiteAdapter {
      * @param context
      */
     public QuestionSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
     }
 
@@ -93,7 +93,7 @@ public class QuestionSQLiteAdapter {
                 + COL_ID_SERVER + " INTEGER NOT NULL, "
                 + COL_QUES + " TEXT NOT NULL, "
                 + COL_MCQ + " INTEGER NOT NULL,"
-                + COL_MEDIA+ " INTEGER,"
+                + COL_MEDIA+ " INTEGER NULL,"
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
 
@@ -112,7 +112,7 @@ public class QuestionSQLiteAdapter {
      * @return line result
      */
     public long insert(Question question){
-        return db.insert(TABLE_QUESTION, null, this.questionToContentValues(question));
+        return db.insert(TABLE_QUESTION, null,this.questionToContentValues(question));
     }
 
     /**
@@ -214,12 +214,18 @@ public class QuestionSQLiteAdapter {
      * @return ContentValue
      */
     private ContentValues questionToContentValues(Question question){
+        System.out.println("Question to content value" + " id_server = " + question.getId_server() +
+                " ques =  " + question.getQues() + " mcq " + question.getMcq().getId_server() +
+                " updated_at =  " + question.getUpdated_at());
+
         ContentValues values = new ContentValues();
         values.put(COL_ID_SERVER, question.getId_server());
         values.put(COL_QUES, question.getQues());
-        values.put(COL_MCQ, question.getMcq().getId());
+        values.put(COL_MCQ, question.getMcq().getId_server());
         if(question.getMedia() != null) {
-            values.put(COL_MEDIA, question.getMedia().getId());
+            values.put(COL_MEDIA, question.getMedia().getId_server());
+        } else{
+            values.put(COL_MEDIA,0);
         }
         values.put(COL_UPDATED_AT, question.getUpdated_at().toString());
 
@@ -236,7 +242,8 @@ public class QuestionSQLiteAdapter {
     public Question cursorToItem(Cursor cursor){
         McqSQLiteAdapter mcqAdapter     = new McqSQLiteAdapter(context);
         MediaSQLiteAdapter mediaAdapter = new MediaSQLiteAdapter(context);
-
+        mcqAdapter.open();
+        mediaAdapter.open();
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String ques = cursor.getString(cursor.getColumnIndex(COL_QUES));
@@ -245,7 +252,7 @@ public class QuestionSQLiteAdapter {
 
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 
         try
         {
@@ -258,12 +265,11 @@ public class QuestionSQLiteAdapter {
 
 
         Question result = new Question(id,id_server,ques,date);
-        result.setMcq(mcqAdapter.getMcq(mcq));
+        result.setMcq(mcqAdapter.getMcqById_server(mcq));
+        result.setMedia(mediaAdapter.getMedia(media));
 
-        if(media != 0)
-        {
-            result.setMedia(mediaAdapter.getMedia(media));
-        }
+        mcqAdapter.close();
+        mediaAdapter.close();
         return result;
     }
 
