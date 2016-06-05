@@ -155,8 +155,12 @@ public class CategoryWSAdapter {
                 }
                 else
                 {
-                    long result = categSQLiteAdapter.update(categ);
-                    results.add(String.valueOf(result));
+                    System.out.println("Update des éléments");
+                    if (categ.getUpdated_at().compareTo(tempCateg.getUpdated_at()) > 0) {
+                        System.out.println("Commparaison de date mise à jour : date du flux  " + categ.getUpdated_at() + " Date de la BDD" + tempCateg.getUpdated_at());
+                        long result = categSQLiteAdapter.update(categ);
+                        results.add(String.valueOf(result));
+                    }
                 }
 
             }

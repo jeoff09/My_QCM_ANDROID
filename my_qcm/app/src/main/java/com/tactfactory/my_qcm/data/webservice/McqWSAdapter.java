@@ -289,11 +289,15 @@ public class McqWSAdapter {
 
         }
 
+        /**
+         * Get the list answer of the question
+         * @param question
+         * @return List of strign
+         */
         protected ArrayList<String> ManageAnswersQuestion(Question question)
         {
             answerSQLiteAdapter = new AnswerSQLiteAdapter(context);
             answerSQLiteAdapter.open();
-            ArrayList<Answer> answersDB = answerSQLiteAdapter.getAllAnswer();
             ArrayList<Answer> answers ;
             ArrayList<String> results = null ;
 
