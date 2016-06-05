@@ -171,8 +171,13 @@ public class McqWSAdapter {
                 }
                 else
                 {
-                    long result = mcqSQLiteAdapter.update(mcq);
-                    results.add(String.valueOf(result));
+                    System.out.println("Update des éléments");
+                    if (mcq.getUpdated_at().compareTo(tempMcq.getUpdated_at()) > 0) {
+                        System.out.println("Update mcq question : " + mcq.getUpdated_at() +
+                                "DB : " + tempMcq.getUpdated_at());
+                        long result = mcqSQLiteAdapter.update(mcq);
+                        results.add(String.valueOf(result));
+                    }
                 }
 
 
@@ -270,10 +275,13 @@ public class McqWSAdapter {
                         }
                     } else {
                         // if question already exist on DB
-                        long result = questionSQLiteAdapter.update(question);
-                        String resultString = String.valueOf(result);
-                        System.out.println("Update question = " + resultString);
-                        results.add(resultString);
+                        System.out.println("Update des éléments");
+                        if (question.getUpdated_at().compareTo(tempQuestion.getUpdated_at()) > 0) {
+                            long result = questionSQLiteAdapter.update(question);
+                            String resultString = String.valueOf(result);
+                            System.out.println("Update question = " + resultString);
+                            results.add(resultString);
+                        }
                     }
                     if(question != null) {
                         System.out.println("Question before ad to flux = " + question);
@@ -317,11 +325,13 @@ public class McqWSAdapter {
                     System.out.println("Add answer to DB  = " + result);
                    //results.add(String.valueOf(result));
                 }
-                else
-                {
-                    long result = answerSQLiteAdapter.update(answer);
-                    System.out.println("Update answer to DB  = " + result);
-                    //results.add(String.valueOf(result));
+                else {
+                    System.out.println("Update des éléments");
+                    if (answer.getUpdated_at().compareTo(tempAnswer.getUpdated_at()) > 0) {
+                        long result = answerSQLiteAdapter.update(answer);
+                        System.out.println("Update answer to DB  = " + result);
+                        //results.add(String.valueOf(result));
+                    }
                 }
                 answersFlux.add(answer);
             }

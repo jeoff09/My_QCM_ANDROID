@@ -91,6 +91,12 @@ public class McqSQLiteAdapter {
     protected static final String COL_UPDATED_AT = "updated_at";
 
     /**
+     *   @see  McqSQLiteAdapter#getSchema()
+     *   Name of the col is_actif inside Mobile Database
+     *   is_actif = if the qcm is available
+     */
+    protected static final String COL_IS_ACTIF = "isActif";
+    /**
      * Database of the Application
      */
     private SQLiteDatabase db;
@@ -120,6 +126,7 @@ public class McqSQLiteAdapter {
                 + COL_DATE_END  + " TEXT ,"
                 + COL_DATE_START + " TEXT NOT NULL,"
                 + COL_CATEG + " INTEGER NOT NULL,"
+                + COL_IS_ACTIF + " INTEGER NOT NULL,"
                 + COL_DURATION + " INTEGER NOT NULL, "
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
@@ -174,7 +181,7 @@ public class McqSQLiteAdapter {
      */
     public Mcq getMcq(int id){
 
-        String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME,COL_DATE_END,COL_DATE_START,COL_DURATION, COL_CATEG,COL_UPDATED_AT};
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME,COL_DATE_END,COL_DATE_START,COL_DURATION, COL_CATEG,COL_IS_ACTIF,COL_UPDATED_AT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
 
@@ -198,7 +205,7 @@ public class McqSQLiteAdapter {
      */
     public Mcq getMcqById_server(int id_server){
 
-        String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME,COL_DATE_END,COL_DATE_START,COL_DURATION, COL_CATEG,COL_UPDATED_AT};
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME,COL_DATE_END,COL_DATE_START,COL_DURATION,COL_CATEG,COL_IS_ACTIF,COL_UPDATED_AT};
         String whereClausesSelect = COL_ID_SERVER + "= ?";
         String[] whereArgsSelect = {String.valueOf(id_server)};
 
@@ -249,6 +256,7 @@ public class McqSQLiteAdapter {
         }
         values.put(COL_DATE_START, mcq.getDateStart().toString());
         values.put(COL_CATEG,mcq.getCategory().getId());
+        values.put(COL_IS_ACTIF, mcq.getIsActif());
         values.put(COL_DURATION, mcq.getDuration());
         values.put(COL_UPDATED_AT, mcq.getUpdated_at().toString());
 
@@ -273,8 +281,8 @@ public class McqSQLiteAdapter {
         String start = cursor.getString(cursor.getColumnIndex(COL_DATE_START));
         int duration = cursor.getInt(cursor.getColumnIndex(COL_DURATION));
         int categ = cursor.getInt(cursor.getColumnIndex(COL_CATEG));
+        Boolean is_actif = getBoolean(cursor.getInt(cursor.getColumnIndex(COL_IS_ACTIF)));
         String update = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
-        System.out.println("categ  =  " + categ + " dateEnd = "+ end);
         Date date_end = new Date();
         Date date_start = new Date();
         Date date_updated = new Date();
@@ -304,8 +312,22 @@ public class McqSQLiteAdapter {
         {
             result.setDateStart(date_start);
         }
+        result.setIsActif(is_actif);
         cateSQLite.close();
         return result;
+    }
+
+    /**
+     * Function to transform int to boolean
+     * @param columnIndex
+     * @return boolean
+     */
+    public boolean getBoolean(int columnIndex) {
+        if (  columnIndex == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -313,7 +335,7 @@ public class McqSQLiteAdapter {
      * @return Cursor
      */
     public Cursor getAllCursor(){
-        String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME,COL_DATE_END,COL_DATE_START,COL_DURATION,COL_CATEG, COL_UPDATED_AT};
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_NAME,COL_DATE_END,COL_DATE_START,COL_DURATION,COL_CATEG,COL_IS_ACTIF, COL_UPDATED_AT};
         Cursor cursor = db.query(TABLE_MCQ, cols, null, null, null, null, null);
         return cursor;
     }

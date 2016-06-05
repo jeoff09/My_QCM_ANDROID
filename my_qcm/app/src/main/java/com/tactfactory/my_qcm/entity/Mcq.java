@@ -46,6 +46,10 @@ public class Mcq {
     @Expose(serialize = true, deserialize = true)
     private  Date updated_at;
 
+    @SerializedName("is_actif")
+    @Expose(serialize = true, deserialize = true)
+    private Boolean isActif;
+
     /**
      * Constructor don't make have to mandatory the List of Question
      * @param id
@@ -72,6 +76,7 @@ public class Mcq {
         return id;
     }
 
+
     /**
      * Se the id of the Mcq
      * @param id
@@ -94,6 +99,14 @@ public class Mcq {
      */
     public void setId_server(int id_server) {
         this.id_server = id_server;
+    }
+
+    public Boolean getIsActif() {
+        return isActif;
+    }
+
+    public void setIsActif(Boolean isActif) {
+        this.isActif = isActif;
     }
 
     /**
