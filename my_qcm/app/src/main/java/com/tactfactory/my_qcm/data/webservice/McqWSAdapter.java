@@ -34,8 +34,8 @@ public class McqWSAdapter {
 
     String response;
     MyQCMConstants myQCMConstants;
-    ArrayList<Answer> answersFlux;
-    ArrayList<Question> questionsFlux;
+    ArrayList<Answer> answersFlux = new ArrayList<Answer>();
+    ArrayList<Question> questionsFlux = new ArrayList<Question>();
     Context context;
     McqSQLiteAdapter mcqSQLiteAdapter;
     QuestionSQLiteAdapter questionSQLiteAdapter;
@@ -134,6 +134,8 @@ public class McqWSAdapter {
 
         @Override
         protected ArrayList<String> doInBackground(Void... params) {
+
+            // Create the different Adapter , Answer and question to  delete
             categSQLiteAdapter = new CategSQLiteAdapter(context);
             answerSQLiteAdapter = new AnswerSQLiteAdapter(context);
             questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
@@ -174,7 +176,7 @@ public class McqWSAdapter {
                 }
 
 
-
+                // call to manage  questions of the MCQ
                 resultsQuestion = ManaqeQuestionsMcq(mcq);
                 System.out.println("result question = " + resultsQuestion);
             }
@@ -196,6 +198,7 @@ public class McqWSAdapter {
 
             mcqSQLiteAdapter.close();
 
+            // delete question if not exist on the flow
             if(questionsDB != null) {
                 for (Question questionDB : questionsDB) {
                     Boolean isExist = false;
@@ -213,6 +216,7 @@ public class McqWSAdapter {
 
             questionSQLiteAdapter.close();
 
+            // delete answer if not exist on the flow
             if(answersDB != null) {
                 for (Answer answerDB : answersDB) {
                     Boolean isExist = false;
@@ -232,37 +236,50 @@ public class McqWSAdapter {
 
             return null;
         }
+
+        /**
+         * Manage Question on the DB to add and update
+         * @param mcq
+         * @return List of string
+         */
         protected ArrayList<String> ManaqeQuestionsMcq(Mcq mcq)
         {
-            ArrayList<Question> questions ;
             questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
             questionSQLiteAdapter.open();
-            ArrayList<String> results = null ;
-            ArrayList<String> resultsAnswers ;
+            ArrayList<String> results = new ArrayList<String>() ;
+            ArrayList<String> resultsAnswers;
 
+            // compare the mcq question on questions on the DB
                 for (Question question : mcq.getQuestions()) {
                         question.setMcq(mcq);
                         Question tempQuestion ;
 
+                    //question in DB with the same ID_SERVER
                     tempQuestion = questionSQLiteAdapter.getQuestionById_server(question.getId_server());
 
                     if (tempQuestion == null) {
                         //Add question on the DB
                         long result = questionSQLiteAdapter.insert(question);
-                        System.out.println("result = " + result);
-                        if (results != null) {
-                            results.add(String.valueOf(result));
+                        String resultString = String.valueOf(result);
+                        System.out.println("result = " + resultString);
+
+                        if (resultString == null) {
+                            results.add(resultString);
                         } else {
                             System.out.println("Add question is null");
                         }
                     } else {
+                        // if question already exist on DB
                         long result = questionSQLiteAdapter.update(question);
-                        System.out.println("Update question = " + result);
-                        //results.add(String.valueOf(result));
+                        String resultString = String.valueOf(result);
+                        System.out.println("Update question = " + resultString);
+                        results.add(resultString);
                     }
                     if(question != null) {
+                        System.out.println("Question before ad to flux = " + question);
                         questionsFlux.add(question);
                     }
+                    // Manage question to
                     resultsAnswers = ManageAnswersQuestion(question);
                     System.out.println("Result Answers = " + resultsAnswers);
                 }
