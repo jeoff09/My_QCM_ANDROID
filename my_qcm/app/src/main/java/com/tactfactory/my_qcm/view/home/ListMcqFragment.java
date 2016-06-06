@@ -2,7 +2,7 @@ package com.tactfactory.my_qcm.view.home;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.Fragment;;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +30,9 @@ import java.util.List;
  */
 public class ListMcqFragment extends ListFragment {
 
+    McqWSAdapter mcqWSAdapter;
+    McqSQLiteAdapter mcqSQLiteAdapter;
+
     public ListMcqFragment() {
     }
 
@@ -37,13 +40,12 @@ public class ListMcqFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the fragment
        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_list_mcq,container,false);
-        McqWSAdapter mcqWSAdapter = new McqWSAdapter(getActivity().getBaseContext());
-        McqSQLiteAdapter mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getBaseContext());
+         mcqWSAdapter = new McqWSAdapter(getActivity().getBaseContext());
+         mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getBaseContext());
 
-
-        // open DB to get the list Categ on DB
+        // open DB to get the list mcq on DB
         mcqSQLiteAdapter.open();
-        ArrayList<Mcq> mcqs = mcqSQLiteAdapter.getAllMcq();
+        ArrayList<Mcq> mcqs = mcqSQLiteAdapter.getAllMcqAvailable();
         mcqSQLiteAdapter.close();
 
         if(mcqs != null) {

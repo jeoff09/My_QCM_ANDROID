@@ -13,9 +13,11 @@ import com.tactfactory.my_qcm.entity.Mcq;
 import android.content.Context;
 import android.view.View;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -222,6 +224,7 @@ public class McqSQLiteAdapter {
         return result;
     }
 
+
     /**
      * Get all Mcq
      * @return ArrayList<>
@@ -236,6 +239,51 @@ public class McqSQLiteAdapter {
             // add typ into list
             do {
                 result.add(this.cursorToItem(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    public ArrayList<Mcq> getAllMcqAvailable(){
+        ArrayList<Mcq> result = null;
+        Cursor cursor = getAllCursor();
+        Date date = Calendar.getInstance().getTime();
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Mcq>();
+            // add typ into list
+            do {
+                Mcq tempMcq = this.cursorToItem(cursor);
+                System.out.println("mcq = " +
+                        " nom " + tempMcq.getName() +
+                        "date de début" + tempMcq.getDateStart() +
+                        "date de fin" + tempMcq.getDateEnd() +
+                        "");
+                if(tempMcq.getIsActif() == true)
+                {
+                    if(tempMcq.getDateStart().compareTo(date) < 0)
+                    {
+                        if(tempMcq.getDateEnd() != null)
+                        {
+                            if(tempMcq.getDateEnd().compareTo(date) > 0)
+                            {
+                                result.add(tempMcq);
+                            }else{
+                                System.out.println("This MCQ is not more available");
+                            }
+                        }
+                        else {
+                            result.add(tempMcq);
+                        }
+                    }
+                    else {
+                        System.out.println("Is to early to complete this QCM");
+                    }
+                }else{
+                    System.out.println("The MCQ is not available");
+                }
+
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -283,7 +331,7 @@ public class McqSQLiteAdapter {
         int categ = cursor.getInt(cursor.getColumnIndex(COL_CATEG));
         Boolean is_actif = getBoolean(cursor.getInt(cursor.getColumnIndex(COL_IS_ACTIF)));
         String update = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
-        Date date_end = new Date();
+        Date date_end = null;
         Date date_start = new Date();
         Date date_updated = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
@@ -292,6 +340,7 @@ public class McqSQLiteAdapter {
         {
             date_updated = simpleDateFormat.parse(update);
             if("null".equalsIgnoreCase(end)) {
+
                 date_end = simpleDateFormat.parse(end);
             }
             date_start = simpleDateFormat.parse(start);

@@ -172,6 +172,7 @@ public class McqWSAdapter {
                 else
                 {
                     System.out.println("Update des éléments");
+
                     if (mcq.getUpdated_at().compareTo(tempMcq.getUpdated_at()) > 0) {
                         System.out.println("Update mcq question : " + mcq.getUpdated_at() +
                                 "DB : " + tempMcq.getUpdated_at());
