@@ -171,11 +171,7 @@ public class McqWSAdapter {
                 }
                 else
                 {
-                    System.out.println("Update des éléments");
-
                     if (mcq.getUpdated_at().compareTo(tempMcq.getUpdated_at()) > 0) {
-                        System.out.println("Update mcq question : " + mcq.getUpdated_at() +
-                                "DB : " + tempMcq.getUpdated_at());
                         long result = mcqSQLiteAdapter.update(mcq);
                         results.add(String.valueOf(result));
                     }
@@ -184,7 +180,6 @@ public class McqWSAdapter {
 
                 // call to manage  questions of the MCQ
                 resultsQuestion = ManaqeQuestionsMcq(mcq);
-                System.out.println("result question = " + resultsQuestion);
             }
             //delete check is existe on the DB but not
             if(mcqsDB != null) {
@@ -267,7 +262,6 @@ public class McqWSAdapter {
                         //Add question on the DB
                         long result = questionSQLiteAdapter.insert(question);
                         String resultString = String.valueOf(result);
-                        System.out.println("result = " + resultString);
 
                         if (resultString == null) {
                             results.add(resultString);
@@ -276,21 +270,17 @@ public class McqWSAdapter {
                         }
                     } else {
                         // if question already exist on DB
-                        System.out.println("Update des éléments");
                         if (question.getUpdated_at().compareTo(tempQuestion.getUpdated_at()) > 0) {
                             long result = questionSQLiteAdapter.update(question);
                             String resultString = String.valueOf(result);
-                            System.out.println("Update question = " + resultString);
                             results.add(resultString);
                         }
                     }
                     if(question != null) {
-                        System.out.println("Question before ad to flux = " + question);
                         questionsFlux.add(question);
                     }
                     // Manage question to
                     resultsAnswers = ManageAnswersQuestion(question);
-                    System.out.println("Result Answers = " + resultsAnswers);
                 }
 
             questionSQLiteAdapter.close();
@@ -323,14 +313,12 @@ public class McqWSAdapter {
                 {
                     //Add categ on the DB
                     long result = answerSQLiteAdapter.insert(answer);
-                    System.out.println("Add answer to DB  = " + result);
                    //results.add(String.valueOf(result));
                 }
                 else {
                     System.out.println("Update des éléments");
                     if (answer.getUpdated_at().compareTo(tempAnswer.getUpdated_at()) > 0) {
                         long result = answerSQLiteAdapter.update(answer);
-                        System.out.println("Update answer to DB  = " + result);
                         //results.add(String.valueOf(result));
                     }
                 }

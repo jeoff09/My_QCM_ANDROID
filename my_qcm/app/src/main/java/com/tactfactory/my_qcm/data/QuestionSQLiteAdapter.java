@@ -214,10 +214,6 @@ public class QuestionSQLiteAdapter {
      * @return ContentValue
      */
     private ContentValues questionToContentValues(Question question){
-        System.out.println("Question to content value" + " id_server = " + question.getId_server() +
-                " ques =  " + question.getQues() + " mcq " + question.getMcq().getId_server() +
-                " updated_at =  " + question.getUpdated_at());
-
         ContentValues values = new ContentValues();
         values.put(COL_ID_SERVER, question.getId_server());
         values.put(COL_QUES, question.getQues());

@@ -1,5 +1,6 @@
 package com.tactfactory.my_qcm.view.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.tactfactory.my_qcm.data.McqSQLiteAdapter;
 import com.tactfactory.my_qcm.data.webservice.McqWSAdapter;
 import com.tactfactory.my_qcm.entity.Categ;
 import com.tactfactory.my_qcm.entity.Mcq;
+import com.tactfactory.my_qcm.view.questionnaire.QuestionnaireActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +34,7 @@ public class ListMcqFragment extends ListFragment {
 
     McqWSAdapter mcqWSAdapter;
     McqSQLiteAdapter mcqSQLiteAdapter;
-
+    ArrayList<Mcq> mcqs;
     public ListMcqFragment() {
     }
 
@@ -42,10 +44,11 @@ public class ListMcqFragment extends ListFragment {
        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_list_mcq,container,false);
          mcqWSAdapter = new McqWSAdapter(getActivity().getBaseContext());
          mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getBaseContext());
-
+        int categ_id = getArguments().getInt("id_categ");
+        System.out.println("ID_server de la catégorie est " + categ_id);
         // open DB to get the list mcq on DB
         mcqSQLiteAdapter.open();
-        ArrayList<Mcq> mcqs = mcqSQLiteAdapter.getAllMcqAvailable();
+        mcqs = mcqSQLiteAdapter.getAllMcqAvailable(categ_id);
         mcqSQLiteAdapter.close();
 
         if(mcqs != null) {
@@ -56,7 +59,7 @@ public class ListMcqFragment extends ListFragment {
                     mcqs);
             setListAdapter(arrayAdapter);
         }
-        mcqWSAdapter.getMcqRequest(1, 1, MyQCMConstants.CONST_URL_GET_MCQs);
+        mcqWSAdapter.getMcqRequest(1, categ_id, MyQCMConstants.CONST_URL_GET_MCQs);
 
         setRetainInstance(true);
 
@@ -70,8 +73,11 @@ public class ListMcqFragment extends ListFragment {
      */
     public void onListItemClick(ListView l, View v, int position, long id) {
         ViewGroup viewGroup = (ViewGroup)v;
-        TextView txt = (TextView)viewGroup.findViewById(R.id.item_list_mcq);
-        Toast.makeText(getActivity(), txt.getText(), Toast.LENGTH_LONG).show();
+        int id_mcq = mcqs.get(position).getId_server();
+        Intent intent = new Intent(getActivity().getBaseContext(), QuestionnaireActivity.class);
+        intent.putExtra("id_mcq", id_mcq);
+        getActivity().startActivity(intent);
+        startActivity(intent);
 
     }
 }

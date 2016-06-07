@@ -159,7 +159,7 @@ public class McqSQLiteAdapter {
     public long delete(Mcq mcq){
         String whereClausesDelete = COL_ID + "= ?";
         String[] whereArgsDelete = {String.valueOf(mcq.getId())};
-
+        System.out.println("MCQ INSERT  dae de fin : " + mcq.getDateEnd());
         return this.db.delete(TABLE_MCQ, whereClausesDelete, whereArgsDelete);
     }
 
@@ -171,6 +171,7 @@ public class McqSQLiteAdapter {
     public long update(Mcq mcq){
         ContentValues valuesUpdate = this.mcqToContentValues(mcq);
         String whereClausesUpdate = COL_ID_SERVER + "= ?";
+        System.out.println("MCQ update  dae de fin : " + mcq.getDateEnd());
         String[] whereArgsUpdate =  {String.valueOf(mcq.getId_server())};
 
         return db.update(TABLE_MCQ, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
@@ -245,7 +246,7 @@ public class McqSQLiteAdapter {
         return result;
     }
 
-    public ArrayList<Mcq> getAllMcqAvailable(){
+    public ArrayList<Mcq> getAllMcqAvailable(int id_categ){
         ArrayList<Mcq> result = null;
         Cursor cursor = getAllCursor();
         Date date = Calendar.getInstance().getTime();
@@ -255,33 +256,29 @@ public class McqSQLiteAdapter {
             // add typ into list
             do {
                 Mcq tempMcq = this.cursorToItem(cursor);
-                System.out.println("mcq = " +
-                        " nom " + tempMcq.getName() +
-                        "date de début" + tempMcq.getDateStart() +
-                        "date de fin" + tempMcq.getDateEnd() +
+                System.out.println(
+                        "date de fin get All = " + tempMcq.getDateEnd() +
                         "");
-                if(tempMcq.getIsActif() == true)
-                {
-                    if(tempMcq.getDateStart().compareTo(date) < 0)
-                    {
-                        if(tempMcq.getDateEnd() != null)
-                        {
-                            if(tempMcq.getDateEnd().compareTo(date) > 0)
-                            {
+                if(tempMcq.getCategory().getId_server() == id_categ) {
+                    if (tempMcq.getIsActif() == true) {
+                        if (tempMcq.getDateStart().compareTo(date) < 0) {
+                            if (tempMcq.getDateEnd() != null) {
+                                if (tempMcq.getDateEnd().compareTo(date) > 0) {
+                                    result.add(tempMcq);
+                                } else {
+                                    System.out.println("This MCQ is not more available");
+                                }
+                            } else {
                                 result.add(tempMcq);
-                            }else{
-                                System.out.println("This MCQ is not more available");
                             }
+                        } else {
+                            System.out.println("Is to early to complete this QCM");
                         }
-                        else {
-                            result.add(tempMcq);
-                        }
-                    }
-                    else {
-                        System.out.println("Is to early to complete this QCM");
+                    } else {
+                        System.out.println("The MCQ is not available");
                     }
                 }else{
-                    System.out.println("The MCQ is not available");
+                    System.out.println("The MCQ is not with this categ");
                 }
 
             } while (cursor.moveToNext());
@@ -339,8 +336,8 @@ public class McqSQLiteAdapter {
         try
         {
             date_updated = simpleDateFormat.parse(update);
-            if("null".equalsIgnoreCase(end)) {
-
+            if(end != null && !end.isEmpty()  ) {
+                System.out.println("Date de fin du cursor  is not null");
                 date_end = simpleDateFormat.parse(end);
             }
             date_start = simpleDateFormat.parse(start);

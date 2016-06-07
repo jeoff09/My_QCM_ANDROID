@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class HomeFragment extends ListFragment {
 
+    ArrayList<Categ> categories;
 
     public HomeFragment() {
 
@@ -50,7 +51,7 @@ public class HomeFragment extends ListFragment {
 
         // open DB to get the list Categ on DB
         categSQLiteAdapter.open();
-        ArrayList<Categ> categories = categSQLiteAdapter.getAllCateg();
+        categories = categSQLiteAdapter.getAllCateg();
         categSQLiteAdapter.close();
 
         if(categories != null) {
@@ -77,17 +78,21 @@ public class HomeFragment extends ListFragment {
      */
     public void onListItemClick(ListView l, View v, int position, long id) {
 
-        ViewGroup viewGroup = (ViewGroup)v;
-        //Get the value
-        TextView txt = (TextView)viewGroup.findViewById(R.id.item_list_home);
+        //Get the value of categ
+        int id_categ = categories.get(position).getId_server();
+
         // set the fragment initially
         ListMcqFragment fragment = new ListMcqFragment();
+
         // create a Bundle To store Value
         Bundle categBundle = new Bundle();
+
         // Put Messag inside The Bundle
-        categBundle.putString("name",txt.getText().toString());
+        categBundle.putInt("id_categ", id_categ);
+
         //Set the Bundle on the Fragment
         fragment.setArguments(categBundle);
+
         //Fragment transaction
         FragmentTransaction fragmentTransaction =  getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);

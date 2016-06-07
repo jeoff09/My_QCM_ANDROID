@@ -21,7 +21,9 @@ public class QuestionnaireActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questionnaire);
-
+        Intent intent = getIntent();
+        int message = intent.getIntExtra("id_mcq", 0);
+        System.out.println("id_mcq = " + message);
         // set the fragment initially for the sub Header
         SubHeaderQuestionnaireFragment fragmentHeader = new SubHeaderQuestionnaireFragment();
         FragmentTransaction fragmentTransactionHeader =
