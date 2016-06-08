@@ -316,8 +316,8 @@ public class McqWSAdapter {
                    //results.add(String.valueOf(result));
                 }
                 else {
-                    System.out.println("Update des éléments");
                     if (answer.getUpdated_at().compareTo(tempAnswer.getUpdated_at()) > 0) {
+                        System.out.println("Update des éléments");
                         long result = answerSQLiteAdapter.update(answer);
                         //results.add(String.valueOf(result));
                     }

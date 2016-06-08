@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.tactfactory.my_qcm.R;
+import com.tactfactory.my_qcm.data.McqSQLiteAdapter;
+import com.tactfactory.my_qcm.entity.Mcq;
 import com.tactfactory.my_qcm.view.home.HomeActivity;
 import com.tactfactory.my_qcm.view.home.HomeFragment;
 
@@ -16,14 +18,21 @@ import com.tactfactory.my_qcm.view.home.HomeFragment;
  * Created by ProtoConcept GJ on 30/04/2016.
  */
 public class QuestionnaireActivity  extends AppCompatActivity {
+    McqSQLiteAdapter mcqSQLiteAdapter;
+    Mcq mcq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questionnaire);
         Intent intent = getIntent();
-        int message = intent.getIntExtra("id_mcq", 0);
-        System.out.println("id_mcq = " + message);
+        int id_mcq = intent.getIntExtra("id_mcq", 0);
+        System.out.println("id_mcq = " + id_mcq);
+        mcqSQLiteAdapter = new McqSQLiteAdapter(QuestionnaireActivity.this);
+        mcqSQLiteAdapter.open();
+        mcq = mcqSQLiteAdapter.getMcqById_server(id_mcq);
+
+
         // set the fragment initially for the sub Header
         SubHeaderQuestionnaireFragment fragmentHeader = new SubHeaderQuestionnaireFragment();
         FragmentTransaction fragmentTransactionHeader =
