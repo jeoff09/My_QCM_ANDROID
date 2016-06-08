@@ -8,16 +8,20 @@
     tools:context=".view.questionnaire.QuestionnaireActivity">
 
     <FrameLayout
-        android:id="@+id/sub_header_questionnaire"
+        android:id="@+id/header_questionnaire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"/>
+
+
+
+
 
     <FrameLayout
         android:id="@+id/content_questionnaire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sub_header_questionnaire"/>
+        android:layout_below="@+id/header_questionnaire"/>
 
 
 </RelativeLayout>

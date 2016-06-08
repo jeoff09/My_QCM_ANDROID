@@ -31,20 +31,20 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         mcqSQLiteAdapter = new McqSQLiteAdapter(QuestionnaireActivity.this);
         mcqSQLiteAdapter.open();
         mcq = mcqSQLiteAdapter.getMcqById_server(id_mcq);
-
+        mcqSQLiteAdapter.close();
 
         // set the fragment initially for the sub Header
         SubHeaderQuestionnaireFragment fragmentHeader = new SubHeaderQuestionnaireFragment();
         FragmentTransaction fragmentTransactionHeader =
                 getSupportFragmentManager().beginTransaction();
-        fragmentTransactionHeader.replace(R.id.sub_header_questionnaire, fragmentHeader);
+        fragmentTransactionHeader.replace(R.id.header_questionnaire, fragmentHeader);
         fragmentTransactionHeader.commit();
 
         // set the fragment initially for the content of my questionnaire
         ContentQuestionnaireFragment fragmentContent = new ContentQuestionnaireFragment();
         FragmentTransaction fragmentTransactionContent =
                 getSupportFragmentManager().beginTransaction();
-        fragmentTransactionContent.replace(R.id.sub_header_questionnaire, fragmentContent);
+        fragmentTransactionContent.replace(R.id.content_questionnaire, fragmentContent);
         fragmentTransactionContent.commit();
     }
 }
