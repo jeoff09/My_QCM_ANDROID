@@ -4,22 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
 
 import com.tactfactory.my_qcm.R;
-import com.tactfactory.my_qcm.data.McqSQLiteAdapter;
-import com.tactfactory.my_qcm.entity.Mcq;
-import com.tactfactory.my_qcm.view.home.HomeActivity;
-import com.tactfactory.my_qcm.view.home.HomeFragment;
 
 /**
  * Created by ProtoConcept GJ on 30/04/2016.
  */
 public class QuestionnaireActivity  extends AppCompatActivity {
-    McqSQLiteAdapter mcqSQLiteAdapter;
-    Mcq mcq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +18,14 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_questionnaire);
         Intent intent = getIntent();
         int id_mcq = intent.getIntExtra("id_mcq", 0);
-        System.out.println("id_mcq = " + id_mcq);
-        mcqSQLiteAdapter = new McqSQLiteAdapter(QuestionnaireActivity.this);
-        mcqSQLiteAdapter.open();
-        mcq = mcqSQLiteAdapter.getMcqById_server(id_mcq);
-        mcqSQLiteAdapter.close();
-
+        Bundle bundle = new Bundle();
+        bundle.putInt("id_mcq", id_mcq);
+        bundle.putString("name_question","BoB");
         // set the fragment initially for the sub Header
         SubHeaderQuestionnaireFragment fragmentHeader = new SubHeaderQuestionnaireFragment();
         FragmentTransaction fragmentTransactionHeader =
                 getSupportFragmentManager().beginTransaction();
+        fragmentHeader.setArguments(bundle);
         fragmentTransactionHeader.replace(R.id.header_questionnaire, fragmentHeader);
         fragmentTransactionHeader.commit();
 
@@ -44,6 +33,7 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         ContentQuestionnaireFragment fragmentContent = new ContentQuestionnaireFragment();
         FragmentTransaction fragmentTransactionContent =
                 getSupportFragmentManager().beginTransaction();
+        fragmentContent.setArguments(bundle);
         fragmentTransactionContent.replace(R.id.content_questionnaire, fragmentContent);
         fragmentTransactionContent.commit();
     }

@@ -14,9 +14,6 @@
         android:layout_alignParentTop="true"/>
 
 
-
-
-
     <FrameLayout
         android:id="@+id/content_questionnaire"
         android:layout_width="match_parent"

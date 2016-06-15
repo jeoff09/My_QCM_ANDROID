@@ -112,7 +112,7 @@ public class QuestionSQLiteAdapter {
      * @return line result
      */
     public long insert(Question question){
-        return db.insert(TABLE_QUESTION, null,this.questionToContentValues(question));
+        return db.insert(TABLE_QUESTION, null, this.questionToContentValues(question));
     }
 
     /**
@@ -202,6 +202,32 @@ public class QuestionSQLiteAdapter {
             // add typ into list
             do {
                 result.add(this.cursorToItem(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    /**
+     * Get all Question
+     * @return ArrayList<>
+     */
+    public ArrayList<Question> getAllQuestionById_server_MCQ(int id_server_mcq){
+        ArrayList<Question> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Question>();
+            // add typ into list
+            do {
+                Question question = this.cursorToItem(cursor);
+                if( question.getMcq().getId_server() == id_server_mcq) {
+                    result.add(this.cursorToItem(cursor));
+                }
+                else {
+                    System.out.println("Not link to the MCQ");
+                }
             } while (cursor.moveToNext());
         }
         cursor.close();
