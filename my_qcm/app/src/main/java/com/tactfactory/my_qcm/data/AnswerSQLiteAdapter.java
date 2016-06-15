@@ -215,6 +215,32 @@ public class AnswerSQLiteAdapter {
     }
 
     /**
+     * Get all Answer linked to question id_server
+     * @return ArrayList<>
+     */
+    public ArrayList<Answer> getAllAnswerById_server_question(int id_server_question){
+        ArrayList<Answer> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Answer>();
+            // add typ into list
+            do {
+                Answer answer = this.cursorToItem(cursor);
+                if( answer.getQuestion().getId_server() == id_server_question) {
+                    result.add(this.cursorToItem(cursor));
+                }
+                else {
+                    System.out.println("Not link to the question");
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    /**
      * Convert Answer to ContentValues
      * @param answer
      * @return ContentValue

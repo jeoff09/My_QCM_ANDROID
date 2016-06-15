@@ -16,12 +16,10 @@ public class Result {
 
     /**
      * Constructor
-     * @param id
      * @param id_server_user
      * @param id_server_mcq
      */
-    public Result(int id, int id_server_user, int id_server_mcq) {
-        this.id = id;
+    public Result( int id_server_user, int id_server_mcq) {
         this.id_server_user = id_server_user;
         this.id_server_mcq = id_server_mcq;
     }

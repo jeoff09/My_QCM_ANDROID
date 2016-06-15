@@ -35,8 +35,9 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_sub_header_questionnaire, container, false);
         RelativeLayout relativ_subHeader = (RelativeLayout)rootView.findViewById(R.id.relative_layout_subHeader);
-        System.out.println("relativ_subHeader =  " + relativ_subHeader);
+
         int id_mcq =  getArguments().getInt("id_mcq");
+
         mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getApplication());
         questionSQLiteAdapter = new QuestionSQLiteAdapter(getActivity().getApplication());
         questionSQLiteAdapter.open();
