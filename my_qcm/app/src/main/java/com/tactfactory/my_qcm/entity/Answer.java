@@ -31,6 +31,9 @@ public class Answer {
     @Expose(serialize = true, deserialize = true)
     private Date updated_at;
 
+
+    boolean selected = false;
+
     /**
      * Constructor
      * @param id
@@ -143,5 +146,11 @@ public class Answer {
         this.updated_at = updated_at;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
 
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

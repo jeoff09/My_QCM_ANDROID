@@ -1,5 +1,8 @@
 package com.tactfactory.my_qcm.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Array;
 import java.util.ArrayList;
 
@@ -9,19 +12,27 @@ import java.util.ArrayList;
  */
 public class Result {
 
+    @SerializedName("id")
+    @Expose(serialize = true, deserialize = true)
     private int id;
+
+    @SerializedName("id_server_user")
+    @Expose(serialize = true, deserialize = true)
     private int id_server_user;
+
+    @SerializedName("id_server_mcq")
+    @Expose(serialize = true, deserialize = true)
     private  int id_server_mcq;
+
+    @SerializedName("list_id_answer")
+    @Expose(serialize = true, deserialize = true)
     private ArrayList<Integer> list_id_server_answer;
 
     /**
      * Constructor
-     * @param id_server_user
-     * @param id_server_mcq
      */
-    public Result( int id_server_user, int id_server_mcq) {
-        this.id_server_user = id_server_user;
-        this.id_server_mcq = id_server_mcq;
+    public Result() {
+
     }
 
     /**

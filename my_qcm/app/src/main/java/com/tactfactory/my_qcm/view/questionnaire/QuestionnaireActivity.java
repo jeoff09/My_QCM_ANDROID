@@ -29,6 +29,12 @@ public class QuestionnaireActivity  extends AppCompatActivity {
     AnswerSQLiteAdapter answerSQLiteAdapter;
     ArrayList<Question> questions;
     ArrayList<Answer> answers;
+    Result result;
+    String questionsJson;
+    String answersJson;
+    String resultJson;
+    int questionsPositionList;
+    int naviguationValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +52,11 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         questions = new ArrayList<>();
         questions = questionSQLiteAdapter.getAllQuestionById_server_MCQ(id_mcq);
 
-        String questionsJson = listQuestionsToJSON(questions);
+        questionsJson = listQuestionsToJSON(questions);
 
         answers = new ArrayList<>();
         answerSQLiteAdapter.open();
+
         for(Question question : questions)
         {
             ArrayList<Answer> tempList = answerSQLiteAdapter.getAllAnswerById_server_question(question.getId_server());
@@ -57,20 +64,33 @@ public class QuestionnaireActivity  extends AppCompatActivity {
                 answers.addAll(tempList);
             }
         }
-        String answersJson = listAnswersToJSON(answers);
 
-        int questionsPositionList = 0;
+        answersJson = listAnswersToJSON(answers);
 
+        // Create and serialize the default Result
+        Result result = new Result();
+        resultJson = resultToJSON(result);
+
+        // Question start in the item 0
+         questionsPositionList = 0;
+
+        // value of the button next = 1 & previous = 0
+         naviguationValue = 1;
+
+
+        // Add element on bundle
         Bundle bundleContent = new Bundle();
         bundleContent.putString("list_question" , questionsJson);
         bundleContent.putString("list_answer", answersJson);
-        bundleContent.putInt("questions_position",questionsPositionList);
+        bundleContent.putString("result",resultJson);
+        bundleContent.putInt("questions_position", questionsPositionList);
+        bundleContent.putInt("navigation_value",naviguationValue);
 
         Bundle bundleSubHeader = new Bundle();
         bundleSubHeader.putInt("id_mcq", id_mcq);
         bundleSubHeader.putString("name_question", "BoB");
 
-        // set the fragment initially for the sub Header
+        // set the fragment initially for the sub Header with is bundle
         SubHeaderQuestionnaireFragment fragmentHeader = new SubHeaderQuestionnaireFragment();
         FragmentTransaction fragmentTransactionHeader =
                 getSupportFragmentManager().beginTransaction();
@@ -78,7 +98,7 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         fragmentTransactionHeader.replace(R.id.header_questionnaire, fragmentHeader);
         fragmentTransactionHeader.commit();
 
-        // set the fragment initially for the content of my questionnaire
+        // set the fragment initially for the content of my questionnaire with is bundle
         ContentQuestionnaireFragment fragmentContent = new ContentQuestionnaireFragment();
         FragmentTransaction fragmentTransactionContent =
                 getSupportFragmentManager().beginTransaction();
@@ -125,5 +145,25 @@ public class QuestionnaireActivity  extends AppCompatActivity {
 
 
         return answersJSON;
+    }
+
+    public String resultToJSON(Result result)
+    {
+        String resultJSON;
+
+        //Format of the recup Date
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(DATE_FORMAT);
+        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+        Gson gson =  gsonBuilder.create();
+        Type collectionType = new TypeToken<Result>(){}.getType();
+
+
+        resultJSON = gson.toJson(result, collectionType);
+
+
+        return resultJSON;
     }
 }
