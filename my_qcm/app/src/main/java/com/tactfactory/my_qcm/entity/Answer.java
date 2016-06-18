@@ -25,6 +25,8 @@ public class Answer {
     @Expose(serialize = true, deserialize = true)
     private Boolean isTrue;
 
+    @SerializedName("question")
+    @Expose(serialize = true, deserialize = true)
     private Question question;
 
     @SerializedName("updated_at")

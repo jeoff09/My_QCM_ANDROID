@@ -108,7 +108,7 @@ public class CompleteMCQFunctionAdapter {
     public Question questionShow (ArrayList<Question> questions, int positionInList)
     {
         Question question = null;
-
+        System.out.println("Nombre de question dans la liste =" +questions.size());
         if(questions != null)
         {
             if(positionInList != 0)
@@ -127,7 +127,7 @@ public class CompleteMCQFunctionAdapter {
         return question;
     }
 
-    public ArrayList<Answer> answersQuestion (ArrayList<Answer> answers, Question question)
+    public ArrayList<Answer> answersShow (ArrayList<Answer> answers, Question question)
     {
         ArrayList<Answer> answerShow = new ArrayList<>();
 
@@ -135,9 +135,10 @@ public class CompleteMCQFunctionAdapter {
         {
             if(question != null)
             {
-
                 for (Answer answer : answers)
                 {
+                    System.out.println(" question  = "+ question.getQues());
+                    System.out.println("Answer question idserver = " + answer.getQuestion().getId_server());
                     if(answer.getQuestion().getId_server() == question.getId_server())
                     {
                         answerShow.add(answer);

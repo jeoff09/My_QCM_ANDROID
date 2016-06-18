@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.CompoundButton;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -61,6 +62,10 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         for(Question question : questions)
         {
             ArrayList<Answer> tempList = answerSQLiteAdapter.getAllAnswerById_server_question(question.getId_server());
+            for (Answer answer : tempList)
+            {
+                answer.setQuestion(question);
+            }
             if( tempList.size() != 0) {
                 answers.addAll(tempList);
             }
@@ -72,8 +77,8 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         Result result = new Result();
         resultJson = resultToJSON(result);
 
-        // Question start in the item 0
-         questionsPositionList = 0;
+        // Question start in the item 1
+         questionsPositionList = 1;
 
         // value of the button next = 1 & previous = 0
          naviguationValue = 1;
@@ -190,4 +195,6 @@ public class QuestionnaireActivity  extends AppCompatActivity {
 
         return answeringJSON;
     }
+
+
 }
