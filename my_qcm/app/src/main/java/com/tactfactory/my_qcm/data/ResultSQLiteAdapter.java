@@ -177,7 +177,9 @@ public class ResultSQLiteAdapter {
         int id_server_mcq = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER_MCQ));
 
 
-        Result result = new Result(id_server_user,id_server_mcq);
+        Result result = new Result();
+        result.setId_server_user(id_server_user);
+        result.setId_server_mcq(id_server_mcq);
         result.setId(id);
         return result;
     }

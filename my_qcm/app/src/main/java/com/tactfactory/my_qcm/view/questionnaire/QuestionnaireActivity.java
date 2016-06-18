@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tactfactory.my_qcm.R;
 import com.tactfactory.my_qcm.data.AnswerSQLiteAdapter;
 import com.tactfactory.my_qcm.data.QuestionSQLiteAdapter;
+import com.tactfactory.my_qcm.data.checkboxListManage.Answering;
 import com.tactfactory.my_qcm.entity.Answer;
 import com.tactfactory.my_qcm.entity.Categ;
 import com.tactfactory.my_qcm.entity.Mcq;
@@ -33,6 +34,7 @@ public class QuestionnaireActivity  extends AppCompatActivity {
     String questionsJson;
     String answersJson;
     String resultJson;
+    String answeringJson;
     int questionsPositionList;
     int naviguationValue;
 
@@ -51,7 +53,6 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         questionSQLiteAdapter.open();
         questions = new ArrayList<>();
         questions = questionSQLiteAdapter.getAllQuestionById_server_MCQ(id_mcq);
-
         questionsJson = listQuestionsToJSON(questions);
 
         answers = new ArrayList<>();
@@ -77,12 +78,15 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         // value of the button next = 1 & previous = 0
          naviguationValue = 1;
 
+        ArrayList<Answering> answerings = new ArrayList<Answering>();
+        answeringJson = answeringToJSON(answerings);
 
         // Add element on bundle
         Bundle bundleContent = new Bundle();
         bundleContent.putString("list_question" , questionsJson);
         bundleContent.putString("list_answer", answersJson);
         bundleContent.putString("result",resultJson);
+        bundleContent.putString("list_answering",answeringJson);
         bundleContent.putInt("questions_position", questionsPositionList);
         bundleContent.putInt("navigation_value",naviguationValue);
 
@@ -165,5 +169,25 @@ public class QuestionnaireActivity  extends AppCompatActivity {
 
 
         return resultJSON;
+    }
+
+    public String answeringToJSON(ArrayList<Answering> answerings)
+    {
+        String answeringJSON;
+
+        //Format of the recup Date
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(DATE_FORMAT);
+        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+        Gson gson =  gsonBuilder.create();
+        Type collectionType = new TypeToken<List<Answering>>(){}.getType();
+
+
+        answeringJSON = gson.toJson(answerings, collectionType);
+
+
+        return answeringJSON;
     }
 }

@@ -28,10 +28,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:id="@+id/relative_layout_subHeader">
+        android:id="@+id/relative_layout_content">
 
-        <TextView
-            android:id="@+id/questions_numbers"
+        <Button
+            android:id="@+id/previous_question"
             android:padding="10dp"
             android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
@@ -41,8 +41,8 @@
 
 
 
-        <TextView
-            android:id="@+id/timer_mcq"
+        <Button
+            android:id="@+id/next_question"
             android:padding="10dp"
             android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
