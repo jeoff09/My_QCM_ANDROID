@@ -33,7 +33,8 @@ public class Answer {
     @Expose(serialize = true, deserialize = true)
     private Date updated_at;
 
-
+    @SerializedName("selected")
+    @Expose(serialize = true, deserialize = true)
     boolean selected = false;
 
     /**

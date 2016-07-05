@@ -24,7 +24,7 @@ public class Result {
     @Expose(serialize = true, deserialize = true)
     private  int id_server_mcq;
 
-    @SerializedName("list_id_answer")
+    @SerializedName("list_id_server_answer")
     @Expose(serialize = true, deserialize = true)
     private ArrayList<Integer> list_id_server_answer;
 

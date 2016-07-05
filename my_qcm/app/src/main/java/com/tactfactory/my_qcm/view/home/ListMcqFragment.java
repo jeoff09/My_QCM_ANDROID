@@ -1,5 +1,7 @@
 package com.tactfactory.my_qcm.view.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -15,9 +17,11 @@ import android.widget.Toast;
 import com.tactfactory.my_qcm.R;
 import com.tactfactory.my_qcm.configuration.MyQCMConstants;
 import com.tactfactory.my_qcm.data.McqSQLiteAdapter;
+import com.tactfactory.my_qcm.data.QuestionSQLiteAdapter;
 import com.tactfactory.my_qcm.data.webservice.McqWSAdapter;
 import com.tactfactory.my_qcm.entity.Categ;
 import com.tactfactory.my_qcm.entity.Mcq;
+import com.tactfactory.my_qcm.entity.Question;
 import com.tactfactory.my_qcm.view.questionnaire.QuestionnaireActivity;
 
 import java.util.ArrayList;
@@ -59,7 +63,7 @@ public class ListMcqFragment extends ListFragment {
                     mcqs);
             setListAdapter(arrayAdapter);
         }
-        mcqWSAdapter.getMcqRequest(1, categ_id, MyQCMConstants.CONST_URL_GET_MCQs);
+        mcqWSAdapter.getMcqRequest(2, categ_id, MyQCMConstants.CONST_URL_GET_MCQs);
 
         setRetainInstance(true);
 
@@ -74,10 +78,32 @@ public class ListMcqFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         ViewGroup viewGroup = (ViewGroup)v;
         int id_mcq = mcqs.get(position).getId_server();
-        Intent intent = new Intent(getActivity().getBaseContext(), QuestionnaireActivity.class);
-        intent.putExtra("id_mcq", id_mcq);
-        getActivity().startActivity(intent);
-        startActivity(intent);
+        QuestionSQLiteAdapter questionSQLiteAdapter = new  QuestionSQLiteAdapter(getActivity());
+        questionSQLiteAdapter.open();
+        ArrayList<Question> questions = new ArrayList<>();
+        questions = questionSQLiteAdapter.getAllQuestionById_server_MCQ(id_mcq);
+
+        if (questions != null)
+        {
+            Intent intent = new Intent(getActivity().getBaseContext(), QuestionnaireActivity.class);
+            intent.putExtra("id_mcq", id_mcq);
+            System.out.println("Id envoyer au questionnaire =" + id_mcq);
+            getActivity().startActivity(intent);
+            startActivity(intent);
+        }
+        else {
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+            alertDialog.setTitle("Choix du questionnaire");
+            alertDialog.setMessage("Il n'y a pas de question liées à ce questionnaire." +
+                    "Veuillez contacter votre administrateur.");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
 
     }
 }

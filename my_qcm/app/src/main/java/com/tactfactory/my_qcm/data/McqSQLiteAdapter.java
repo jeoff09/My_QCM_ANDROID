@@ -300,7 +300,7 @@ public class McqSQLiteAdapter {
             values.put(COL_DATE_END, mcq.getDateEnd().toString());
         }
         values.put(COL_DATE_START, mcq.getDateStart().toString());
-        values.put(COL_CATEG,mcq.getCategory().getId());
+        values.put(COL_CATEG,mcq.getCategory().getId_server());
         values.put(COL_IS_ACTIF, mcq.getIsActif());
         values.put(COL_DURATION, mcq.getDuration());
         values.put(COL_UPDATED_AT, mcq.getUpdated_at().toString());

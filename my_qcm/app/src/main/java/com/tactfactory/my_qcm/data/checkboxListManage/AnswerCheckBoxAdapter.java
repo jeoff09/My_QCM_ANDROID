@@ -2,22 +2,19 @@ package com.tactfactory.my_qcm.data.checkboxListManage;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tactfactory.my_qcm.R;
 import com.tactfactory.my_qcm.entity.Answer;
-import com.tactfactory.my_qcm.view.questionnaire.ContentQuestionnaireFragment;
-import com.tactfactory.my_qcm.view.questionnaire.QuestionnaireActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ProtoConcept GJ on 16/06/2016.
@@ -35,50 +32,45 @@ public class AnswerCheckBoxAdapter extends ArrayAdapter<Answer> {
 
     private class AnswerHolder {
 
-        public TextView textview_value_answer;
-        public CheckBox checkbox_item_answer;
+         TextView textview_value_answer;
+         CheckBox checkbox_item_answer;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = convertView;
-        AnswerHolder answerHolder = new AnswerHolder();
+        AnswerHolder answerHolder =  null;
+        Log.v("convertView",String.valueOf(position));
 
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.row_fragment_list_answer, null);
+            LayoutInflater vi = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            convertView = vi.inflate(R.layout.row_fragment_list_answer, null);
 
-            answerHolder.textview_value_answer = (TextView) v.findViewById(R.id.textview_value_answer);
-
-            answerHolder.checkbox_item_answer = (CheckBox) v.findViewById(R.id.checkbox_item_answer);
-
-            v.setTag(answerHolder);
+            answerHolder = new AnswerHolder();
+            answerHolder.textview_value_answer = (TextView) convertView.findViewById(R.id.textview_value_answer);
+            answerHolder.checkbox_item_answer = (CheckBox) convertView.findViewById(R.id.checkbox_item_answer);
+            convertView.setTag(answerHolder);
 
 
             answerHolder.checkbox_item_answer.setOnClickListener(new View.OnClickListener() {
-                @Override
                 public void onClick(View v) {
                     CheckBox cb = (CheckBox) v;
+                    TextView textView = (TextView) v;
                     Answer answer = (Answer) cb.getTag();
-                    Toast.makeText(getContext().getApplicationContext(),
-                            "Clicked on Checkbox: " + cb.getText() +
-                                    " is " + cb.isChecked(),
-                            Toast.LENGTH_LONG).show();
                     answer.setSelected(cb.isChecked());
                 }
             });
         }
         else {
-            answerHolder = (AnswerHolder) v.getTag();
+            answerHolder = (AnswerHolder) convertView.getTag();
         }
 
         Answer answer = answers.get(position);
         answerHolder.textview_value_answer.setText(answer.getAns());
         answerHolder.checkbox_item_answer.setChecked(answer.isSelected());
+        answerHolder.checkbox_item_answer.setTag(answer);
 
-
-        return v;
+        return convertView;
     }
 }
 

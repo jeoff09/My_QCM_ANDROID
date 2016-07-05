@@ -140,20 +140,12 @@ public class McqWSAdapter {
             answerSQLiteAdapter = new AnswerSQLiteAdapter(context);
             questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
             mcqSQLiteAdapter = new McqSQLiteAdapter(context);
-
             categSQLiteAdapter.open();
-            answerSQLiteAdapter.open();
-            questionSQLiteAdapter.open();
-            mcqSQLiteAdapter.open();
-
             Categ categ = categSQLiteAdapter.getCategById_server(category);
             categSQLiteAdapter.close();
             ArrayList<String> results = new ArrayList<>();
-            ArrayList<String> resultsQuestion ;
-
+            mcqSQLiteAdapter.open();
             ArrayList<Mcq> mcqsDB = mcqSQLiteAdapter.getAllMcq();
-            ArrayList<Question> questionsDB = questionSQLiteAdapter.getAllQuestion();
-            ArrayList<Answer> answersDB = answerSQLiteAdapter.getAllAnswer();
 
             for(Mcq mcq : mcqs)
             {
@@ -176,29 +168,31 @@ public class McqWSAdapter {
                         results.add(String.valueOf(result));
                     }
                 }
-
-
-                // call to manage  questions of the MCQ
-                resultsQuestion = ManaqeQuestionsMcq(mcq);
+                ArrayList<String> resultsQuestion = ManaqeQuestionsMcq(mcq);
             }
-            //delete check is existe on the DB but not
+            //delete check is exist on the DB
             if(mcqsDB != null) {
                 for (Mcq mcqDB : mcqsDB) {
                     Boolean isExist = false;
                     for (Mcq mcq : mcqs) {
-                        if (mcq.getId_server() == mcqDB.getId_server()) {
+                        if (mcq.getCategory().getId_server() == mcqDB.getCategory().getId_server()) {
+                            if (mcq.getId_server() == mcqDB.getId_server()) {
+                                isExist = true;
+                            }
+                        } else {
                             isExist = true;
-                        }
-                    }
+                            System.out.println("Not the same Categ");}
 
+                    }
                     if (isExist == false) {
                         long result = mcqSQLiteAdapter.delete(mcqDB);
                     }
+
                 }
             }
-
             mcqSQLiteAdapter.close();
-
+            questionSQLiteAdapter.open();
+            ArrayList<Question> questionsDB = questionSQLiteAdapter.getAllQuestion();
             // delete question if not exist on the flow
             if(questionsDB != null) {
                 for (Question questionDB : questionsDB) {
@@ -214,9 +208,9 @@ public class McqWSAdapter {
                     }
                 }
             }
-
             questionSQLiteAdapter.close();
-
+            answerSQLiteAdapter.open();
+            ArrayList<Answer> answersDB = answerSQLiteAdapter.getAllAnswer();
             // delete answer if not exist on the flow
             if(answersDB != null) {
                 for (Answer answerDB : answersDB) {
@@ -232,7 +226,6 @@ public class McqWSAdapter {
                     }
                 }
             }
-
             answerSQLiteAdapter.close();
 
             return null;

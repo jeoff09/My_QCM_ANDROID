@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:text="@string/button_connection"
         android:id="@+id/buttonConnection"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#ffffff"
         android:background="@color/colorAccent"
         android:layout_below="@+id/textEditPwd"
         android:layout_centerHorizontal="true" />

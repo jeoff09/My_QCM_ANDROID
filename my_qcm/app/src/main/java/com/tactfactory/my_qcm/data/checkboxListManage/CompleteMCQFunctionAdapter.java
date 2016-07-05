@@ -68,42 +68,7 @@ public class CompleteMCQFunctionAdapter {
 
         return result;
     }
-    public String answeringsToJSON(ArrayList<Answering> answerings)
-    {
-        String answeringJSON;
 
-        //Format of the recup Date
-        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setDateFormat(DATE_FORMAT);
-        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-        Gson gson =  gsonBuilder.create();
-        Type collectionType = new TypeToken<List<Answering>>(){}.getType();
-
-
-        answeringJSON = gson.toJson(answerings, collectionType);
-
-
-        return answeringJSON;
-    }
-
-    public ArrayList<Answering> responseToListAnswering(String response)
-    {
-        //Format of the recup Date
-        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setDateFormat(DATE_FORMAT);
-        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-        Gson gson =  gsonBuilder.create();
-        Type collectionType = new TypeToken<List<Answering>>(){}.getType();
-
-        ArrayList<Answering> answerings = new ArrayList<Answering>();
-        answerings = (ArrayList<Answering>) gson.fromJson(response, collectionType);
-
-        return answerings;
-    }
 
     public Question questionShow (ArrayList<Question> questions, int positionInList)
     {
@@ -111,7 +76,7 @@ public class CompleteMCQFunctionAdapter {
         System.out.println("Nombre de question dans la liste =" +questions.size());
         if(questions != null)
         {
-            if(positionInList != 0)
+            if(positionInList != -1)
             {
                 question = questions.get(positionInList);
             }
@@ -137,13 +102,10 @@ public class CompleteMCQFunctionAdapter {
             {
                 for (Answer answer : answers)
                 {
-                    System.out.println(" question  = "+ question.getQues());
-                    System.out.println("Answer question idserver = " + answer.getQuestion().getId_server());
+                    System.out.println("Answer is selected = " + answer.isSelected());
                     if(answer.getQuestion().getId_server() == question.getId_server())
                     {
                         answerShow.add(answer);
-                    }else {
-                        System.out.println("answersQuestion : Answer not linked to this question");
                     }
                 }
             }else {
@@ -156,4 +118,45 @@ public class CompleteMCQFunctionAdapter {
 
         return answerShow;
     }
+
+    public String listQuestionsToJSON(ArrayList<Question> questions)
+    {
+        String questionsJSON;
+
+        //Format of the recup Date
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(DATE_FORMAT);
+        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+        Gson gson =  gsonBuilder.create();
+        Type collectionType = new TypeToken<List<Question>>(){}.getType();
+
+
+        questionsJSON = gson.toJson(questions, collectionType);
+
+
+        return questionsJSON;
+    }
+
+    public String listAnswersToJSON(ArrayList<Answer> answers)
+    {
+        String answersJSON;
+
+        //Format of the recup Date
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(DATE_FORMAT);
+        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+        Gson gson =  gsonBuilder.create();
+        Type collectionType = new TypeToken<List<Answer>>(){}.getType();
+
+
+        answersJSON = gson.toJson(answers, collectionType);
+
+
+        return answersJSON;
+    }
+
 }

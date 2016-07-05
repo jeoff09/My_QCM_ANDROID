@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
     QuestionSQLiteAdapter questionSQLiteAdapter;
     TextView timer_mcq;
     Mcq mcq;
+    boolean isfinish = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,14 +52,10 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
         TextView question_content = (TextView)rootView.findViewById(R.id.mcq_value);
         question_content.setText(mcq.getName());
 
-        TextView questions_number = (TextView)relativ_subHeader.findViewById(R.id.questions_numbers);
-        questions_number.setText(String.valueOf(questions.size()));
-
         timer_mcq = (TextView)relativ_subHeader.findViewById(R.id.timer_mcq);
         long mcq_duration_mill = TimeUnit.MINUTES.toMillis( Long.valueOf(mcq.getDuration()));
         final CounterMCQDuration timer = new CounterMCQDuration(mcq_duration_mill,1000,mcq.getDuration());
         timer.start();
-
         /**
          * Todo : Special Fragment always visible in the Questionaire , show duration, and numb
          * of the question
@@ -81,15 +79,15 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
             String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
                     TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
                     TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis )));
-            System.out.println(hms);
-
             timer_mcq.setText(hms);
         }
 
         @Override
         public void onFinish() {
-
-            System.out.println("finish");
+                    Button previous_question = (Button) getActivity().findViewById(R.id.previous_question);
+                    previous_question.setVisibility(previous_question.INVISIBLE);
+                    TextView textViewNext = (TextView) getActivity().findViewById(R.id.next_question);
+                    textViewNext.setText("Terminer");
+                }
+            }
         }
-    }
-}

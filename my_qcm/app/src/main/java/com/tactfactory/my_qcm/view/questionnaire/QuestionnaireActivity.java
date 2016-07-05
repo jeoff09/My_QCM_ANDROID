@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.CompoundButton;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,10 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tactfactory.my_qcm.R;
 import com.tactfactory.my_qcm.data.AnswerSQLiteAdapter;
 import com.tactfactory.my_qcm.data.QuestionSQLiteAdapter;
-import com.tactfactory.my_qcm.data.checkboxListManage.Answering;
 import com.tactfactory.my_qcm.entity.Answer;
-import com.tactfactory.my_qcm.entity.Categ;
-import com.tactfactory.my_qcm.entity.Mcq;
 import com.tactfactory.my_qcm.entity.Question;
 import com.tactfactory.my_qcm.entity.Result;
 
@@ -59,39 +55,33 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         answers = new ArrayList<>();
         answerSQLiteAdapter.open();
 
-        for(Question question : questions)
-        {
-            ArrayList<Answer> tempList = answerSQLiteAdapter.getAllAnswerById_server_question(question.getId_server());
-            for (Answer answer : tempList)
-            {
-                answer.setQuestion(question);
-            }
-            if( tempList.size() != 0) {
-                answers.addAll(tempList);
+        if (questions != null){
+            for (Question question : questions) {
+                ArrayList<Answer> tempList = answerSQLiteAdapter.getAllAnswerById_server_question(question.getId_server());
+                if(tempList != null)
+                {
+                    for (Answer answer : tempList) {
+                        answer.setQuestion(question);
+                    }
+                    if (tempList.size() != 0) {
+                        answers.addAll(tempList);
+                    }
+                }
             }
         }
 
         answersJson = listAnswersToJSON(answers);
 
-        // Create and serialize the default Result
-        Result result = new Result();
-        resultJson = resultToJSON(result);
-
-        // Question start in the item 1
-         questionsPositionList = 1;
+        // Question start in the item 0
+         questionsPositionList = 0;
 
         // value of the button next = 1 & previous = 0
          naviguationValue = 1;
-
-        ArrayList<Answering> answerings = new ArrayList<Answering>();
-        answeringJson = answeringToJSON(answerings);
 
         // Add element on bundle
         Bundle bundleContent = new Bundle();
         bundleContent.putString("list_question" , questionsJson);
         bundleContent.putString("list_answer", answersJson);
-        bundleContent.putString("result",resultJson);
-        bundleContent.putString("list_answering",answeringJson);
         bundleContent.putInt("questions_position", questionsPositionList);
         bundleContent.putInt("navigation_value",naviguationValue);
 
@@ -114,6 +104,10 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         fragmentContent.setArguments(bundleContent);
         fragmentTransactionContent.replace(R.id.content_questionnaire, fragmentContent);
         fragmentTransactionContent.commit();
+    }
+    // overrideBack button to prevent the user from leaving the questionnaire
+    @Override
+    public void onBackPressed() {
     }
 
     public String listQuestionsToJSON(ArrayList<Question> questions)
@@ -175,26 +169,5 @@ public class QuestionnaireActivity  extends AppCompatActivity {
 
         return resultJSON;
     }
-
-    public String answeringToJSON(ArrayList<Answering> answerings)
-    {
-        String answeringJSON;
-
-        //Format of the recup Date
-        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setDateFormat(DATE_FORMAT);
-        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-        Gson gson =  gsonBuilder.create();
-        Type collectionType = new TypeToken<List<Answering>>(){}.getType();
-
-
-        answeringJSON = gson.toJson(answerings, collectionType);
-
-
-        return answeringJSON;
-    }
-
 
 }
