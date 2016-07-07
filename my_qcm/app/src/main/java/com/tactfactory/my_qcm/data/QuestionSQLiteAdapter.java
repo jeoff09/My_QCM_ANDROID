@@ -79,7 +79,7 @@ public class QuestionSQLiteAdapter {
      * @param context
      */
     public QuestionSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
     }
 
@@ -92,8 +92,8 @@ public class QuestionSQLiteAdapter {
                 + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_ID_SERVER + " INTEGER NOT NULL, "
                 + COL_QUES + " TEXT NOT NULL, "
-                + COL_MCQ + "INTEGER NOT NULL,"
-                + COL_MEDIA+ "INTEGER,"
+                + COL_MCQ + " INTEGER NOT NULL,"
+                + COL_MEDIA+ " INTEGER NULL,"
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
 
@@ -134,8 +134,8 @@ public class QuestionSQLiteAdapter {
      */
     public long update(Question question){
         ContentValues valuesUpdate = this.questionToContentValues(question);
-        String whereClausesUpdate = COL_ID + "= ?";
-        String[] whereArgsUpdate =  {String.valueOf(question.getId())};
+        String whereClausesUpdate = COL_ID_SERVER + "= ?";
+        String[] whereArgsUpdate =  {String.valueOf(question.getId_server())};
 
         return db.update(TABLE_QUESTION, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
@@ -163,6 +163,30 @@ public class QuestionSQLiteAdapter {
         }
         return result;
     }
+    /**
+     * Select a Question with his Id_server.
+     * @param id_server
+     * @return Question
+     */
+    public Question getQuestionById_server(int id_server){
+
+        String[] cols = {COL_ID, COL_ID_SERVER,COL_QUES ,COL_MCQ, COL_MEDIA,COL_UPDATED_AT};
+        String whereClausesSelect = COL_ID_SERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(id_server)};
+
+        // create SQL request
+        Cursor cursor = db.query(TABLE_QUESTION, cols, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        Question result = null;
+
+        // if SQL request return a result
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
 
     /**
      * Get all Question
@@ -185,6 +209,33 @@ public class QuestionSQLiteAdapter {
     }
 
     /**
+     * Get all Question
+     * @return ArrayList<>
+     */
+    public ArrayList<Question> getAllQuestionById_server_MCQ(int id_server_mcq){
+        ArrayList<Question> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Question>();
+            // add typ into list
+            do {
+                Question question = this.cursorToItem(cursor);
+                System.out.println("question mcq id " + question.getMcq());
+                if( question.getMcq().getId_server() == id_server_mcq) {
+                    result.add(this.cursorToItem(cursor));
+                }
+                else {
+                    System.out.println("Not link to the MCQ");
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    /**
      * Convert Question to ContentValues
      * @param question
      * @return ContentValue
@@ -193,8 +244,10 @@ public class QuestionSQLiteAdapter {
         ContentValues values = new ContentValues();
         values.put(COL_ID_SERVER, question.getId_server());
         values.put(COL_QUES, question.getQues());
-        values.put(COL_MCQ, question.getMcq().getId());
-        values.put(COL_MEDIA, question.getMedia().getId());
+        values.put(COL_MCQ, question.getMcq().getId_server());
+        if(question.getMedia() != null) {
+            values.put(COL_MEDIA, question.getMedia().getId_server());
+        }
         values.put(COL_UPDATED_AT, question.getUpdated_at().toString());
 
         return values;
@@ -208,16 +261,18 @@ public class QuestionSQLiteAdapter {
      * @return Question
      */
     public Question cursorToItem(Cursor cursor){
-        McqSQLiteAdapter mcqAdapter = new McqSQLiteAdapter(context);
+        McqSQLiteAdapter mcqAdapter     = new McqSQLiteAdapter(context);
         MediaSQLiteAdapter mediaAdapter = new MediaSQLiteAdapter(context);
+        mcqAdapter.open();mediaAdapter.open();
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String ques = cursor.getString(cursor.getColumnIndex(COL_QUES));
         int mcq = cursor.getInt(cursor.getColumnIndex(COL_MCQ));
         int media = cursor.getInt(cursor.getColumnIndex(COL_MEDIA));
+
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 
         try
         {
@@ -229,12 +284,12 @@ public class QuestionSQLiteAdapter {
         }
 
 
-        Question result = new Question(id,id_server,ques,date,mcqAdapter.getMcq(mcq));
+        Question result = new Question(id,id_server,ques,date);
+        result.setMcq(mcqAdapter.getMcqById_server(mcq));
+        result.setMedia(mediaAdapter.getMedia(media));
 
-        if(media != 0)
-        {
-            result.setMedia(mediaAdapter.getMedia(media));
-        }
+        mcqAdapter.close();
+        mediaAdapter.close();
         return result;
     }
 

@@ -86,7 +86,7 @@ public class AnswerSQLiteAdapter {
      * @param context
      */
     public AnswerSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
     }
 
@@ -140,8 +140,8 @@ public class AnswerSQLiteAdapter {
      */
     public long update(Answer answer){
         ContentValues valuesUpdate = this.answerToContentValues(answer);
-        String whereClausesUpdate = COL_ID + "= ?";
-        String[] whereArgsUpdate =  {String.valueOf(answer.getId())};
+        String whereClausesUpdate = COL_ID_SERVER + "= ?";
+        String[] whereArgsUpdate =  {String.valueOf(answer.getId_server())};
 
         return db.update(TABLE_ANSWER, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
@@ -156,6 +156,30 @@ public class AnswerSQLiteAdapter {
         String[] cols = {COL_ID, COL_ID_SERVER, COL_ANS, COL_IS_TRUE, COL_QUESTION, COL_UPDATED_AT};
         String whereClausesSelect = COL_ID + "= ?";
         String[] whereArgsSelect = {String.valueOf(id)};
+
+        // create SQL request
+        Cursor cursor = db.query(TABLE_ANSWER, cols, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        Answer result = null;
+
+        // if SQL request return a result
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
+     * Select a Answer with his id_server.
+     * @param id_server
+     * @return Answer
+     */
+    public Answer getAnswerById_server(int id_server){
+
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_ANS, COL_IS_TRUE, COL_QUESTION, COL_UPDATED_AT};
+        String whereClausesSelect = COL_ID_SERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(id_server)};
 
         // create SQL request
         Cursor cursor = db.query(TABLE_ANSWER, cols, whereClausesSelect, whereArgsSelect, null, null, null);
@@ -191,6 +215,32 @@ public class AnswerSQLiteAdapter {
     }
 
     /**
+     * Get all Answer linked to question id_server
+     * @return ArrayList<>
+     */
+    public ArrayList<Answer> getAllAnswerById_server_question(int id_server_question){
+        ArrayList<Answer> result = null;
+        Cursor cursor = getAllCursor();
+
+        // if cursor contains result
+        if (cursor.moveToFirst()){
+            result = new ArrayList<Answer>();
+            // add typ into list
+            do {
+                Answer answer = this.cursorToItem(cursor);
+                if( answer.getQuestion().getId_server() == id_server_question) {
+                    result.add(this.cursorToItem(cursor));
+                }
+                else {
+                    System.out.println("Not link to the question");
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    /**
      * Convert Answer to ContentValues
      * @param answer
      * @return ContentValue
@@ -200,7 +250,7 @@ public class AnswerSQLiteAdapter {
         values.put(COL_ID_SERVER, answer.getId_server());
         values.put(COL_ANS, answer.getAns());
         values.put(COL_IS_TRUE, answer.getIsTrue());
-        values.put(COL_QUESTION, answer.getQuestion().toString());
+        values.put(COL_QUESTION, answer.getQuestion().getId_server());
         values.put(COL_UPDATED_AT, answer.getUpdated_at().toString());
 
         return values;
@@ -216,6 +266,7 @@ public class AnswerSQLiteAdapter {
      */
     public Answer cursorToItem(Cursor cursor){
         QuestionSQLiteAdapter questionAdapter = new QuestionSQLiteAdapter(context);
+        questionAdapter.open();
         int id = cursor.getInt(cursor.getColumnIndex(COL_ID));
         int id_server = cursor.getInt(cursor.getColumnIndex(COL_ID_SERVER));
         String ans = cursor.getString(cursor.getColumnIndex(COL_ANS));
@@ -223,7 +274,7 @@ public class AnswerSQLiteAdapter {
         int question = cursor.getInt(cursor.getColumnIndex(COL_QUESTION));
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
 
         try
         {
@@ -235,8 +286,10 @@ public class AnswerSQLiteAdapter {
         }
 
 
-        Answer result = new Answer(id,id_server,ans,is_true,questionAdapter.getQuestion(question),date);
+        Answer result = new Answer(id,id_server,ans,is_true,date);
+        result.setQuestion(questionAdapter.getQuestionById_server(question));
 
+        questionAdapter.close();
         return result;
     }
 

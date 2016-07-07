@@ -85,7 +85,7 @@ public class MediaSQLiteAdapter {
      * @param context
      */
     public MediaSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
         this.context = context;
     }
 
@@ -222,7 +222,7 @@ public class MediaSQLiteAdapter {
         int typ = cursor.getInt(cursor.getColumnIndex(COL_TYP));
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         try
         {

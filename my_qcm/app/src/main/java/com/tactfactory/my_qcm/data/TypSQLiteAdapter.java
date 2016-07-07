@@ -20,6 +20,11 @@ import java.util.ArrayList;
 public class TypSQLiteAdapter {
 
     /**
+     *  Class context
+     */
+    private Context context;
+
+    /**
      * Name of the Table Inside Mobile Database
      */
     protected static final String TABLE_TYP = "typ";
@@ -60,7 +65,8 @@ public class TypSQLiteAdapter {
      * @param context
      */
     public TypSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**
@@ -190,7 +196,7 @@ public class TypSQLiteAdapter {
         String name = cursor.getString(cursor.getColumnIndex(COL_NAME));
         String s = cursor.getString(cursor.getColumnIndex(COL_UPDATED_AT));
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         try
         {

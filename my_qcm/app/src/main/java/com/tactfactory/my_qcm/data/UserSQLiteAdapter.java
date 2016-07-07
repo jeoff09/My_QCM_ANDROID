@@ -18,6 +18,11 @@ import java.util.Date;
 public class UserSQLiteAdapter {
 
     /**
+     *  Class context
+     */
+    private Context context;
+
+    /**
      * Name of the Table inside Mobile DB
      */
     protected static final String TABLE_USER = "user";
@@ -71,7 +76,13 @@ public class UserSQLiteAdapter {
      */
     protected static final String COL_UPDATED_AT = "updated_at";
 
+    /**
+     * DataBase of the Application
+     */
     private SQLiteDatabase db;
+    /**
+     * SQLiteOpenHelper help to manage the Database
+     */
     private My_QCMSQLiteOpenHelper helper;
 
     /**
@@ -79,7 +90,8 @@ public class UserSQLiteAdapter {
      * @param context
      */
     public UserSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**
@@ -91,9 +103,9 @@ public class UserSQLiteAdapter {
                 + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_ID_SERVER + " INTEGER NOT NULL, "
                 + COL_USERNAME + " TEXT NOT NULL, "
-                + COL_PWD + "TEXT NOT NULL,"
+                + COL_PWD + " TEXT NOT NULL,"
                 + COL_EMAIL+ " TEXT NOT NULL, "
-                + COL_LAST_LOGIN+ " TEXT NOT NULL, "
+                + COL_LAST_LOGIN+ " TEXT NULL, "
                 + COL_UPDATED_AT + " TEXT NOT NULL);";
     }
 
@@ -133,8 +145,8 @@ public class UserSQLiteAdapter {
      */
     public long update(User user){
         ContentValues valuesUpdate = this.userToContentValues(user);
-        String whereClausesUpdate = COL_ID + "= ?";
-        String[] whereArgsUpdate =  {String.valueOf(user.getId())};
+        String whereClausesUpdate = COL_ID_SERVER + "= ?";
+        String[] whereArgsUpdate =  {String.valueOf(user.getId_server())};
 
         return db.update(TABLE_USER, valuesUpdate, whereClausesUpdate, whereArgsUpdate);
     }
@@ -163,6 +175,31 @@ public class UserSQLiteAdapter {
         return result;
     }
 
+    public User getUserByIdServer(int id_server){
+
+        String[] cols = {COL_ID, COL_ID_SERVER, COL_USERNAME,COL_PWD, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
+        String whereClausesSelect = COL_ID_SERVER + "= ?";
+        String[] whereArgsSelect = {String.valueOf(id_server)};
+
+        // create SQL request
+        Cursor cursor = db.query(TABLE_USER, cols, whereClausesSelect, whereArgsSelect, null, null, null);
+
+        User result = null;
+
+        // if SQL request return a result
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+            result = cursorToItem(cursor);
+        }
+        return result;
+    }
+
+    /**
+     * Get the user with this login and password
+     * @param login
+     * @param password
+     * @return user
+     */
     public User getUserWithLoginPassword(String login, String password){
         String[] cols = {COL_ID, COL_ID_SERVER, COL_USERNAME,COL_PWD, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
         String whereClausesSelect = COL_USERNAME + "=? AND " + COL_PWD + " =?";
@@ -209,7 +246,9 @@ public class UserSQLiteAdapter {
         values.put(COL_USERNAME, user.getUsername());
         values.put(COL_PWD, user.getPwd());
         values.put(COL_EMAIL, user.getEmail());
-        values.put(COL_LAST_LOGIN, user.getLast_login().toString());
+        if(user.getLast_login() != null) {
+            values.put(COL_LAST_LOGIN, user.getLast_login().toString());
+        }
         values.put(COL_UPDATED_AT, user.getUpdated_at().toString());
         return values;
     }
@@ -233,10 +272,12 @@ public class UserSQLiteAdapter {
 
         Date date_last_login = new Date();
         Date date_updated_at = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
         try
         {
-            date_last_login = simpleDateFormat.parse(last_login);
+            if(last_login != null && !last_login.isEmpty()  ) {
+                date_last_login = simpleDateFormat.parse(last_login);
+            }
             date_updated_at = simpleDateFormat.parse(updated_at);
         }
         catch (ParseException ex)
@@ -245,8 +286,8 @@ public class UserSQLiteAdapter {
         }
 
 
-        User result = new User(id,id_server,username,email,pwd,date_last_login,date_updated_at);
-
+        User result = new User(id_server,username,email,pwd,date_last_login,date_updated_at);
+        result.setId(id);
 
         return result;
     }

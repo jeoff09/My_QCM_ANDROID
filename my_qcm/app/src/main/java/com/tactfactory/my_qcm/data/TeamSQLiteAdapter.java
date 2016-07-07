@@ -20,6 +20,11 @@ import java.util.Date;
 public class TeamSQLiteAdapter {
 
     /**
+     *  Class context
+     */
+    private Context context;
+
+    /**
      * Name of the Table inside DB
      */
     protected static final String TABLE_TEAM = "team";
@@ -60,7 +65,8 @@ public class TeamSQLiteAdapter {
      * @param context
      */
     public TeamSQLiteAdapter(Context context){
-        helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.helper = new My_QCMSQLiteOpenHelper(context,My_QCMSQLiteOpenHelper.DB_NAME,null,1);
+        this.context = context;
     }
 
     /**
