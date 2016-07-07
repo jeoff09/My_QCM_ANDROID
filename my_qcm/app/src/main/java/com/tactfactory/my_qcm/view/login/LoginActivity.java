@@ -7,10 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,7 +19,7 @@ import com.tactfactory.my_qcm.configuration.Pwd;
 import com.tactfactory.my_qcm.configuration.Utility;
 import com.tactfactory.my_qcm.data.UserSQLiteAdapter;
 import com.tactfactory.my_qcm.data.asynctaskManageUserDB.ManageUserDBAsyncTask;
-import com.tactfactory.my_qcm.data.asynctaskManageUserDB.OnCompleted;
+import com.tactfactory.my_qcm.data.asynctaskManageUserDB.onCompleted;
 import com.tactfactory.my_qcm.data.webservice.ConnectionWSAdapter;
 import com.tactfactory.my_qcm.data.webservice.UserWSAdapter;
 import com.tactfactory.my_qcm.entity.User;
@@ -30,7 +28,7 @@ import com.tactfactory.my_qcm.view.home.HomeActivity;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class LoginActivity extends AppCompatActivity implements OnCompleted{
+public class LoginActivity extends AppCompatActivity implements onCompleted {
 
     long result;
     ConnectionWSAdapter connectionWSAdapter;

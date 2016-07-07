@@ -13,10 +13,10 @@ import com.tactfactory.my_qcm.entity.User;
  */
 public class ManageUserDBAsyncTask  extends AsyncTask<User, Void, String> {
 
-    private OnCompleted onCompleted;
+    private com.tactfactory.my_qcm.data.asynctaskManageUserDB.onCompleted onCompleted;
     private User user;
 
-    public ManageUserDBAsyncTask(OnCompleted context, User user){
+    public ManageUserDBAsyncTask(com.tactfactory.my_qcm.data.asynctaskManageUserDB.onCompleted context, User user){
         this.onCompleted = context;
         this.user = user;
     }
