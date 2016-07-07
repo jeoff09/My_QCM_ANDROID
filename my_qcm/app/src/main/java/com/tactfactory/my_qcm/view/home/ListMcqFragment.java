@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import com.tactfactory.my_qcm.R;
 import com.tactfactory.my_qcm.configuration.MyQCMConstants;
+import com.tactfactory.my_qcm.configuration.Pwd;
+import com.tactfactory.my_qcm.configuration.Utility;
 import com.tactfactory.my_qcm.data.McqSQLiteAdapter;
 import com.tactfactory.my_qcm.data.QuestionSQLiteAdapter;
 import com.tactfactory.my_qcm.data.webservice.McqWSAdapter;
@@ -39,6 +42,9 @@ public class ListMcqFragment extends ListFragment {
     McqWSAdapter mcqWSAdapter;
     McqSQLiteAdapter mcqSQLiteAdapter;
     ArrayList<Mcq> mcqs;
+    boolean isConnected;
+    int id_user;
+    int categ_id;
     public ListMcqFragment() {
     }
 
@@ -46,9 +52,14 @@ public class ListMcqFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the fragment
        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_list_mcq,container,false);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setVisibility(fab.VISIBLE);
+
          mcqWSAdapter = new McqWSAdapter(getActivity().getBaseContext());
          mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getBaseContext());
-        int categ_id = getArguments().getInt("id_categ");
+
+         categ_id = getArguments().getInt("id_categ");
+         id_user = getArguments().getInt("id_user");
         System.out.println("ID_server de la catégorie est " + categ_id);
         // open DB to get the list mcq on DB
         mcqSQLiteAdapter.open();
@@ -63,8 +74,13 @@ public class ListMcqFragment extends ListFragment {
                     mcqs);
             setListAdapter(arrayAdapter);
         }
-        mcqWSAdapter.getMcqRequest(2, categ_id, MyQCMConstants.CONST_URL_GET_MCQs);
-
+        isConnected = Utility.CheckInternetConnection(getActivity().getBaseContext());
+        if(isConnected == true) {
+            mcqWSAdapter.getMcqRequest(id_user, categ_id, MyQCMConstants.CONST_URL_GET_MCQs);
+        }
+        else {
+            System.out.println("No connexion for get Mcq");
+        }
         setRetainInstance(true);
 
         return rootView;
@@ -87,6 +103,7 @@ public class ListMcqFragment extends ListFragment {
         {
             Intent intent = new Intent(getActivity().getBaseContext(), QuestionnaireActivity.class);
             intent.putExtra("id_mcq", id_mcq);
+            intent.putExtra("id_user",id_user);
             System.out.println("Id envoyer au questionnaire =" + id_mcq);
             getActivity().startActivity(intent);
             startActivity(intent);

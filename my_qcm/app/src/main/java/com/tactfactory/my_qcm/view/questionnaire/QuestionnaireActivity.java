@@ -43,6 +43,7 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         // Get element pass in params
         Intent intent = getIntent();
         int id_mcq = intent.getIntExtra("id_mcq", 0);
+        int id_user = intent.getIntExtra("id_user",0);
 
         // Get the list of Questions and linked answer transform to json
         questionSQLiteAdapter = new QuestionSQLiteAdapter(QuestionnaireActivity.this);
@@ -84,7 +85,7 @@ public class QuestionnaireActivity  extends AppCompatActivity {
         bundleContent.putString("list_answer", answersJson);
         bundleContent.putInt("questions_position", questionsPositionList);
         bundleContent.putInt("navigation_value",naviguationValue);
-
+        bundleContent.putInt("id_user", id_user);
         Bundle bundleSubHeader = new Bundle();
         bundleSubHeader.putInt("id_mcq", id_mcq);
         bundleSubHeader.putString("name_question", "BoB");

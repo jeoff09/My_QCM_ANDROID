@@ -2,6 +2,7 @@ package com.tactfactory.my_qcm.view.menu;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,13 @@ public class LegalNoticesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_legal_notices, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_legal_notices, container, false);
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setVisibility(fab.INVISIBLE);
+
+
+        return rootView;
     }
 
 }

@@ -222,6 +222,7 @@ public class QuestionSQLiteAdapter {
             // add typ into list
             do {
                 Question question = this.cursorToItem(cursor);
+                System.out.println("question mcq id " + question.getMcq());
                 if( question.getMcq().getId_server() == id_server_mcq) {
                     result.add(this.cursorToItem(cursor));
                 }

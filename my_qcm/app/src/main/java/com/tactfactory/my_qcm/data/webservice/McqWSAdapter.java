@@ -140,6 +140,7 @@ public class McqWSAdapter {
             answerSQLiteAdapter = new AnswerSQLiteAdapter(context);
             questionSQLiteAdapter = new QuestionSQLiteAdapter(context);
             mcqSQLiteAdapter = new McqSQLiteAdapter(context);
+
             categSQLiteAdapter.open();
             Categ categ = categSQLiteAdapter.getCategById_server(category);
             categSQLiteAdapter.close();
@@ -157,7 +158,7 @@ public class McqWSAdapter {
                 //If Categ not exist on Mobile DB
                 if(tempMcq == null)
                 {
-                    //Add categ on the DB
+                    //Add mcq on the DB
                     long result = mcqSQLiteAdapter.insert(mcq);
                     results.add(String.valueOf(result));
                 }
@@ -246,7 +247,7 @@ public class McqWSAdapter {
             // compare the mcq question on questions on the DB
                 for (Question question : mcq.getQuestions()) {
                         question.setMcq(mcq);
-                        Question tempQuestion ;
+                        Question tempQuestion;
 
                     //question in DB with the same ID_SERVER
                     tempQuestion = questionSQLiteAdapter.getQuestionById_server(question.getId_server());

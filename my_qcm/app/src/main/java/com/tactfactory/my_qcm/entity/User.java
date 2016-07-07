@@ -29,7 +29,7 @@ public class User {
     @Expose(serialize = true, deserialize = true)
     private String email;
 
-    @SerializedName("last_login")
+    @SerializedName("lastlogin")
     @Expose(serialize = true, deserialize = true)
     private Date last_login;
 
@@ -199,5 +199,15 @@ public class User {
      */
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
+    }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "Username='" + username + '\'' +
+                ", Email='" + email + '\'' +
+                ", LastLogin=" + last_login +
+                '}';
     }
 }

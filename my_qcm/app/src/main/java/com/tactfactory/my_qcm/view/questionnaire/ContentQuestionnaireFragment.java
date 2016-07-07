@@ -51,7 +51,7 @@ public class ContentQuestionnaireFragment extends Fragment {
     String answersToJson;
     CompleteMCQFunctionAdapter completeMCQFunctionAdapter;
     boolean isLastQuestion = false;
-
+    int id_user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,12 +64,14 @@ public class ContentQuestionnaireFragment extends Fragment {
         questionsJson = getArguments().getString("list_question");
         questions = completeMCQFunctionAdapter.responseToListQuestion(questionsJson);
         answersJson = getArguments().getString("list_answer");
+        System.out.println("answerJson" + answersJson);
         answers = completeMCQFunctionAdapter.responseToListAnswer(answersJson);
         //position of the question
         questionsPositionList = getArguments().getInt("questions_position");
         // if next = 1 if back = 0
         naviguationValue = getArguments().getInt("navigation_value");
-
+        // get the id user
+        id_user = getArguments().getInt("id_user");
         questionShow = completeMCQFunctionAdapter.questionShow(questions, questionsPositionList);
         answersShow = completeMCQFunctionAdapter.answersShow(answers, questionShow);
 
@@ -171,6 +173,7 @@ public class ContentQuestionnaireFragment extends Fragment {
                                     Intent intent = new Intent(getActivity(), ResultActivity.class);
                                     intent.putExtra("answers", answersJson);
                                     intent.putExtra("questions", questionsJson);
+                                    intent.putExtra("id_user", id_user);
                                     startActivity(intent);
                                 }
                             });
@@ -182,28 +185,29 @@ public class ContentQuestionnaireFragment extends Fragment {
                             }).show();
 
                 } else {
-                    answersToJson = completeMCQFunctionAdapter.listAnswersToJSON(answers);
-                    questionsPositionList = questionsPositionList + 1;
+        answersToJson = completeMCQFunctionAdapter.listAnswersToJSON(answers);
+        questionsPositionList = questionsPositionList + 1;
 
-                    // Add element on bundle
-                    Bundle bundleContent = new Bundle();
-                    bundleContent.putString("list_question", questionsJson);
-                    bundleContent.putString("list_answer", answersToJson);
-                    bundleContent.putInt("questions_position", questionsPositionList);
-                    bundleContent.putInt("navigation_value", 1);
+        // Add element on bundle
+        Bundle bundleContent = new Bundle();
+        bundleContent.putString("list_question", questionsJson);
+        bundleContent.putString("list_answer", answersToJson);
+        bundleContent.putInt("questions_position", questionsPositionList);
+        bundleContent.putInt("id_user", id_user);
+        bundleContent.putInt("navigation_value", 1);
 
-                    //start new fragment
-                    // set the fragment initially for the content of my questionnaire with is bundle
-                    ContentQuestionnaireFragment fragmentContent = new ContentQuestionnaireFragment();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransactionContent = fragmentManager.beginTransaction();
-                    fragmentContent.setArguments(bundleContent);
-                    fragmentTransactionContent.replace(R.id.content_questionnaire, fragmentContent);
-                    fragmentTransactionContent.commit();
-                }
-            }
-        });
+        //start new fragment
+        // set the fragment initially for the content of my questionnaire with is bundle
+        ContentQuestionnaireFragment fragmentContent = new ContentQuestionnaireFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransactionContent = fragmentManager.beginTransaction();
+        fragmentContent.setArguments(bundleContent);
+        fragmentTransactionContent.replace(R.id.content_questionnaire, fragmentContent);
+        fragmentTransactionContent.commit();
     }
+}
+});
+        }
 
     private void previousButtonClick(View rootView){
         RelativeLayout relative_layout_content = (RelativeLayout) rootView.findViewById(R.id.relative_layout_content);
@@ -234,6 +238,7 @@ public class ContentQuestionnaireFragment extends Fragment {
                 bundleContent.putString("list_question" , questionsJson);
                 bundleContent.putString("list_answer", answersToJson);
                 bundleContent.putInt("questions_position", questionsPositionList);
+                bundleContent.putInt("id_user", id_user);
                 bundleContent.putInt("navigation_value",0);
 
                 //start new fragment

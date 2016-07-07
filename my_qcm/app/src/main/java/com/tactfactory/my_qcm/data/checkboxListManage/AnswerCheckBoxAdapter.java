@@ -18,18 +18,21 @@ import java.util.ArrayList;
 
 /**
  * Created by ProtoConcept GJ on 16/06/2016.
+ *
  */
 public class AnswerCheckBoxAdapter extends ArrayAdapter<Answer> {
 
     public ArrayList<Answer> answers;
     public Context context;
 
+    //Constructor for the adapter
     public AnswerCheckBoxAdapter(ArrayList<Answer> answers, Context context,int ViewResourceId) {
         super(context,ViewResourceId, answers);
         this.answers = answers;
         this.context = context;
     }
 
+    //Declaration of element in my list
     private class AnswerHolder {
 
          TextView textview_value_answer;

@@ -18,6 +18,11 @@ import java.util.List;
 public class CompleteMCQFunctionAdapter {
 
 
+    /**
+     *  Deserialize json to list of question
+     * @param response
+     * @return list of question
+     */
     public ArrayList<Question> responseToListQuestion(String response)
     {
         //Format of the recup Date
@@ -35,6 +40,11 @@ public class CompleteMCQFunctionAdapter {
         return questions;
     }
 
+    /**
+     *  Deserialize json to list of question
+     * @param response
+     * @return list of question
+     */
     public ArrayList<Answer> responseToListAnswer(String response)
     {
         //Format of the recup Date
@@ -69,7 +79,12 @@ public class CompleteMCQFunctionAdapter {
         return result;
     }
 
-
+    /**
+     * How to now the actual question
+     * @param questions
+     * @param positionInList
+     * @return
+     */
     public Question questionShow (ArrayList<Question> questions, int positionInList)
     {
         Question question = null;
@@ -92,6 +107,13 @@ public class CompleteMCQFunctionAdapter {
         return question;
     }
 
+
+    /**
+     * SReturn the answer list of selected question
+     * @param answers
+     * @param question
+     * @return
+     */
     public ArrayList<Answer> answersShow (ArrayList<Answer> answers, Question question)
     {
         ArrayList<Answer> answerShow = new ArrayList<>();
@@ -119,6 +141,11 @@ public class CompleteMCQFunctionAdapter {
         return answerShow;
     }
 
+    /**
+     * List question to json
+     * @param questions
+     * @return jsonString
+     */
     public String listQuestionsToJSON(ArrayList<Question> questions)
     {
         String questionsJSON;
@@ -139,6 +166,11 @@ public class CompleteMCQFunctionAdapter {
         return questionsJSON;
     }
 
+    /**
+     * List answer to Json to send beetween
+     * @param answers
+     * @return jsonString
+     */
     public String listAnswersToJSON(ArrayList<Answer> answers)
     {
         String answersJSON;

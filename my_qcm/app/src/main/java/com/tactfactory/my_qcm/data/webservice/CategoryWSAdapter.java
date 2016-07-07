@@ -1,7 +1,9 @@
 package com.tactfactory.my_qcm.data.webservice;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.tactfactory.my_qcm.R;
@@ -47,6 +50,7 @@ public class CategoryWSAdapter {
     public CategoryWSAdapter(Context context) {
         this.context = context;
     }
+
 
     public void getCategoryRequest (Integer user_id, String url) {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
@@ -87,6 +91,53 @@ public class CategoryWSAdapter {
         });
     }
 
+    public void getCategoryRequest(int userId,String url,final CallBack callback ){
+        //Set connection to Web service
+        //-----------------------------
+        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+        asyncHttpClient.setConnectTimeout(MyQCMConstants.CONST_CONNECT_TIMEOUT);
+        asyncHttpClient.setTimeout(MyQCMConstants.CONST_SET_TIMEOUT);
+
+        //Set param to build post request
+        //-------------------------------
+        RequestParams params = new RequestParams();
+        params.put(MyQCMConstants.CONST_VALUE_ID_USER, userId);
+        RequestHandle post = asyncHttpClient.post(url +  ".json", params, new TextHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                response = responseString;
+                System.out.println("response = " + response);
+                if(response  == null)
+                {
+                    System.out.println("No answer");
+                    response = "isEmpty";
+                }
+                callback.methods(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                response = "OnFailure";
+                System.out.println("getCatgeoryRequest - FirstConnection :" + response);
+                callback.methods(response);
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBytes, Throwable throwable) {
+                String str = null;
+                try {
+                    str = new String(responseBytes, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("getCatgeoryRequest - FirstConnection - On failure 2 = " + str);
+                response = "OnFailure";
+                callback.methods(response);
+            }
+        });
+    }
 
     public  ArrayList<Categ> responseToList(String response)
     {
@@ -115,7 +166,7 @@ public class CategoryWSAdapter {
 
             // Call the AsyncTask to add Categ on the DB and returns the list of result
             try {
-                listResult = new ManageCategDBTask().execute(list).get();
+                new ManageCategDBTask().execute(list).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -125,13 +176,27 @@ public class CategoryWSAdapter {
         }
     }
 
+    public static ArrayList<Categ> ResponseToList(String response) {
+        //Format of the recup Date
+        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(DATE_FORMAT);
+        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
+        Gson gson =  gsonBuilder.create();
+        Type collectionType = new TypeToken<List<Categ>>(){}.getType();
+        //ArrayList<Category> categories = new ArrayList<Category>();
+        ArrayList<Categ> categories = (ArrayList<Categ>) gson.fromJson(response, collectionType);
+        return categories;
+    }
+
     /**
      * Asyntask To Manage Categories get on the Flow in the DB
      */
-    public class ManageCategDBTask extends AsyncTask<ArrayList<Categ>,Void,ArrayList<String>> {
+    public class ManageCategDBTask extends AsyncTask<ArrayList<Categ>,Void, Void> {
 
         @Override
-        protected ArrayList<String> doInBackground(ArrayList<Categ>... params) {
+        protected Void doInBackground(ArrayList<Categ>... params) {
             ArrayList<Categ> categories =  new ArrayList<Categ>();
             ArrayList<String> results = new ArrayList<String>();
             categories = params[0];
@@ -181,14 +246,40 @@ public class CategoryWSAdapter {
             categSQLiteAdapter.close();
 
 
-            return results;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> result) {
-            super.onPostExecute(result);
+        protected void onPostExecute( Void Zvoid) {
+            super.onPostExecute(Zvoid);
         }
     }
 
+    public interface CallBack{
+        void methods(String reponse);
+    }
 
+
+    public void CategoryErrorMessage(Context context, int idError){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Message d'erreur");
+        if (idError == 1) {
+            alertDialog.setMessage("Impossible de récupérer le flux de données." +
+                    "Êtes-vous sûr d'avoir une connexion au réseau ?");
+        }else if (idError == 2) {
+            alertDialog.setMessage("Aucune Categorie n'est paramétrée pour votre compte." +
+                    "Veuillez contacter votre administrateur");
+        } else if (idError == 3) {
+            alertDialog.setMessage("Attention ! votre base de données n'est pas complète" +
+                    "Veuillez contacter votre administrateur");
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
     }

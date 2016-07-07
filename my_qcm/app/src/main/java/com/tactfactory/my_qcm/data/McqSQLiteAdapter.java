@@ -169,6 +169,7 @@ public class McqSQLiteAdapter {
      * @return line result
      */
     public long update(Mcq mcq){
+        System.out.println("mcq . is actif " + mcq.getIsActif());
         ContentValues valuesUpdate = this.mcqToContentValues(mcq);
         String whereClausesUpdate = COL_ID_SERVER + "= ?";
         System.out.println("MCQ update  dae de fin : " + mcq.getDateEnd());
