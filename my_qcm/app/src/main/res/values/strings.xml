@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">My_QCM</string>
+    <string name="action_settings">Settings</string>
+    <string name="login">Login</string>
+    <string name="pwd">Password</string>
+    <string name="button_connection">Connexion</string>
+    <string name="title_activity_home">Accueil</string>
+    <string name="title_activity_questionnaire">Questionnaire</string>
+    <string name="title_activity_result">Résultat</string>
+    <string name="profil_menu">Profil</string>
+    <string name="rules_menu">Règles</string>
+    <string name="legal_mentions_menu">Mentions Légales</string>
+    <string name="help_menu">Aide</string>
+    <string name="logout_menu">Déconnexion</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_next_questionnaire">Suivant</string>
+    <string name="navigation_previous_questionnaire">Précédent</string>
+    <string name="name_menu">Menu</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="help_title">FAQ</string>
+    <string name="help_accessMcq"><b>Accès aux questionnaires : </b> Veuillez sélectionner un élément dans la liste sur la page de démarrage. Pour chaque catégorie, une liste de questionnaires est disponible.Sélectionnez en un pour commencer à y répondre.</string>
+    <string name="help_timer"><b>Le décompte a stoppé mon questionnaire ! :</b> Si le compte à rebours est arrivé à expiration, le temps imparti pour répondre au questionnaire est terminé. Le questionnaire est validé avec la dernière réponse sélectionnée.</string>
+    <string name="help_WithoutData"><b>Je ne vois pas de catégories et/ou de questionnaires :</b> Certaines informations sont manquantes, veuillez contacter votre administrateur.</string>
+    <string name="help_InfoUser"><b>Comment changer mes informations personnelles ?</b> Pour tout changement lié à votre compte utilisateur, veuillez contacter votre administrateur.</string>
+
+    <string name="app_name_value">Nom : <b>My QCM</b></string>
+    <string name="app_version">Version : <b>1.0</b></string>
+    <string name="app_creation">Date de publication : <b>08/07/2016</b></string>
+    <string name="app_creator">Développer par : <b>GODART Jeoffrey</b></string>
+    <string name="app_creator_email">Contact : <b>jeoffrey.godart@hotmail.fr</b></string>
+    <string name="app_copyright">Copyright 2016 <b>Tact Factory</b></string>
+
+    <string name="rules_title">Règle de MyQCM</string>
+    <string name="rules_timer"><b>Règle n°1 - Le compte à rebours :</b> Un compte a rebours se déclenche au démarrage du questionnaire sélectionné.</string>
+    <string name="rules_timer_end"><b>Règle n°2 - La fin du timer :</b> Le timer prend fin à la validation du questionnaire - OU - si celui-ci arrive a 0.</string>
+    <string name="rules_manage_result"><b>Règle n°3 - Le calcul des points :</b> 1 question = 1 point. Pour les questions à réponses multiples, toutes les réponses doivent être cochées pour valider le point.</string>
+    <string name="rules_moreInfo"><b>Informations supplémentaires:</b> Veuillez contacter votre administrateur pour de plus amples explications.</string>
+</resources>

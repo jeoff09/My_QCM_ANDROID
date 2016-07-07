@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home_menu"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/title_activity_home" />
+        <item
+            android:id="@+id/profil_menu"
+            android:icon="@drawable/ic_menu_profil"
+            android:title="@string/profil_menu" />
+        <item
+            android:id="@+id/rules_menu"
+            android:icon="@drawable/ic_menu_rules"
+            android:title="@string/rules_menu" />
+        <item
+            android:id="@+id/help_menu"
+            android:icon="@drawable/ic_menu_help"
+            android:title="@string/help_menu" />
+        <item
+            android:id="@+id/legal_mentions_menu"
+            android:icon="@drawable/ic_menu_mention"
+            android:title="@string/legal_mentions_menu" />
+        <item
+            android:id="@+id/logout_menu"
+            android:icon="@drawable/ic_menu_logout"
+            android:title="@string/logout_menu" />
+    </group>
+</menu>
