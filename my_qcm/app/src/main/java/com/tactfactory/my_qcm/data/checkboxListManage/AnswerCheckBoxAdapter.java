@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Created by ProtoConcept GJ on 16/06/2016.
+ * Class Adapter to manage aswers list with checkbox and text view
  *
  */
 public class AnswerCheckBoxAdapter extends ArrayAdapter<Answer> {
@@ -32,13 +33,22 @@ public class AnswerCheckBoxAdapter extends ArrayAdapter<Answer> {
         this.context = context;
     }
 
-    //Declaration of element in my list
+    /**
+     * Declaration of elements in my list
+     */
     private class AnswerHolder {
 
          TextView textview_value_answer;
          CheckBox checkbox_item_answer;
     }
 
+    /**
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return the view wih element set
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -55,6 +65,9 @@ public class AnswerCheckBoxAdapter extends ArrayAdapter<Answer> {
             convertView.setTag(answerHolder);
 
 
+            /**
+             * On click set the value is selected
+             */
             answerHolder.checkbox_item_answer.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     CheckBox cb = (CheckBox) v;

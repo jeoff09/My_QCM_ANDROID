@@ -8,6 +8,7 @@ import com.tactfactory.my_qcm.data.UserSQLiteAdapter;
 import com.tactfactory.my_qcm.entity.User;
 
 /**
+ * Asyntask to manage User in connection
  * Created by jeoffrey on 05/07/2016.
  */
 public class ManageUserDBAsyncTask  extends AsyncTask<User, Void, String> {

@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * Secure storage PWD in Mobile DB
  * Created by ProtoConcept GJ on 29/05/2016.
  */
 public class Pwd {

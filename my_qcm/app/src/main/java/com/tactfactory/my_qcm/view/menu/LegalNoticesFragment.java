@@ -27,6 +27,7 @@ public class LegalNoticesFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_legal_notices, container, false);
 
+        //Disable Float Button
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setVisibility(fab.INVISIBLE);
 

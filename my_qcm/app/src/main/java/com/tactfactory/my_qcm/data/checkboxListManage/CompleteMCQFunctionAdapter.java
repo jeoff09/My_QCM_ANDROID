@@ -14,12 +14,13 @@ import java.util.List;
 
 /**
  * Created by ProtoConcept GJ on 18/06/2016.
+ * Class Managing Serilialize/deserialize list on get Actual Question qand answers linked
  */
 public class CompleteMCQFunctionAdapter {
 
 
     /**
-     *  Deserialize json to list of question
+     *  Deserialize json to list of questions
      * @param response
      * @return list of question
      */
@@ -41,9 +42,9 @@ public class CompleteMCQFunctionAdapter {
     }
 
     /**
-     *  Deserialize json to list of question
+     *  Deserialize json to list of answer
      * @param response
-     * @return list of question
+     * @return list of answer
      */
     public ArrayList<Answer> responseToListAnswer(String response)
     {
@@ -62,33 +63,16 @@ public class CompleteMCQFunctionAdapter {
         return answers;
     }
 
-    public Result responseToResult(String response)
-    {
-        //Format of the recup Date
-        String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setDateFormat(DATE_FORMAT);
-        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-        Gson gson =  gsonBuilder.create();
-        Type collectionType = new TypeToken<Result>(){}.getType();
-
-        Result result = new Result();
-        result = (Result) gson.fromJson(response, collectionType);
-
-        return result;
-    }
 
     /**
      * How to now the actual question
      * @param questions
      * @param positionInList
-     * @return
+     * @return question
      */
     public Question questionShow (ArrayList<Question> questions, int positionInList)
     {
         Question question = null;
-        System.out.println("Nombre de question dans la liste =" +questions.size());
         if(questions != null)
         {
             if(positionInList != -1)
@@ -112,7 +96,7 @@ public class CompleteMCQFunctionAdapter {
      * SReturn the answer list of selected question
      * @param answers
      * @param question
-     * @return
+     * @return List Answer to show
      */
     public ArrayList<Answer> answersShow (ArrayList<Answer> answers, Question question)
     {
@@ -142,7 +126,7 @@ public class CompleteMCQFunctionAdapter {
     }
 
     /**
-     * List question to json
+     * List question to json to send beetween content questionnaire
      * @param questions
      * @return jsonString
      */
@@ -167,7 +151,7 @@ public class CompleteMCQFunctionAdapter {
     }
 
     /**
-     * List answer to Json to send beetween
+     * List answer to Json to send beetween content questionnaire
      * @param answers
      * @return jsonString
      */

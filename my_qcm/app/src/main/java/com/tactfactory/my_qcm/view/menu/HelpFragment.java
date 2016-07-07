@@ -27,6 +27,7 @@ public class HelpFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_help, container, false);
 
+        //Disable Float Button
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setVisibility(fab.INVISIBLE);
 

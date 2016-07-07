@@ -60,7 +60,7 @@ public class ContentQuestionnaireFragment extends Fragment {
         RelativeLayout relative_layout_content = (RelativeLayout) rootView.findViewById(R.id.relative_layout_content);
         //get the class to deserialize element
         completeMCQFunctionAdapter = new CompleteMCQFunctionAdapter();
-        // get All Element link with the MCQ Answer Question
+        // get All Element link with the MCQ, Answer, Question
         questionsJson = getArguments().getString("list_question");
         questions = completeMCQFunctionAdapter.responseToListQuestion(questionsJson);
         answersJson = getArguments().getString("list_answer");
@@ -75,13 +75,16 @@ public class ContentQuestionnaireFragment extends Fragment {
         questionShow = completeMCQFunctionAdapter.questionShow(questions, questionsPositionList);
         answersShow = completeMCQFunctionAdapter.answersShow(answers, questionShow);
 
+        // get the list view to put answer
         list_answer = (ListView) rootView.findViewById(R.id.list_answer);
 
+        // get the value of text view and set the question name
         textView_Question_Value = (TextView)rootView.findViewById(R.id.question_value);
         textView_Question_Value.setText(questionShow.getQues());
 
         System.out.println("Question size = " + questions.size());
         System.out.println("Question position = " + questionsPositionList);
+        // Manage button if is first question or last
         if (questionsPositionList == 0) {
             System.out.println("Is the first Question");
             Button previous_question = (Button) relative_layout_content.findViewById(R.id.previous_question);
@@ -100,7 +103,7 @@ public class ContentQuestionnaireFragment extends Fragment {
             System.out.println("This is not the last or the first question");
         }
 
-        // TO send
+        // Set the number of question and the actual question
         TextView textViewNumberQuestion = (TextView) getActivity().findViewById(R.id.questions_numbers);
         int questionPosition  = questionsPositionList +1;
         String textToTextView = questionPosition  + "/" + questions.size();
@@ -108,17 +111,13 @@ public class ContentQuestionnaireFragment extends Fragment {
         textViewNumberQuestion.setText(textToTextView);
 
 
-
-        TextView textViewDuration = (TextView) getActivity().findViewById(R.id.timer_mcq);
-        CharSequence valueOfTimer = textViewDuration.getText();
-        System.out.println("Value of timer " + valueOfTimer);
-
         //create an ArrayAdaptar from the String Array
         answerCheckBoxAdapter = new AnswerCheckBoxAdapter(answersShow, getContext().getApplicationContext(),
                 R.layout.fragment_content_questionnaire);
 
         // Assign adapter to list_answer
         list_answer.setAdapter(answerCheckBoxAdapter);
+
 
         list_answer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
@@ -138,6 +137,11 @@ public class ContentQuestionnaireFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Methode call when next button is clicked  check is the last question
+     * @param rootView
+     * @param isLastQuestion
+     */
     private void nextButtonClick(View rootView, final boolean isLastQuestion) {
         RelativeLayout relative_layout_content = (RelativeLayout) rootView.findViewById(R.id.relative_layout_content);
         Button myButton = (Button) relative_layout_content.findViewById(R.id.next_question);
@@ -158,6 +162,7 @@ public class ContentQuestionnaireFragment extends Fragment {
                 }
                 TextView textViewNext = (TextView) getActivity().findViewById(R.id.next_question);
                 String valueOfButton = textViewNext.getText().toString();
+                // if last question show end dialog
                 if (isLastQuestion == true || valueOfButton.equals("Terminer") == true) {
 
                     // if is the last question show dialog message
@@ -184,7 +189,9 @@ public class ContentQuestionnaireFragment extends Fragment {
                                 }
                             }).show();
 
-                } else {
+                }
+                // If no the last question set the value of different element and call the next question
+                else {
         answersToJson = completeMCQFunctionAdapter.listAnswersToJSON(answers);
         questionsPositionList = questionsPositionList + 1;
 
@@ -209,6 +216,10 @@ public class ContentQuestionnaireFragment extends Fragment {
 });
         }
 
+    /**
+     * On click previous button pass element for the futur fragment
+     * @param rootView
+     */
     private void previousButtonClick(View rootView){
         RelativeLayout relative_layout_content = (RelativeLayout) rootView.findViewById(R.id.relative_layout_content);
         Button myButton = (Button) relative_layout_content.findViewById(R.id.previous_question);

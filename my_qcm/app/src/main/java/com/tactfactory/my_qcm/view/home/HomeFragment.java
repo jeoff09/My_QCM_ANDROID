@@ -55,28 +55,33 @@ public class HomeFragment extends ListFragment {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_home,container,false);
 
 
+        //Set the visibilty of Floating Button
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setVisibility(fab.VISIBLE);
 
         Bundle args = getArguments();
         if(args != null) {
+            // check is first connection
             if (args.containsKey("FirstConnection")) {
                 boolean isFirstConnection = getArguments().getBoolean("FirstConnection");
 
-
+                    // check UserId and send request to get catg of this User
                 if (args.containsKey("UserIdServer")) {
                     userIdServer = getArguments().getInt("UserIdServer", 0);
                     categoryWSAdapter = new CategoryWSAdapter(getActivity().getBaseContext());
                     isServerReachable = Utility.CheckInternetConnection(getActivity().getBaseContext());
 
+                    //If is the first Connection on the User and if the connection is available
                     if (userIdServer != 0 && isFirstConnection == true && isServerReachable == true) {
 
+                        // New Load Dialog during the request
                         dialog = new ProgressDialog(getActivity());
                         dialog.setMessage("Récupération des informations pour votre première connexion...");
                         dialog.setCancelable(false);
                         dialog.setInverseBackgroundForced(false);
                         dialog.show();
 
+                        // get categ
                         categoryWSAdapter.getCategoryRequest(
                                 userIdServer,
                                 MyQCMConstants.CONST_URL_GET_CATEGORIES,
@@ -84,7 +89,7 @@ public class HomeFragment extends ListFragment {
                                     @Override
                                     public void methods(String response) {
                                         System.out.println("Response Main FragmentList FirstConnection : " + response);
-
+                                            // On error Hide dialog and show error message 1
                                         if (response.equals("OnFailure") == true) {
                                             dialog.hide();
                                             System.out.println(response);
@@ -93,8 +98,7 @@ public class HomeFragment extends ListFragment {
 
                                         } else {
 
-                                            //Else Insert data in database
-                                            //----------------------------
+                                            //If success insert in DB if categ in categorie
                                             categories = CategoryWSAdapter.ResponseToList(response);
                                             if (categories.isEmpty() != false) {
                                                 dialog.hide();
@@ -119,8 +123,7 @@ public class HomeFragment extends ListFragment {
                                                     categoryWSAdapter.CategoryErrorMessage(getActivity().getBaseContext(), 3);
                                                 }
 
-                                                // Create Array Adapter to show category list
-                                                //--------------------------------------------
+                                                // Create the  Array Adapter to show categories
                                                 ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
                                                         getActivity(),
                                                         R.layout.row_fragment_home,
@@ -133,22 +136,23 @@ public class HomeFragment extends ListFragment {
                                     }
                                 });
                         setRetainInstance(true);
-                    } else {
+                    }
+                    //If is not the first connection
+                    else {
                         if (userIdServer != 0 && isServerReachable == true) {
                             categoryWSAdapter.getCategoryRequest(userIdServer,
                                     MyQCMConstants.CONST_URL_GET_CATEGORIES);
                             setRetainInstance(true);
                         }
 
-                        //Get Category existing in database
-                        //---------------------------------
+                        //Get Categ in database
                         categSQLiteAdapter = new CategSQLiteAdapter(getActivity().getBaseContext());
                         categSQLiteAdapter.open();
                         categories = categSQLiteAdapter.getAllCateg();
                         categSQLiteAdapter.close();
 
                         if (categories != null) {
-                            // Create Array Adapter to set view
+                            // set the value of categories in list
                             ArrayAdapter<Categ> arrayAdapter = new ArrayAdapter<Categ>(
                                     getActivity(),
                                     R.layout.row_fragment_home,
@@ -162,6 +166,7 @@ public class HomeFragment extends ListFragment {
                     }
                 }
             }
+            // if not args in param of the fragment show error message
         }else {
             AlertDialog alertDialog = new AlertDialog.Builder(getActivity().getBaseContext()).create();
             alertDialog.setTitle("Message d'erreur");
@@ -179,6 +184,13 @@ public class HomeFragment extends ListFragment {
         return rootView;
     }
 
+    /**
+     * On click item in list start the MCQ fragment
+     * @param l
+     * @param v
+     * @param position
+     * @param id
+     */
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
 

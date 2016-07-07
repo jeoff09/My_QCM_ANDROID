@@ -3,11 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@+id/fragment_content_questionnaire"
-    android:background="@color/colorPrimaryDark">
+    android:layout_below="@+id/fragment_content_questionnaire">
 
     <TextView
-        android:background="@color/colorPrimaryDark"
         android:textColor="@color/colorPrimary"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
@@ -18,19 +16,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Nom de la question ?"/>
+        android:text="Nom du QCM"/>
     <ListView
-        android:background="@color/colorPrimaryDark"
         android:id="@+id/list_answer"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"/>
 
     <RelativeLayout
-        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:gravity="center|bottom"
         android:id="@+id/relative_layout_content">
 
         <Button

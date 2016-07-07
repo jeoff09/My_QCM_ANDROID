@@ -34,10 +34,11 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_profile, container, false);
-
+        //Disable Float Button
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setVisibility(fab.INVISIBLE);
 
+        // Get user information and set in the textView
         userSQLiteAdapter = new UserSQLiteAdapter(getActivity().getBaseContext());
         userSQLiteAdapter.open();
         ArrayList<User> users = new ArrayList<>();

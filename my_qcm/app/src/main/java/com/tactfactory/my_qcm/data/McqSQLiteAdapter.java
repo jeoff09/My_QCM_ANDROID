@@ -247,6 +247,11 @@ public class McqSQLiteAdapter {
         return result;
     }
 
+    /**
+     * Return the list of Mcq available after search if is available and compare date_start and date_end
+     * @param id_categ
+     * @return List Mcq available
+     */
     public ArrayList<Mcq> getAllMcqAvailable(int id_categ){
         ArrayList<Mcq> result = null;
         Cursor cursor = getAllCursor();

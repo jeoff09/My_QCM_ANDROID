@@ -40,6 +40,7 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
 
         int id_mcq =  getArguments().getInt("id_mcq");
 
+        // Get the mcq to set the name and set the timer
         mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getApplication());
         questionSQLiteAdapter = new QuestionSQLiteAdapter(getActivity().getApplication());
         questionSQLiteAdapter.open();
@@ -63,6 +64,9 @@ public class SubHeaderQuestionnaireFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Create timer and update in all second the textview
+     */
     public class CounterMCQDuration extends CountDownTimer{
 
         int duration;

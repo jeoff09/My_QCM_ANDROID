@@ -194,6 +194,12 @@ public class UserSQLiteAdapter {
         return result;
     }
 
+    /**
+     * Get the user with this login and password
+     * @param login
+     * @param password
+     * @return user
+     */
     public User getUserWithLoginPassword(String login, String password){
         String[] cols = {COL_ID, COL_ID_SERVER, COL_USERNAME,COL_PWD, COL_EMAIL, COL_LAST_LOGIN, COL_UPDATED_AT};
         String whereClausesSelect = COL_USERNAME + "=? AND " + COL_PWD + " =?";

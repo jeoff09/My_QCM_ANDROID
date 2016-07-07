@@ -38,7 +38,6 @@ public class UserWSAdapter {
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 response = responseString;
                 User user = JsonToItem(response);
-                //TODO: Insert / update user in database
                 callback.methods(response);
             }
 
@@ -57,7 +56,7 @@ public class UserWSAdapter {
     }
 
     /**
-     * Construct User from user flow
+     * Deserialize Json user to User
      * @param response
      * @return User
      */

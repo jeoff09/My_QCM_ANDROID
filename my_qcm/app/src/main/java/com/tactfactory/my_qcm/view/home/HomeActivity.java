@@ -51,8 +51,10 @@ public class HomeActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+        // if parama send on create activity
         if (extras != null) {
             Bundle bundle = new Bundle();
+            // test if First connection
             if (extras.containsKey("FirstConnection")) {
                 boolean isFirstConnection = intent.getBooleanExtra("FirstConnection", false);
                 if (isFirstConnection == true) {
@@ -61,6 +63,7 @@ public class HomeActivity extends AppCompatActivity
                     bundle.putBoolean("FirstConnection", false);
                 }
             }
+            // Get the User ID
             if (extras.containsKey("UserIdServer")) {
                 int userIdServer = intent.getIntExtra("UserIdServer", 0);
                 bundle.putInt("UserIdServer",userIdServer);
@@ -68,12 +71,14 @@ public class HomeActivity extends AppCompatActivity
             //Set fragment's arguments
             fragment.setArguments(bundle);
         }
+        //Start  fragement
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Set element off Floating Button if is invisible set visible
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(fab.VISIBLE);
         assert fab != null;
@@ -141,6 +146,7 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.home_menu) {
+            // Set element in Fragment transaction for the Home fragment
             HomeFragment fragment = new HomeFragment();
             //Set argument to MainFragmentList
             Bundle categoryBundle = new Bundle();

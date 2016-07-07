@@ -43,10 +43,11 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         Intent intent = getIntent();
-        // get list of answers
+        // get list of answers questions, id user
         String answersJson = intent.getStringExtra("answers");
         String questionsJson = intent.getStringExtra("questions");
         id_user = intent.getIntExtra("id_user",0);
+        // create a list of id Answer to send in webservice
         id_answers = new ArrayList<>();
 
         resultWSAdapter = new ResultWSAdapter(this);
@@ -56,6 +57,7 @@ public class ResultActivity extends AppCompatActivity {
         ToGetMCQ = questions.get(0);
         System.out.println("question = " + ToGetMCQ.getQues());
         System.out.println(answersJson);
+        // get answer is selected and add in the list of id answer the id server
         for(Answer answer : answers)
         {
             if (answer.isSelected() == true)
@@ -68,16 +70,20 @@ public class ResultActivity extends AppCompatActivity {
         questionSQLiteAdapter.open();
         Question tempquestion = questionSQLiteAdapter.getQuestionById_server(ToGetMCQ.getId_server());
         questionSQLiteAdapter.close();
+        // create result with different value id user, id mcq and id answer
         result = new Result();
         result.setId_server_user(id_user);
         result.setId_server_mcq(tempquestion.getMcq().getId_server());
         result.setList_id_server_answer(id_answers);
 
+        // Serialize result object to json string
         String resultJson = resultWSAdapter.resultToJSON(result);
         System.out.println("reslut json = " + resultJson);
         isConnected = Utility.CheckInternetConnection(ResultActivity.this);
+        // dialog during testing connection and send result
         final AlertDialog.Builder endQuestionnaire = new AlertDialog.Builder(ResultActivity.this);
         endQuestionnaire.setTitle("Synchronisation du résultat");
+        // if connection start asyn task on success show message else error message
         if(isConnected == true) {
             dialog=new ProgressDialog(ResultActivity.this);
             dialog.setMessage("Envoi des résultats ...");
@@ -110,7 +116,9 @@ public class ResultActivity extends AppCompatActivity {
                             }).show();
                 }
             });
-        } else {
+        }
+        // if no connection error message cannot send result
+        else {
             endQuestionnaire.setMessage("Attention vous ne disposez pas d'une connexion, vos réponses n'ont pas été prises en compte.");
             endQuestionnaire.setIcon(R.drawable.ic_menu_help);
             endQuestionnaire.setPositiveButton("Accueil",
@@ -124,12 +132,6 @@ public class ResultActivity extends AppCompatActivity {
                     }).show();
         }
 
-
-
-        /**
-         * Todo : Call when the Questonnaire is over and Send the result on the WebService
-         * else put in Database and asyntask try to send on the WebService
-         */
     }
     // overrideBack button to prevent the user from leaving the questionnaire
     @Override

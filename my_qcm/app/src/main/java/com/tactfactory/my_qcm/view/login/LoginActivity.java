@@ -43,19 +43,23 @@ public class LoginActivity extends AppCompatActivity implements OnCompleted{
         super.onCreate(savedInstanceState);
         //Define the layout associate with the Activity
         setContentView(R.layout.activity_login);
+        // get the element on layout
         final EditText etLogin = (EditText)this.findViewById(R.id.textEditLogin);
         final EditText etPassword = (EditText)this.findViewById(R.id.textEditPwd);
         final Button buttonConnexion = (Button)this.findViewById(R.id.buttonConnection);
         //Call to create The Database
         final UserSQLiteAdapter user = new UserSQLiteAdapter(this);
 
+        // if button is not null
         if (buttonConnexion != null) {
+            // get event on click
             buttonConnexion.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    // getvalue in login and pwd
                     final String login = etLogin.getText().toString();
                     final String password = etPassword.getText().toString();
                     boolean isConnected = Utility.CheckInternetConnection(LoginActivity.this);
-                    System.out.println("is connected = "+ isConnected);
+                    // if  connection try yo connect
                     if(isConnected != false) {
                         dialog = new ProgressDialog(LoginActivity.this);
                         dialog.setMessage("Tentative de connexion ...");
@@ -111,7 +115,6 @@ public class LoginActivity extends AppCompatActivity implements OnCompleted{
                                             }
 
                                             //user exist and is up to date Launch Main Activity
-                                            //---------------------------------------------------
                                             userSQLiteAdapter.close();
                                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                             intent.putExtra("FirstConnection", false);
@@ -171,11 +174,16 @@ public class LoginActivity extends AppCompatActivity implements OnCompleted{
         Toast.makeText(getApplicationContext(), response,Toast.LENGTH_LONG).show();
     }
 
-    // overrideBack button to prevent the user from leaving the questionnaire
+    // overrideBack button to prevent the user from leaving the Login
     @Override
     public void onBackPressed() {
     }
 
+    /**
+     * Alert message if user already save in DB
+     * @param context
+     * @param user
+     */
     private void UserMessage(final Context context, final User user) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -233,6 +241,11 @@ public class LoginActivity extends AppCompatActivity implements OnCompleted{
         alertDialog.show();
     }
 
+    /**
+     * Connection message
+     * @param context
+     * @param idError
+     */
     private void ConnectionMessage(final Context context, int idError){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Erreur de connection");

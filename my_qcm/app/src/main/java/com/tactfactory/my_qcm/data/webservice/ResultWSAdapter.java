@@ -28,6 +28,12 @@ public class ResultWSAdapter {
         this.context = context;
     }
 
+    /**
+     * Asyntask to send the result in webservice
+     * @param result
+     * @param url
+     * @param callback
+     */
     public void sendResultRequest(String result, String url, final CallBack callback)
     {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
@@ -66,6 +72,11 @@ public class ResultWSAdapter {
         });
     }
 
+    /**
+     * Serialize result before send to the WebService
+     * @param result
+     * @return String json
+     */
     public String resultToJSON(Result result)
     {
         String resultJSON;

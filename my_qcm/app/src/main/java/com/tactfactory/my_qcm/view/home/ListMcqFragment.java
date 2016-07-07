@@ -35,6 +35,7 @@ import java.util.List;
  * Created by ProtoConcept GJ on 27/04/2016.
  */
 /**
+ * Manage list of MCQ
  * A simple {@link Fragment} subclass.
  */
 public class ListMcqFragment extends ListFragment {
@@ -58,14 +59,16 @@ public class ListMcqFragment extends ListFragment {
          mcqWSAdapter = new McqWSAdapter(getActivity().getBaseContext());
          mcqSQLiteAdapter = new McqSQLiteAdapter(getActivity().getBaseContext());
 
+        //get element on args
          categ_id = getArguments().getInt("id_categ");
          id_user = getArguments().getInt("id_user");
         System.out.println("ID_server de la catégorie est " + categ_id);
-        // open DB to get the list mcq on DB
+        // open DB to get the list mcq available on DB
         mcqSQLiteAdapter.open();
         mcqs = mcqSQLiteAdapter.getAllMcqAvailable(categ_id);
         mcqSQLiteAdapter.close();
 
+        // If list is not null set on adapter
         if(mcqs != null) {
             ArrayAdapter<Mcq> arrayAdapter = new ArrayAdapter<Mcq>(
                     getActivity(),
@@ -74,7 +77,9 @@ public class ListMcqFragment extends ListFragment {
                     mcqs);
             setListAdapter(arrayAdapter);
         }
+        //Check internet connection
         isConnected = Utility.CheckInternetConnection(getActivity().getBaseContext());
+        // If connected send async request to get list of mcq with this categ and user
         if(isConnected == true) {
             mcqWSAdapter.getMcqRequest(id_user, categ_id, MyQCMConstants.CONST_URL_GET_MCQs);
         }
@@ -86,12 +91,16 @@ public class ListMcqFragment extends ListFragment {
         return rootView;
     }
 
-    @Override
     /**
-     * Todo : Get the value of Selected Item and send him by the Bundle and call Questionnaire
-     * When The User select e item on list Call and pass to param the name of the Mcq
+     * On click in item list MCQ , check if questions in this MCQ
+     * @param l
+     * @param v
+     * @param position
+     * @param id
      */
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+
         ViewGroup viewGroup = (ViewGroup)v;
         int id_mcq = mcqs.get(position).getId_server();
         QuestionSQLiteAdapter questionSQLiteAdapter = new  QuestionSQLiteAdapter(getActivity());

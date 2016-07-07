@@ -41,6 +41,9 @@ import java.util.concurrent.ExecutionException;
 import cz.msebera.android.httpclient.Header;
 
 
+/**
+ * Manage get categ with webservice and (Update, insert, delete in Local DB)
+ */
 public class CategoryWSAdapter {
 
     String response;
@@ -52,6 +55,11 @@ public class CategoryWSAdapter {
     }
 
 
+    /**
+     * Get categ in webservice for update
+     * @param user_id
+     * @param url
+     */
     public void getCategoryRequest (Integer user_id, String url) {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         asyncHttpClient.setConnectTimeout(60000);
@@ -60,6 +68,7 @@ public class CategoryWSAdapter {
         params.put(myQCMConstants.CONST_VALUE_ID_USER, user_id);
 
         asyncHttpClient.post(url + ".json", params, new TextHttpResponseHandler() {
+
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
@@ -91,6 +100,12 @@ public class CategoryWSAdapter {
         });
     }
 
+    /**
+     * Get categ in webService for the first connection
+     * @param userId
+     * @param url
+     * @param callback
+     */
     public void getCategoryRequest(int userId,String url,final CallBack callback ){
         //Set connection to Web service
         //-----------------------------
@@ -176,6 +191,11 @@ public class CategoryWSAdapter {
         }
     }
 
+    /**
+     * Static method Response
+     * @param response
+     * @return
+     */
     public static ArrayList<Categ> ResponseToList(String response) {
         //Format of the recup Date
         String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";

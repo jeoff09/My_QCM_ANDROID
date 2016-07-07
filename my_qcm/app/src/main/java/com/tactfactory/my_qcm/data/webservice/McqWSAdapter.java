@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 import cz.msebera.android.httpclient.Header;
 
 /**
+ *  Manage get mcq with webservice and (Update, insert, delete in Local DB)
  * Created by ProtoConcept GJ on 26/05/2016.
  */
 public class McqWSAdapter {
@@ -46,6 +47,12 @@ public class McqWSAdapter {
         this.context = context;
     }
 
+    /**
+     * request in webService to get list of mcq user in this categ
+     * @param user_id_server
+     * @param categ_id_server
+     * @param url
+     */
     public void getMcqRequest (Integer user_id_server, final int categ_id_server ,String url)
     {
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
@@ -85,6 +92,11 @@ public class McqWSAdapter {
         });
     }
 
+    /**
+     * Json to list mcq
+     * @param response
+     * @return list of mcq
+     */
     public ArrayList<Mcq> responseToList(String response)
     {
         //Format of the recup Date
@@ -102,6 +114,11 @@ public class McqWSAdapter {
         return mcqs;
     }
 
+    /**
+     * manage MCQ in DB local to insert, update, delete
+     * @param response
+     * @param categ_id_server
+     */
     public void ManageMcqDB (ArrayList<Mcq> response,int categ_id_server)
     {
         if (response.isEmpty() == false) {
@@ -122,6 +139,9 @@ public class McqWSAdapter {
         }
     }
 
+    /**
+     * Asyntask To manage Answer, mcq and question
+     */
     public class ManageMCQDBTask extends AsyncTask<Void,Void,ArrayList<String>> {
         int category;
         ArrayList<Mcq> mcqs;
@@ -164,14 +184,16 @@ public class McqWSAdapter {
                 }
                 else
                 {
+                    //Test with Date updated
                     if (mcq.getUpdated_at().compareTo(tempMcq.getUpdated_at()) > 0) {
                         long result = mcqSQLiteAdapter.update(mcq);
                         results.add(String.valueOf(result));
                     }
                 }
+                // Start Managing DB question with the id of QCM
                 ArrayList<String> resultsQuestion = ManaqeQuestionsMcq(mcq);
             }
-            //delete check is exist on the DB
+            //delete check is exist on the DB, if exist on Db but no in flux delete in DB
             if(mcqsDB != null) {
                 for (Mcq mcqDB : mcqsDB) {
                     Boolean isExist = false;
@@ -273,7 +295,7 @@ public class McqWSAdapter {
                     if(question != null) {
                         questionsFlux.add(question);
                     }
-                    // Manage question to
+                    // Start managing Answer of the questions
                     resultsAnswers = ManageAnswersQuestion(question);
                 }
 

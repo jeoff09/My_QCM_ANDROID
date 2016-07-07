@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * Manage connection with webService
  * Created by jeoffrey on 19/05/2016.
  */
 public class ConnectionWSAdapter {
@@ -28,12 +29,19 @@ public class ConnectionWSAdapter {
     String response;
     MyQCMConstants myQCMConstants;
 
+    /**
+     * Request in Webservice to test connection on error return false on success  return User information
+     * @param url
+     * @param username
+     * @param password
+     * @param callback
+     */
      public void ConnectionRequest (String url,String username, String password, final CallBack callback){
         AsyncHttpClient asyncHttpClient = new  AsyncHttpClient();
          System.out.println("login = " +username+
                  "pwd  = " + password);
-         asyncHttpClient.setConnectTimeout(60000);
-         asyncHttpClient.setTimeout(600000);
+         asyncHttpClient.setConnectTimeout(MyQCMConstants.CONST_CONNECT_TIMEOUT);
+         asyncHttpClient.setTimeout(MyQCMConstants.CONST_SET_TIMEOUT);
         RequestParams params = new  RequestParams();
         params.put(myQCMConstants.CONST_VALUE_LOGIN, username);
         params.put(myQCMConstants.CONST_VALUE_PWD, password);
@@ -63,6 +71,10 @@ public class ConnectionWSAdapter {
          void methods(String reponse);
     }
 
+    /**
+     * Error message on connection
+     * @param context
+     */
     public void connectionErrorMessage(Context context)
     {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
